@@ -1,0 +1,240 @@
+@import "https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300";
+@import url("https://fonts.googleapis.com/css?family=Salsa&display=swap");
+.con1 {
+  background-color: rgb(69, 169, 236);
+  height: 900px;
+  text-align: center;
+  justify-content: center;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+/* .App {
+  height: 900px;
+} */
+
+.btn-home {
+  line-height: 60px;
+  text-align: center;
+  width: 430px;
+  font-size: 30px;
+  letter-spacing: 0.2rem;
+  top: 10%;
+  left: 35.5%;
+  cursor: pointer;
+  font-family: "Open Sans Condensed", sans-serif;
+}
+.btn-go-asset {
+  color: rgb(67, 243, 67);
+  transition: all 0.5s;
+  position: relative;
+  margin: 10px 10px;
+}
+.btn-go-user {
+  color: rgb(39, 231, 125);
+  transition: all 0.5s;
+  position: relative;
+  margin: 10px 10px;
+}
+.btn-go-other {
+  color: rgb(233, 150, 27);
+  transition: all 0.5s;
+  position: relative;
+  margin: 10px 10px;
+}
+.btn-go-asset::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.39);
+  transition: all 0.3s;
+}
+.btn-go-asset:hover::before {
+  opacity: 0;
+  transform: scale(0.5, 0.5);
+}
+.btn-go-asset::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transform: scale(1.2, 1.2);
+}
+.btn-go-asset:hover::after {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.btn-go-other::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.39);
+  transition: all 0.3s;
+}
+.btn-go-other:hover::before {
+  opacity: 0;
+  transform: scale(0.5, 0.5);
+}
+.btn-go-other::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transform: scale(1.2, 1.2);
+}
+.btn-go-other:hover::after {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.btn-go-user::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.39);
+  transition: all 0.3s;
+}
+.btn-go-user:hover::before {
+  opacity: 0;
+  transform: scale(0.5, 0.5);
+}
+.btn-go-user::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transform: scale(1.2, 1.2);
+}
+.btn-go-user:hover::after {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.img-home {
+  width: 350px;
+}
+
+@font-face {
+  font-family: "Cardo";
+  font-style: italic;
+  font-weight: 400;
+  src: local("Cardo Italic"), local("Cardo-Italic"),
+    url(https://fonts.gstatic.com/s/cardo/v11/wlpxgwjKBV1pqhv97IMx2Q.ttf)
+      format("truetype");
+}
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/ebgaramond/v12/SlGDmQSNjdsmc35JDF1K5E55YMjF_7DPuGi-6_RkBI96.ttf)
+    format("truetype");
+}
+
+.sandbox-correct-pronounciation {
+  padding: 2em 0 0em 0;
+}
+.heading-correct-pronounciation {
+  margin: auto;
+  text-align: center;
+  position: relative;
+}
+h1 {
+  top: 0px;
+  color: #fff;
+  font-family: "Cardo", serif;
+  font-size: 1.5em;
+  font-weight: normal;
+  font-style: italic;
+  letter-spacing: 0.1em;
+  line-height: 1.2em;
+}
+em {
+  font-family: "EB Garamond", serif;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: block;
+  font-style: normal;
+  padding-top: 0.1em;
+  text-shadow: 0.07em 0.07em 0 rgba(0, 0, 0, 0.1);
+}
+em::before,
+em::after {
+  content: "§";
+  display: inline-block;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  opacity: 0.2;
+  margin: 0 0.6em;
+  font-size: 0.5em;
+}
+.bottom {
+  font-size: 1.5em;
+  letter-spacing: 0.07em;
+  font-size: 1em;
+  display: block;
+}
+.drop-menu {
+  width: 300px;
+
+  align-content: center;
+  justify-content: center;
+}
+.user-input {
+  width: 80%;
+}
+.form-input {
+  padding-left: 25px;
+}
+.main-home {
+  padding-top: 20px;
+  justify-content: center;
+}
+.main-home-but {
+  margin-left: 242px;
+}
+.main-home-but1 {
+  margin-top: 40px;
+  margin-left: 242px;
+}

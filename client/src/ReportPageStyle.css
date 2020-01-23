@@ -1,0 +1,11 @@
+.sidebarCon {
+  height: 680px;
+  background-color: rgb(69, 169, 236);
+}
+.reportShow {
+  height: 680px;
+  /* background-color: rgb(69, 236, 91); */
+}
+.btn-reportAss {
+  padding: 0.3rem 0.75rem;
+}
