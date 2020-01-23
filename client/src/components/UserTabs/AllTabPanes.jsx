@@ -335,7 +335,7 @@ class AllTabPanes extends Component {
                   toggle("1");
                 }}
               >
-                ข้อมูลครุภัณฑ์
+                ผู้รับผิดชอบ
               </NavLink>
             </NavItem>
             <NavItem>
@@ -345,7 +345,7 @@ class AllTabPanes extends Component {
                   toggle("2");
                 }}
               >
-                ข้อมูลการส่งซ่อมครุภัณฑ์
+                ผู้ดูแลระบบ
               </NavLink>
             </NavItem>
           </Nav>
