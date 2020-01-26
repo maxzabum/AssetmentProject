@@ -1,24 +1,11 @@
-import React, { Component, useState, Fragment } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Dropdown,
-  NavbarText,
-  Form,
-  Col,
-  FormGroup,
-  Label,
-  Input,
-  Button
+  NavItem
 } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";

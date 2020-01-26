@@ -1,10 +1,4 @@
-import {
-  GET_FIXS,
-  FIXS_LOADING,
-  ADD_FIX,
-  DELETE_FIX,
-  FIX_UPDATE
-} from "../actions/types";
+import { GET_FIXS, FIXS_LOADING, ADD_FIX, FIX_UPDATE } from "../actions/types";
 const initialState = {
   items: [],
   loading: false
@@ -22,7 +16,7 @@ export default function(state = initialState, action) {
     case FIX_UPDATE:
       return {
         ...state,
-        items: state.items.filter(item => item._id != action.payload._id)
+        items: state.items.filter(item => item._id !== action.payload._id)
       };
     case ADD_FIX:
       return {

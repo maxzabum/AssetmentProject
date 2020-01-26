@@ -1,20 +1,13 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon
+  Form
 } from "reactstrap";
-import jsPDF from "jspdf";
+
 import { connect } from "react-redux";
 import { addItem } from "../../actions/itemActions";
 import "../../ReportPageStyle.css";
@@ -26,8 +19,7 @@ class ReportAssetBut extends Component {
     modal: false,
     aSerial: "",
     aName: "",
-    aSerial: "",
-    aName: "",
+
     aStatus: "",
     aDate: "",
     aPrice: "",
@@ -67,12 +59,7 @@ class ReportAssetBut extends Component {
     // ));
     this.props.getOwners();
   }
-  pdfGenerate = () => {
-    console.log("dsaeqwe");
-    var doc = new jsPDF();
-    doc.text("Hello world!", 10, 10);
-    doc.save("a4.pdf");
-  };
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -104,29 +91,6 @@ class ReportAssetBut extends Component {
   };
 
   render() {
-    const dataType = this.props.itemType.items;
-    const dataRoom = this.props.room.items;
-    const dataOwner = this.props.owners.items;
-    const listTypes = dataType.map(data => {
-      if (data.cStatus) {
-        return <option value={data._id}>{data.cName}</option>;
-      }
-      return null;
-    });
-
-    const listOwners = dataOwner.map(data => {
-      if (data.pStatus) {
-        return <option value={data._id}>{data.pName}</option>;
-      }
-      return null;
-    });
-    const listRooms = dataRoom.map(data => {
-      if (data.rStatus) {
-        return <option value={data._id}>{data.rName}</option>;
-      }
-      return null;
-    });
-
     return (
       <div>
         <Button className="btn-reportAss" color="danger" onClick={this.toggle}>

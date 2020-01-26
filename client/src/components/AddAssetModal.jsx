@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import {
   Button,
   Modal,
@@ -9,12 +9,11 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText,
   InputGroup,
   InputGroupText,
   InputGroupAddon
 } from "reactstrap";
-import AddTable from "../icons/addtable.svg";
+
 import { connect } from "react-redux";
 import { addItem } from "../actions/itemActions";
 import { getOwners } from "../actions/ownerActions";
@@ -26,8 +25,7 @@ class AddAssetModal extends Component {
     modal: false,
     aSerial: "",
     aName: "",
-    aSerial: "",
-    aName: "",
+
     aStatus: "",
     aDate: "",
     aPrice: "",

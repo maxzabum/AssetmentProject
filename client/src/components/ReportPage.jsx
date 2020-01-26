@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import {
   Button,
   Modal,
@@ -10,7 +10,7 @@ import {
   Label,
   Input
 } from "reactstrap";
-import classnames from "classnames";
+
 import "../ReportPageStyle.css";
 
 class ReportPage extends Component {

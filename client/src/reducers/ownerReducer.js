@@ -15,7 +15,7 @@ export default function(state = initialState, action) {
     case OWNER_UPDATE:
       return {
         ...state,
-        items: state.items.filter(item => item._id != action.payload._id)
+        items: state.items.filter(item => item._id !== action.payload._id)
       };
     // case ADD_ROOM:
     //   return {

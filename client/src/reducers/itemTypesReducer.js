@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
     case TYPE_UPDATE:
       return {
         ...state,
-        items: state.items.filter(item => item._id != action.payload._id)
+        items: state.items.filter(item => item._id !== action.payload._id)
       };
 
     case ADD_TYPE:

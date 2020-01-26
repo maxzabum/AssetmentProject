@@ -1,10 +1,9 @@
-import React, { Component, useState, Fragment } from "react";
+import React, { Component } from "react";
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Form,
   FormGroup,
   Label,
@@ -14,9 +13,9 @@ import {
   InputGroupText,
   InputGroupAddon
 } from "reactstrap";
-import AddTable from "../icons/addtable.svg";
+
 import { connect } from "react-redux";
-import { addFix, deleteFix } from "../actions/fixActions";
+import { addFix } from "../actions/fixActions";
 class AddFixModal extends Component {
   state = {
     modal: false,

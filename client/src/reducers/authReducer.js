@@ -3,8 +3,7 @@ import {
   USER_LOADING,
   AUTH_ERROR,
   LOGIN_SUCCESS,
-  LOGOUT_SUCCESS,
-  LOGIN_FAIL
+  LOGOUT_SUCCESS
 } from "../actions/types";
 const initialState = {
   token: localStorage.getItem("token"),

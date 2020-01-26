@@ -1,20 +1,15 @@
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon
+  Input
 } from "reactstrap";
-import AddTable from "../icons/addtable.svg";
+
 import { connect } from "react-redux";
 import { addRoom } from "../actions/roomActions";
 class AddRoomModal extends Component {

@@ -1,7 +1,7 @@
-import React, { Component, useState, Fragment } from "react";
+import React, { Component, useState } from "react";
 import "../../../src/AssetStyle.css";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
-import { Container, Button, Row, Col, Badge } from "reactstrap";
+import cellEditFactory from "react-bootstrap-table2-editor";
+import { Row, Col, Badge } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -9,13 +9,7 @@ import paginationFactory, {
   PaginationProvider,
   PaginationListStandalone
 } from "react-bootstrap-table2-paginator";
-import filterFactory, {
-  textFilter,
-  selectFilter,
-  numberFilter,
-  Comparator,
-  dateFilter
-} from "react-bootstrap-table2-filter";
+import filterFactory from "react-bootstrap-table2-filter";
 import { getOwners, updateOwner } from "../../actions/ownerActions";
 import { getUsers, updateUser } from "../../actions/userActions";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
@@ -28,8 +22,7 @@ import PropTypes from "prop-types";
 class AllTabPanes extends Component {
   state = {
     modal: false,
-    aSerial: "",
-    aName: "",
+
     aSerial: "",
     aName: "",
     aStatus: "",
@@ -50,9 +43,9 @@ class AllTabPanes extends Component {
     setTimeout(() => {
       if (window.confirm("Do you want to accep this change?")) {
         done(true);
-        if (this.state.curState == "1") {
+        if (this.state.curState === "1") {
           this.props.updateOwner(row);
-        } else if (this.state.curState == "2") {
+        } else if (this.state.curState === "2") {
           this.props.updateUser(row);
           console.log(row);
         }
@@ -77,14 +70,14 @@ class AllTabPanes extends Component {
   }
 
   render() {
-    let priceFilter;
+    // let priceFilter;
 
-    const handleClick = () => {
-      priceFilter({
-        number: 2103,
-        comparator: Comparator.GT
-      });
-    };
+    // const handleClick = () => {
+    //   priceFilter({
+    //     number: 2103,
+    //     comparator: Comparator.GT
+    //   });
+    // };
     const { SearchBar } = Search;
     const options = {
       custom: true,
@@ -320,7 +313,6 @@ class AllTabPanes extends Component {
         this.state.curState = tab;
         if (activeTab !== this.state.curState) {
           setActiveTab(this.state.curState);
-
           console.log("dasdasd", this.state.curState);
         }
       };
@@ -372,18 +364,13 @@ class AllTabPanes extends Component {
     );
   }
 }
-function imageFormatter(cell, row) {
-  var QRCode = require("qrcode.react");
-  //return <img style={{ width: 50 }} src={cell} />;
-  return <QRCode value={"cell"} size={50} />;
-}
 
-function customMatchFunc({ searchText, value, column, row }) {
-  if (typeof value !== "undefined") {
-    return value.startsWith(searchText);
-  }
-  return false;
-}
+// function customMatchFunc({ searchText, value, column, row }) {
+//   if (typeof value !== "undefined") {
+//     return value.startsWith(searchText);
+//   }
+//   return false;
+// }
 
 const mapStateToProps = state => ({
   auth: state.auth,

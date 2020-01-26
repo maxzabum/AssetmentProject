@@ -1,7 +1,7 @@
 import React, { Component, useState, Fragment } from "react";
 import "../AssetStyle.css";
 
-import { Container, Button, Row, Col, Badge } from "reactstrap";
+import { Row, Col, Badge } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -9,13 +9,7 @@ import paginationFactory, {
   PaginationProvider,
   PaginationListStandalone
 } from "react-bootstrap-table2-paginator";
-import filterFactory, {
-  textFilter,
-  selectFilter,
-  numberFilter,
-  Comparator,
-  dateFilter
-} from "react-bootstrap-table2-filter";
+import filterFactory, { dateFilter } from "react-bootstrap-table2-filter";
 
 import AddAssetModal from "./AddAssetModal.jsx";
 import AddFixModal from "./AddFixModal.jsx";
@@ -59,15 +53,15 @@ class AssetPage extends Component {
     setTimeout(() => {
       if (window.confirm("Do you want to accep this change?")) {
         done(true);
-        if (this.state.curState == "1") {
+        if (this.state.curState === "1") {
           this.props.updateItem(row);
-        } else if (this.state.curState == "2") {
+        } else if (this.state.curState === "2") {
           this.props.updateFix(row);
           console.log(row);
-        } else if (this.state.curState == "3") {
+        } else if (this.state.curState === "3") {
           this.props.updateType(row);
           console.log(row);
-        } else if (this.state.curState == "4") {
+        } else if (this.state.curState === "4") {
           this.props.updateRoom(row);
           console.log(row);
         }
@@ -86,34 +80,14 @@ class AssetPage extends Component {
   }
   setOptions() {}
   render() {
-    let priceFilter;
-    let qualityFilter;
-    const optionTypes = [
-      { value: 0, label: "Table" },
-      { value: 1, label: "Chair" },
-      { value: 2, label: "Pen" }
-    ];
-    const optionLo = [
-      { value: 0, label: "good" },
-      { value: 1, label: "Bad" },
-      { value: 2, label: "unknown" }
-    ];
-    const optionRea = [
-      { value: 0, label: "good" },
-      { value: 1, label: "Bad" },
-      { value: 2, label: "unknown" }
-    ];
-    const optionStatus = [
-      { value: 0, label: "good" },
-      { value: 1, label: "Bad" },
-      { value: 2, label: "unknown" }
-    ];
-    const handleClick = () => {
-      priceFilter({
-        number: 2103,
-        comparator: Comparator.GT
-      });
-    };
+    //let priceFilter;
+
+    // const optionStatus = [
+    //   { value: 0, label: "good" },
+    //   { value: 1, label: "Bad" },
+    //   { value: 2, label: "unknown" }
+    // ];
+
     const { SearchBar } = Search;
     const options = {
       custom: true,
@@ -154,7 +128,7 @@ class AssetPage extends Component {
         // headerStyle: { width: "180px" },
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.room.items.length; i++) {
-            if (row.rID == this.props.room.items[i]._id) {
+            if (row.rID === this.props.room.items[i]._id) {
               return <Fragment>{this.props.room.items[i].rName}</Fragment>;
             }
           }
@@ -188,7 +162,7 @@ class AssetPage extends Component {
         headerStyle: { width: "8%" },
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.itemType.items.length; i++) {
-            if (row.cID == this.props.itemType.items[i]._id) {
+            if (row.cID === this.props.itemType.items[i]._id) {
               return <Fragment>{this.props.itemType.items[i].cName}</Fragment>;
             }
           }
@@ -245,25 +219,25 @@ class AssetPage extends Component {
         text: "Status",
         headerStyle: { width: "7%" },
         formatter: (cellContent, row) => {
-          if (row.aStatus == "1") {
+          if (row.aStatus === "1") {
             return (
               <h6>
                 <Badge color="success">ปกติ</Badge>
               </h6>
             );
-          } else if (row.aStatus == "2") {
+          } else if (row.aStatus === "2") {
             return (
               <h6>
                 <Badge color="danger">ชำรุด</Badge>
               </h6>
             );
-          } else if (row.aStatus == "3") {
+          } else if (row.aStatus === "3") {
             return (
               <h6>
                 <Badge color="info">เสื่อมสภาพ</Badge>
               </h6>
             );
-          } else if (row.aStatus == "4") {
+          } else if (row.aStatus === "4") {
             return (
               <h6>
                 <Badge color="warning">ส่งซ่อม</Badge>
@@ -294,7 +268,7 @@ class AssetPage extends Component {
         text: "Serial No.",
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.item.items.length; i++) {
-            if (row.aID == this.props.item.items[i]._id) {
+            if (row.aID === this.props.item.items[i]._id) {
               return <Fragment>{this.props.item.items[i].aSerial}</Fragment>;
             }
           }
@@ -316,9 +290,9 @@ class AssetPage extends Component {
       {
         headerAlign: "center",
         dataField: "fLocation",
-        dataField: "fPicCard",
-        dataField: "fFixDate",
-        dataField: "fBillPic",
+        // dataField: "fPicCard",
+        // dataField: "fFixDate",
+        // dataField: "fBillPic",
         text: "All Fix info",
         headerStyle: { width: "70px" },
         sort: true
@@ -452,24 +426,24 @@ class AssetPage extends Component {
         }
       }
     ];
-    const selectRow = {
-      mode: "radio",
-      clickToSelect: true,
-      onSelect: (row, isSelect, rowIndex, e) => {
-        console.log(row.id);
-        console.log(isSelect);
-        console.log(rowIndex);
-        console.log(e);
-      },
-      onSelectAll: (isSelect, rows, e) => {
-        console.log(isSelect);
-        console.log(rows);
-        console.log(e);
-      },
-      hideSelectColumn: true,
-      bgColor: "#00BFFF",
-      clickToEdit: true
-    };
+    // const selectRow = {
+    //   mode: "radio",
+    //   clickToSelect: true,
+    //   onSelect: (row, isSelect, rowIndex, e) => {
+    //     console.log(row.id);
+    //     console.log(isSelect);
+    //     console.log(rowIndex);
+    //     console.log(e);
+    //   },
+    //   onSelectAll: (isSelect, rows, e) => {
+    //     console.log(isSelect);
+    //     console.log(rows);
+    //     console.log(e);
+    //   },
+    //   hideSelectColumn: true,
+    //   bgColor: "#00BFFF",
+    //   clickToEdit: true
+    // };
 
     const assetTable = ({ paginationProps, paginationTableProps }) => (
       <div>
@@ -691,7 +665,6 @@ class AssetPage extends Component {
         this.state.curState = tab;
         if (activeTab !== this.state.curState) {
           setActiveTab(this.state.curState);
-
           console.log("dasdasd", this.state.curState);
         }
       };
@@ -779,12 +752,12 @@ function imageFormatter(cell, row) {
   return <QRCode value={"cell"} size={50} />;
 }
 
-function customMatchFunc({ searchText, value, column, row }) {
-  if (typeof value !== "undefined") {
-    return value.startsWith(searchText);
-  }
-  return false;
-}
+// function customMatchFunc({ searchText, value, column, row }) {
+//   if (typeof value !== "undefined") {
+//     return value.startsWith(searchText);
+//   }
+//   return false;
+// }
 // function beforeSaveCell(oldValue, newValue, row, column, done) {
 //   setTimeout(() => {
 //     if (window.confirm("Do you want to accep this change?")) {
