@@ -24,7 +24,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 mongoose
-  .connect(process.env.MONGODB_URI || db, {
+  .connect(db, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true
