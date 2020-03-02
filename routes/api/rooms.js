@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 //Users Model
-const Rooms = require("../../models/room");
+const Rooms = require("../../models/Room");
 // @route GET api/users
 // @desc GET All items
 // @access Public
