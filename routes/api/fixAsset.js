@@ -51,20 +51,16 @@ router.post(
   //   { name: "fBillPic", maxCount: 1 },
   //   { name: "fPic", maxCount: 1 }
   // ]),
-  upload.single("fPicCard"),
   // upload.single("fBillPic"),
   // upload.single("fPic"),
   (req, res, next) => {
-    console.log("sdasdJA", req.files);
+    console.log("sdasdJA", req.body);
 
     const newFixAsset = new FixAssets({
       aID: req.body.aID,
       fReason: req.body.fReason,
       fStatus: req.body.fStatus,
       fFixDate: req.body.fFixDate,
-      fPicCard: req.file.path,
-      fBillPic: req.files["fBillPic"][0].path,
-      fPic: req.files["fPic"][0].path,
       fResult: req.body.fResult,
       fPrice: req.body.fPrice,
       dateVar: req.body.dateVar,

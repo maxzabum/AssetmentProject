@@ -5,13 +5,9 @@ const Schema = mongoose.Schema;
 const UsersSchema = new Schema({
   mUsername: {
     type: String,
-    required: true
+    required: false
   },
   mPassword: {
-    type: String,
-    required: true
-  },
-  mName: {
     type: String,
     required: false
   },
@@ -19,24 +15,23 @@ const UsersSchema = new Schema({
     type: String,
     required: false
   },
-
+  mPer: {
+    type: Boolean,
+    required: false
+  },
   mTell: {
     type: String,
     required: false
   },
-  mPermission: {
-    type: Boolean,
-    required: false
-  },
-  mPic: {
-    type: String,
-    required: false
-  },
-  mGender: {
+  mName: {
     type: String,
     required: false
   },
   mMail: {
+    type: String,
+    required: false
+  },
+  mGender: {
     type: String,
     required: false
   },

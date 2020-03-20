@@ -53,7 +53,7 @@ class AddRoomModal extends Component {
     return (
       <div>
         <Button className="btn-add-asset" color="success" onClick={this.toggle}>
-          Add
+          เพิ่ม
         </Button>
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
@@ -61,7 +61,7 @@ class AddRoomModal extends Component {
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for="rName">Name</Label>
+                <Label for="rName">ชื่อห้อง</Label>
                 <Input
                   type="name"
                   name="rName"
@@ -71,7 +71,7 @@ class AddRoomModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="rtypeID">Type</Label>
+                <Label for="rtypeID">ประเภทห้อง</Label>
                 <Input
                   type="name"
                   name="rtypeID"
@@ -81,7 +81,7 @@ class AddRoomModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="rStatus">Status</Label>
+                <Label for="rStatus">สถานะการใช้งาน</Label>
                 <Input
                   type="select"
                   name="rStatus"
@@ -92,7 +92,7 @@ class AddRoomModal extends Component {
                   <option value="1">2</option>
                 </Input>
               </FormGroup>
-              <Button color="primary">Add</Button>
+              <Button color="primary">เพิ่ม</Button>
             </Form>
           </ModalBody>
         </Modal>

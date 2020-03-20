@@ -46,10 +46,10 @@ export const updateFix = item => (dispacth, getState) => {
       dispacth(returnErrors(err.response.data, err.response.status))
     );
 };
-export const addFix = ({ item, img }) => (dispacth, getState) => {
+export const addFix = item => (dispacth, getState) => {
   console.log("dsae", item);
   axios
-    .post("/api/fixAsset", { item, img }, tokenConfig(getState))
+    .post("/api/fixAsset", item, tokenConfig(getState))
     .then(res =>
       dispacth({
         type: ADD_FIX,

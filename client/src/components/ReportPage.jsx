@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 
 import "../ReportPageStyle.css";
-
+import jsPDF from "jspdf";
 class ReportPage extends Component {
   state = {
     modal: false
@@ -22,14 +22,26 @@ class ReportPage extends Component {
       modal: !this.state.modal
     });
   };
+  jsPdfGenaerator = () => {
+    var doc = new jsPDF("p", "pt");
+    doc.text(20, 20, "testttja");
+    doc.setFont("courier");
+    doc.setFontType("normal");
+    doc.text(20, 30, "testttjDDDDDDDDSa");
+    doc.save("geadd.pdf");
+  };
   render() {
     return (
       <div>
-        <Button className="btn-reportAss" color="danger" onClick={this.toggle}>
+        <Button
+          className="btn-reportAss"
+          color="danger"
+          onClick={this.jsPdfGenaerator}
+        >
           Print
         </Button>
-        <Modal
-          isOpen={this.state.modal}
+        {/* <Modal
+          isOpen={tshis.state.modal}
           toggle={this.toggle}
           className={this.className}
         >
@@ -79,7 +91,7 @@ class ReportPage extends Component {
             </Form>
           </ModalBody>
           <ModalFooter></ModalFooter>
-        </Modal>
+        </Modal> */}
       </div>
     );
   }

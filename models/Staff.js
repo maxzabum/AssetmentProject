@@ -3,21 +3,36 @@ const Schema = mongoose.Schema;
 
 //create Schema
 const StaffSchema = new Schema({
-  username: {
+  aUsername: {
     type: String,
     required: false
   },
-  password: {
+  aPassword: {
     type: String,
     required: false
   },
-
-  oTell: {
+  aPic: {
     type: String,
     required: false
   },
-  oPermission: {
-    type: Boolean,
+  aName: {
+    type: String,
+    required: false
+  },
+  aMail: {
+    type: String,
+    required: false
+  },
+  aStatus: {
+    type: String,
+    required: false
+  },
+  aGender: {
+    type: String,
+    required: false
+  },
+  aTell: {
+    type: String,
     required: false
   },
   date: {

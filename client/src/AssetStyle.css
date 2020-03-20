@@ -9,7 +9,11 @@ main {
   background-image: linear-gradient(315deg, #7cffcb 0%, #74f2ce 74%);
   height: auto;
 }
-
+.btntest {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
 .body-con:hover {
   background-position: right center;
 }

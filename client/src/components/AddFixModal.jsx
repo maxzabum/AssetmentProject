@@ -16,11 +16,12 @@ import {
 
 import { connect } from "react-redux";
 import { addFix } from "../actions/fixActions";
+import PropTypes from "prop-types";
 class AddFixModal extends Component {
   state = {
     modal: false,
     aSerial: "",
-    aName: "",
+    // aName: "",
     aID: "",
     fReason: "",
     fStatus: "",
@@ -33,7 +34,13 @@ class AddFixModal extends Component {
     dateVar: "",
     postsAssets: []
   };
-
+  static propTypes = {
+    getItem: PropTypes.func.isRequired,
+    item: PropTypes.object.isRequired,
+    fixAsset: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
+    users: PropTypes.object.isRequired
+  };
   toggle = () => {
     this.setState({
       modal: !this.state.modal
@@ -48,29 +55,28 @@ class AddFixModal extends Component {
     //console.log("THE VAL", event.target.files[0]);
   };
   fileChangedHandler3 = event => {
-    this.state.fPic = URL.createObjectURL(event.target.files[0]);
+    this.state.fPic = event.target.files[0];
+    console.log("THE VAL", this.state.fPic);
     // console.log("THE VAL", event.target.files[0]);
   };
   onSubmit = e => {
     e.preventDefault();
     const newItem = {
-      aSerial: this.state.aSerial,
-      aName: this.state.aName,
+      // aName: this.state.aName,
       aID: this.state.aID,
       fReason: this.state.fReason,
       fStatus: this.state.fStatus,
       fFixDate: this.state.fFixDate,
-
       fResult: this.state.fResult,
       fPrice: this.state.fPrice,
       dateVar: this.state.dateVar
     };
-    const newItemImg = {
-      fPicCard: this.state.fPicCard,
-      fBillPic: this.state.fBillPic,
-      fPic: this.state.fPic
-    };
-    this.props.addFix({ newItem, newItemImg });
+    // const newItemImg = {
+    //   fPicCard: this.state.fPicCard,
+    //   fBillPic: this.state.fBillPic,
+    //   fPic: this.state.fPic
+    // };
+    this.props.addFix(newItem);
     this.toggle();
   };
   onDropdownSelected = f => {
@@ -85,22 +91,22 @@ class AddFixModal extends Component {
     console.log("THE VAL", e.target.value);
   };
   render() {
-    const dataAsset = this.state.postsAssets;
+    const dataAsset = this.props.item.items;
     const listAssets = dataAsset.map(data => (
       <option value={data._id}>{data.aSerial}</option>
     ));
     return (
       <div>
         <Button className="btn-add-asset" color="success" onClick={this.toggle}>
-          Add
+          เพิ่ม
         </Button>
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Assetment</ModalHeader>
+          <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลการส่งซ่อม</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for="aID">Serial No.</Label>
+                <Label for="aID">หมายเลขครุภัณฑ์</Label>
                 <Input
                   type="select"
                   name="aID"
@@ -110,7 +116,7 @@ class AddFixModal extends Component {
                   {listAssets}
                 </Input>
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label for="exampleName">Name</Label>
                 <Input
                   type="name"
@@ -119,9 +125,9 @@ class AddFixModal extends Component {
                   placeholder="assetment name"
                   onChange={this.onChange}
                 />
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
-                <Label for="exampleText">Reason</Label>
+                <Label for="exampleText">สาเหตุที่ส่งซ่อม</Label>
                 <Input
                   type="textarea"
                   name="fReason"
@@ -130,12 +136,12 @@ class AddFixModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="fPic">Assetment Picture</Label>
+                <Label for="fPic">รูปภาพครุภัณฑ์ที่ส่งซ่อม</Label>
                 <Input
                   type="file"
                   name="fPic"
                   id="fPic"
-                  onChange={this.fileChangedHandler}
+                  onChange={this.fileChangedHandler3}
                 />
                 <FormText color="muted">
                   This is some placeholder block-level help text for the above
@@ -143,7 +149,7 @@ class AddFixModal extends Component {
                 </FormText>
               </FormGroup>
               <FormGroup>
-                <Label for="exampleText">Location</Label>
+                <Label for="exampleText">สถานที่ซ่อมครุภัณฑ์</Label>
                 <Input
                   type="textarea"
                   name="fLocation"
@@ -152,7 +158,7 @@ class AddFixModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="fPicCard">ฺBusiness card</Label>
+                <Label for="fPicCard">ฺรูปถ่ายข้อมูลร้าน</Label>
                 <Input
                   type="file"
                   name="fPicCard"
@@ -165,7 +171,7 @@ class AddFixModal extends Component {
                 </FormText>
               </FormGroup>
               <FormGroup>
-                <Label for="exampleDate">Date Varenty</Label>
+                <Label for="exampleDate">วัน/เดือน/ปี ที่รับประกัน</Label>
                 <Input
                   type="date"
                   name="dateVar"
@@ -175,7 +181,7 @@ class AddFixModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="exampleDate">Fix date</Label>
+                <Label for="exampleDate">วัน/เดือน/ปี ที่ส่งซ่อม</Label>
                 <Input
                   type="date"
                   name="fFixDate"
@@ -186,7 +192,7 @@ class AddFixModal extends Component {
               </FormGroup>
 
               <FormGroup>
-                <Label for="exampleText">Price</Label>
+                <Label for="exampleText">ราคาซ่อมครุภัณฑ์</Label>
                 <InputGroup>
                   <Input
                     type="price"
@@ -201,19 +207,19 @@ class AddFixModal extends Component {
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <Label for="fBillPic">File</Label>
+                <Label for="fBillPic">รูปภาพใบเสร็จ</Label>
                 <Input
                   type="file"
                   name="fBillPic"
                   id="fBillPic"
-                  onChange={this.fileChangedHandler3}
+                  onChange={this.fileChangedHandler}
                 />
                 <FormText color="muted">
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
               </FormGroup>
-              <Button color="primary">Add</Button>
+              <Button color="primary">เพิ่ม</Button>
             </Form>
           </ModalBody>
         </Modal>
@@ -222,6 +228,9 @@ class AddFixModal extends Component {
   }
 }
 const mapStateToProps = state => ({
-  fixAsset: state.fixAsset
+  item: state.item,
+  fixAsset: state.fixAsset,
+  auth: state.auth,
+  users: state.users
 });
 export default connect(mapStateToProps, { addFix })(AddFixModal);

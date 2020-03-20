@@ -73,15 +73,17 @@ class AddTypeModal extends Component {
     return (
       <div>
         <Button className="btn-add-asset" color="success" onClick={this.toggle}>
-          Add
+          เพิ่ม
         </Button>
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Assetment</ModalHeader>
+          <ModalHeader toggle={this.toggle}>
+            เพิ่มข้อมูลประเภทครุภัณฑ์
+          </ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for="cID">ID</Label>
+                <Label for="cID">รหัสประเภทครุภัณฑ์</Label>
                 <Input
                   type="name"
                   name="cID"
@@ -91,7 +93,7 @@ class AddTypeModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="cName">Name of type</Label>
+                <Label for="cName">ชื่อประเภทครุภัณฑ์</Label>
                 <Input
                   type="name"
                   name="cName"
@@ -101,7 +103,7 @@ class AddTypeModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="cStatus">Status</Label>
+                <Label for="cStatus">สถานะการใช้งาน</Label>
                 <Input
                   type="select"
                   name="cStatus"
@@ -112,8 +114,8 @@ class AddTypeModal extends Component {
                   <option value={false}>ไม่สามารถใช้งานได้</option>
                 </Input>
               </FormGroup>
-              <Button color="primary">Add</Button>
-              <Button color="danger">Cancel</Button>
+              <Button color="primary">เพิ่ม</Button>
+              <Button color="danger">ยกเลิก</Button>
             </Form>
           </ModalBody>
 

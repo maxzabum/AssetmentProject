@@ -16,7 +16,8 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import classnames from "classnames";
 import { connect } from "react-redux";
-
+import AddOwnerModal from "../AddOwnerModal.jsx";
+import AddStaffModal from "../AddStaffModal.jsx";
 import PropTypes from "prop-types";
 
 class AllTabPanes extends Component {
@@ -98,23 +99,15 @@ class AllTabPanes extends Component {
     const columnsOwner = [
       {
         headerAlign: "center",
-        dataField: "_id",
-        headerStyle: { width: "100px" },
-        text: "Owner ID",
-
-        sort: true
-      },
-      {
-        headerAlign: "center",
         dataField: "pName",
-        text: "Name",
+        text: "ชื่อ - นามสกุล",
         headerStyle: { width: "70px" },
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "pStatus",
-        text: "Status",
+        text: "สถานะการใช้งาน",
         headerStyle: { width: "70px" },
         formatter: (cellContent, row) => {
           if (row.pStatus) {
@@ -134,41 +127,32 @@ class AllTabPanes extends Component {
       }
     ];
     const columnsUser = [
-      {
-        headerAlign: "center",
-        dataField: "_id",
-        headerStyle: { width: "100px" },
-        text: "Serial No.",
+      // {
+      //   headerAlign: "center",
+      //   dataField: "_id",
+      //   headerStyle: { width: "100px" },
+      //   text: "Serial No.",
 
-        sort: true
-      },
+      //   sort: true
+      // },
       {
         headerAlign: "center",
         dataField: "mUsername",
-        text: "Username",
+        text: "ชื่อผู้ใช้งาน",
         headerStyle: { width: "70px" },
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "mPassword",
-        text: "Password",
-        headerStyle: { width: "70px" },
-
-        sort: true
+        text: "รหัสผ่าน",
+        headerStyle: { width: "70px" }
       },
+
       {
         headerAlign: "center",
-        dataField: "mName",
-        text: "Name",
-        headerStyle: { width: "70px" },
-
-        sort: true
-      },
-      {
-        headerAlign: "center",
-        dataField: "mMail",
-        text: "Email",
+        dataField: "mPer",
+        text: "สิทธิ์การใช้งาน",
         headerStyle: { width: "70px" },
 
         sort: true
@@ -176,32 +160,10 @@ class AllTabPanes extends Component {
       {
         headerAlign: "center",
         dataField: "mTell",
-        text: "Telephon No.",
+        text: "เบอร์โทรศัพท์",
         headerStyle: { width: "70px" },
 
         sort: true
-      },
-      {
-        headerAlign: "center",
-        dataField: "mStatus",
-        text: "Status",
-        headerStyle: { width: "70px" },
-
-        sort: true
-      },
-      {
-        headerAlign: "center",
-        dataField: "mPermission",
-        text: "Permission",
-        headerStyle: { width: "70px" },
-
-        sort: true
-      },
-      {
-        dataField: "link",
-        text: "ACTION",
-        headerStyle: { width: "100px" },
-        formatter: this.GetActionFormat
       }
     ];
     const ownerTable = ({ paginationProps, paginationTableProps }) => (
@@ -221,8 +183,9 @@ class AllTabPanes extends Component {
                   </Col>
                   <Col>
                     <div className="find-table">
-                      <div className="btn-add-asset"></div>
-
+                      <div className="btn-add-asset">
+                        <AddOwnerModal />
+                      </div>
                       <SearchBar
                         className="form-find-table"
                         {...toolkitprops.searchProps}
@@ -272,7 +235,9 @@ class AllTabPanes extends Component {
                   </Col>
                   <Col>
                     <div className="find-table">
-                      <div className="btn-add-asset"></div>
+                      <div className="btn-add-asset">
+                        <AddStaffModal />
+                      </div>
 
                       <SearchBar
                         className="form-find-table"

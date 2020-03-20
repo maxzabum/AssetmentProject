@@ -108,15 +108,15 @@ class AssetPage extends Component {
     const columns = [
       {
         dataField: "aName",
-        text: "Asset Name",
+        text: "ชื่อครุภัณฑ์",
         sort: true,
         headerStyle: { width: "15%" },
         headerAlign: "center"
       },
       {
-        dataField: "aSeriazl",
+        dataField: "aSerial",
         headerAlign: "center",
-        text: "Serial No.",
+        text: "หมายเลขครุภัณฑ์",
         headerStyle: { width: "5%" },
 
         sort: true
@@ -124,7 +124,7 @@ class AssetPage extends Component {
       {
         headerAlign: "center",
         dataField: "rID",
-        text: "Room",
+        text: "ชื่อห้อง",
         // headerStyle: { width: "180px" },
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.room.items.length; i++) {
@@ -138,27 +138,57 @@ class AssetPage extends Component {
             </h6>
           );
         },
-        sort: true
+
+        sort: true,
+        editor: {
+          type: Type.SELECT,
+          getOptions: (setOptions, { row, column }) => {
+            const dataRoom = this.props.room.items;
+
+            const dataRoom2 = [];
+            for (let i = 0; i < dataRoom.length; i++) {
+              dataRoom2.push({
+                value: dataRoom[i]._id,
+                label: dataRoom[i].rName
+              });
+            }
+
+            return dataRoom2;
+          }
+        }
       },
       {
         headerAlign: "center",
-        dataField: "date",
+        dataField: "aDate",
         sort: true,
         filter: dateFilter({ className: "filter-form" }),
         headerStyle: { width: "20%" },
-        text: "Date"
+        text: "วัน/เดือน/ปี ที่ซื้อ",
+        editor: {
+          type: Type.DATE
+        },
+        formatter: cell => {
+          let dateObj = cell;
+          if (typeof cell !== "object") {
+            dateObj = new Date(cell);
+          }
+          return `${("0" + dateObj.getUTCDate()).slice(-2)}/${(
+            "0" +
+            (dateObj.getUTCMonth() + 1)
+          ).slice(-2)}/${dateObj.getUTCFullYear()}`;
+        }
       },
       {
         headerAlign: "center",
         dataField: "aPrice",
-        text: "Price",
+        text: "ราคาครุภัณฑ์(หน่วย)",
         // headerStyle: { width: "70px" },
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "cID",
-        text: "Type of",
+        text: "ประเภทครุภัณฑ์",
         headerStyle: { width: "8%" },
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.itemType.items.length; i++) {
@@ -172,12 +202,28 @@ class AssetPage extends Component {
             </h6>
           );
         },
-        sort: true
+        sort: true,
+        editor: {
+          type: Type.SELECT,
+          getOptions: (setOptions, { row, column }) => {
+            const dataType = this.props.itemType.items;
+
+            const dataType2 = [];
+            for (let i = 0; i < dataType.length; i++) {
+              dataType2.push({
+                value: dataType[i]._id,
+                label: dataType[i].cName
+              });
+            }
+
+            return dataType2;
+          }
+        }
       },
       {
         headerAlign: "center",
         dataField: "aSerial",
-        text: "QR Code",
+        text: "คิวอาร์โค้ด",
         formatter: imageFormatter,
         headerStyle: { width: "5%" },
         sort: true
@@ -185,7 +231,7 @@ class AssetPage extends Component {
       {
         headerAlign: "center",
         dataField: "aReason",
-        text: "Reason",
+        text: "สาเหตุที่แทงจำหน่าย",
         isDummyField: true,
         // headerStyle: { width: "70px" },
 
@@ -194,7 +240,7 @@ class AssetPage extends Component {
       {
         headerAlign: "center",
         dataField: "aGet",
-        text: "Get",
+        text: "วิธีที่ได้รับครุภัณฑ์",
         headerStyle: { width: "7%" },
         formatter: (cellContent, row) => {
           if (row.aGet) {
@@ -216,7 +262,7 @@ class AssetPage extends Component {
       {
         headerAlign: "center",
         dataField: "aStatus",
-        text: "Status",
+        text: "สภาพครุภัณฑ์",
         headerStyle: { width: "7%" },
         formatter: (cellContent, row) => {
           if (row.aStatus === "1") {
@@ -254,18 +300,18 @@ class AssetPage extends Component {
       }
     ];
     const columnsFix = [
-      {
-        dataField: "_id",
-        text: "ID",
-        sort: true,
-        headerStyle: { width: "150px" },
-        headerAlign: "center"
-      },
+      // {
+      //   dataField: "_id",
+      //   text: "ID",
+      //   sort: true,
+      //   headerStyle: { width: "150px" },
+      //   headerAlign: "center"
+      // },
       {
         headerAlign: "center",
         dataField: "aID",
         headerStyle: { width: "100px" },
-        text: "Serial No.",
+        text: "หมายเลขครุภัณฑ์",
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.item.items.length; i++) {
             if (row.aID === this.props.item.items[i]._id) {
@@ -283,7 +329,7 @@ class AssetPage extends Component {
       {
         headerAlign: "center",
         dataField: "fReason",
-        text: "Reason",
+        text: "สาเหตุที่ส่งซ่อม",
         headerStyle: { width: "70px" },
         sort: true
       },
@@ -293,28 +339,41 @@ class AssetPage extends Component {
         // dataField: "fPicCard",
         // dataField: "fFixDate",
         // dataField: "fBillPic",
-        text: "All Fix info",
+        text: "สถานที่ส่งซ่อมครุภัณฑ์",
         headerStyle: { width: "70px" },
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "fPrice",
-        text: "Price",
+        text: "ราคาซ่อมครุภัณฑ์",
         headerStyle: { width: "70px" },
         sort: true
       },
       {
         headerAlign: "center",
-        dataField: "dateVar",
-        text: "EXP",
+        dataField: "fFixDate",
+        text: "วัน/เดือน/ปี ที่ส่งซ่อม",
         headerStyle: { width: "40px" },
+        editor: {
+          type: Type.DATE
+        },
+        formatter: cell => {
+          let dateObj = cell;
+          if (typeof cell !== "object") {
+            dateObj = new Date(cell);
+          }
+          return `${("0" + dateObj.getUTCDate()).slice(-2)}/${(
+            "0" +
+            (dateObj.getUTCMonth() + 1)
+          ).slice(-2)}/${dateObj.getUTCFullYear()}`;
+        },
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "fStatus",
-        text: "Status",
+        text: "สภาพครุภัณฑ์หลังการส่งซ่อม",
         headerStyle: { width: "70px" },
         sort: true
       }
@@ -324,21 +383,21 @@ class AssetPage extends Component {
         headerAlign: "center",
         dataField: "cID",
         headerStyle: { width: "100px" },
-        text: "Serial No.",
+        text: "รหัสประเภทครุภัณฑ์",
 
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "cName",
-        text: "Name",
+        text: "ชื่อประเภทครุภัณฑ์",
         headerStyle: { width: "70px" },
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "cStatus",
-        text: "Status",
+        text: "สถานะการใช้งาน",
         headerStyle: { width: "70px" },
         formatter: (cellContent, row) => {
           if (row.cStatus) {
@@ -375,7 +434,7 @@ class AssetPage extends Component {
     const columnsRoom = [
       {
         dataField: "rName",
-        text: "Name",
+        text: "ชื่อห้อง",
         sort: true,
         headerStyle: { width: "150px" },
         headerAlign: "center"
@@ -384,14 +443,14 @@ class AssetPage extends Component {
         headerAlign: "center",
         dataField: "rtypeID",
         headerStyle: { width: "100px" },
-        text: "Type Room",
+        text: "ประเภทห้อง",
 
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "rStatus",
-        text: "Status",
+        text: "สถานะการใช้งาน",
         headerStyle: { width: "70px" },
         formatter: (cellContent, row) => {
           if (row.rStatus) {
@@ -458,7 +517,7 @@ class AssetPage extends Component {
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
                   <Col className="text-header-table">
-                    <h1 className="text-header-color">Asset Table</h1>
+                    <h1 className="text-header-color">ข้อมูลครุภัณฑ์</h1>
                   </Col>
                   <Col>
                     <div className="find-table">
@@ -512,7 +571,7 @@ class AssetPage extends Component {
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
                   <Col className="text-header-table">
-                    <h1 className="text-header-color">Repair Table</h1>
+                    <h1 className="text-header-color">ข้อมูลการส่งซ่อม</h1>
                   </Col>
                   <Col>
                     <div className="find-table">
@@ -565,7 +624,7 @@ class AssetPage extends Component {
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
                   <Col className="text-header-table">
-                    <h1 className="text-header-color">Type Table</h1>
+                    <h1 className="text-header-color">ข้อมูลประเภทครุภัณฑ์</h1>
                   </Col>
                   <Col>
                     <div className="find-table">
@@ -618,7 +677,7 @@ class AssetPage extends Component {
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
                   <Col className="text-header-table">
-                    <h1 className="text-header-color">Room Table</h1>
+                    <h1 className="text-header-color">ข้อมูลห้อง</h1>
                   </Col>
                   <Col>
                     <div className="find-table">

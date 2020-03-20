@@ -4,9 +4,7 @@ const multer = require("multer");
 const auth = require("../../middleware/auth");
 //Storage img funtion
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "./uploads/");
-  },
+  destination: "./uploads/",
   filename: function(req, file, cb) {
     cb(null, file.originalname);
   }
@@ -38,8 +36,8 @@ router.get("/", (req, res) => {
 // @route GET api/users
 // @desc GET All items
 // @access Public
-router.post("/", auth, (req, res, next) => {
-  console.log(req.file);
+router.post("/", (req, res, next) => {
+  console.log("sdasdJA", req.body.aName);
   const newAsset = new Assets({
     aName: req.body.aName,
     aSerial: req.body.aSerial,
@@ -66,7 +64,7 @@ router.delete("/:id", auth, (req, res, next) => {
     .then(item => item.remove().then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
 });
-router.patch("/:id", auth, (req, res, next) => {
+router.patch("/:id", (req, res, next) => {
   const id = req.params.id;
   const newAsset = new Assets({
     _id: id,

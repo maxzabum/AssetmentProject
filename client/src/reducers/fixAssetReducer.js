@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
         ...state,
         items: action.payload,
         loading: false,
-        check: "eieiReFix"
+        check: "eieiRseFix"
       };
 
     case FIX_UPDATE:

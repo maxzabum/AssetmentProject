@@ -24,7 +24,8 @@ const FixAssetSchema = new Schema({
     required: false
   },
   fFixDate: {
-    type: Date
+    type: Date,
+    required: false
   },
   fBillPic: {
     type: String,
@@ -49,7 +50,8 @@ const FixAssetSchema = new Schema({
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    required: false
   }
 });
 module.exports = FixAsset = mongoose.model("Fixassetment", FixAssetSchema);

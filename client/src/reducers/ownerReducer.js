@@ -1,4 +1,9 @@
-import { GET_OWNERS, OWNERS_LOADING, OWNER_UPDATE } from "../actions/types";
+import {
+  GET_OWNERS,
+  OWNERS_LOADING,
+  OWNER_UPDATE,
+  ADD_OWNER
+} from "../actions/types";
 const initialState = {
   items: [],
   loading: false
@@ -17,11 +22,11 @@ export default function(state = initialState, action) {
         ...state,
         items: state.items.filter(item => item._id !== action.payload._id)
       };
-    // case ADD_ROOM:
-    //   return {
-    //     ...state,
-    //     items: [action.payload, ...state.items]
-    //   };
+    case ADD_OWNER:
+      return {
+        ...state,
+        items: [action.payload, ...state.items]
+      };
 
     case OWNERS_LOADING:
       return {

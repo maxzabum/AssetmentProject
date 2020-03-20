@@ -12,6 +12,8 @@ export const ADD_FIX = "ADD_FIX";
 export const ADD_ROOM = "ADD_ROOM";
 export const ADD_TYPE = "ADD_TYPE";
 export const ADD_USER = "ADD_USER";
+export const ADD_OWNER = "ADD_OWNER";
+
 //Delete
 export const DELETE_ITEM = "DELETE_ITEM";
 export const DELETE_FIX = "DELETE_FIX";
@@ -33,8 +35,8 @@ export const ROOM_UPDATE = "ROOM_UPDATE";
 export const TYPE_UPDATE = "TYPE_UPDATE";
 export const FIX_UPDATE = "FIX_UPDATE";
 export const ITEM_UPDATE = "ITEM_UPDATE";
-export const OWNER_UPDATE = "OWNER_UPDATE";
 export const USER_UPDATE = "USER_UPDATE";
+export const OWNER_UPDATE = "OWNER_UPDATE";
 
 export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";

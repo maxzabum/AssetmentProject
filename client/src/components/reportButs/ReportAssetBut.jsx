@@ -5,7 +5,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Form
+  Form,
+  Label,
+  Input
 } from "reactstrap";
 
 import { connect } from "react-redux";
@@ -13,13 +15,13 @@ import { addItem } from "../../actions/itemActions";
 import "../../ReportPageStyle.css";
 import { getOwners } from "../../actions/ownerActions";
 import PropTypes from "prop-types";
-
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 class ReportAssetBut extends Component {
   state = {
     modal: false,
     aSerial: "",
     aName: "",
-
     aStatus: "",
     aDate: "",
     aPrice: "",
@@ -28,6 +30,8 @@ class ReportAssetBut extends Component {
     pID: "",
     cID: "",
     rID: "",
+    aID: "",
+    reportAss: "",
     postsType: [],
     postRoom: [],
     postOwner: [],
@@ -65,23 +69,121 @@ class ReportAssetBut extends Component {
   };
   onSubmit = e => {
     e.preventDefault();
-    const newItem = {
-      aSerial: this.state.aSerial,
-      aName: this.state.aName,
-      aStatus: this.state.aStatus,
-      aDate: this.state.aDate,
-      aPrice: this.state.aPrice,
-      aReason: this.state.aReason,
-      aGet: this.state.aGet,
-      pID: this.state.pID,
-      cID: this.state.cID,
-      rID: this.state.rID
-    };
-    this.props.addItem(newItem);
+    console.log(this.state.aStatus);
+    this.jsPdfGenaerator(this.state.reportAss);
 
     this.toggle();
   };
 
+  jsPdfGenaerator = val => {
+    var doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "landscape" });
+    const dataItem = this.props.item.items;
+    const filteredItems2 = dataItem.filter(item => item.aStatus == 2);
+    const filteredItems3 = dataItem.filter(item => item.aStatus == 3);
+    const filteredItems5 = dataItem.filter(item => item.aStatus == 5);
+    if (val == 0) {
+      for (var i = 0; i < filteredItems2.length; i++) {
+        for (var j = 0; j < this.props.itemType.items.length; j++) {
+          if (filteredItems2[i].cID == this.props.itemType.items[j]._id) {
+            filteredItems2[i].cID = this.props.itemType.items[j].cName;
+          }
+        }
+      }
+      for (var i = 0; i < filteredItems3.length; i++) {
+        for (var j = 0; j < this.props.itemType.items.length; j++) {
+          if (filteredItems3[i].cID == this.props.itemType.items[j]._id) {
+            filteredItems3[i].cID = this.props.itemType.items[j].cName;
+          }
+        }
+      }
+      for (var i = 0; i < filteredItems5.length; i++) {
+        for (var j = 0; j < this.props.itemType.items.length; j++) {
+          if (filteredItems5[i].cID == this.props.itemType.items[j]._id) {
+            filteredItems5[i].cID = this.props.itemType.items[j].cName;
+          }
+        }
+      }
+      doc.autoTable({
+        columnStyles: { eerope: { halign: "center" } }, // European countries centered
+        body: filteredItems2,
+        columns: [
+          { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
+          { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
+          { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
+          { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+        ]
+      });
+      doc.autoTable({
+        columnStyles: { europe: { halign: "center" } }, // European countries centered
+        body: filteredItems3,
+        columns: [
+          { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
+          { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
+          { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
+          { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+        ]
+      });
+      doc.autoTable({
+        columnStyles5: { europe: { halign: "center" } }, // European countries centered
+        body: filteredItems5,
+        columns: [
+          { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
+          { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
+          { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
+          { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+        ]
+      });
+      doc.setFont("courier");
+      doc.setFontType("normal");
+      console.log(dataItem);
+      doc.save("geadd.pdf");
+    } else if (val == 1) {
+      // if (typeof cell !== "object") {
+      //   dateObj = new Date(cell);
+      // }
+      // return `${("0" + dateObj.getUTCDate()).slice(-2)}/${(
+      //   "0" +
+      //   (dateObj.getUTCMonth() + 1)
+      // ).slice(-2)}/${dateObj.getUTCFullYear()}`;
+      for (var i = 0; i < filteredItems2.length; i++) {
+        for (var j = 0; j < this.props.itemType.items.length; j++) {
+          if (filteredItems2[i].cID == this.props.itemType.items[j]._id) {
+            filteredItems2[i].cID = this.props.itemType.items[j].cName;
+          }
+        }
+      }
+      for (var i = 0; i < dataItem.length; i++) {
+        if (typeof dataItem[i].aDate !== "object") {
+          dataItem[i].aDate = new Date(dataItem[i].aDate);
+          dataItem[i].aDate = `${("0" + dataItem[i].aDate.getUTCDate()).slice(
+            -2
+          )}/${("0" + (dataItem[i].aDate.getUTCMonth() + 1)).slice(
+            -2
+          )}/${dataItem[i].aDate.getUTCFullYear()}`;
+        }
+        // for (var j = 0; j < this.props.itemType.items.length; j++) {
+        //   if (filteredItems2[i].cID == this.props.itemType.items[j]._id) {
+        //     filteredItems2[i].cID = this.props.itemType.items[j].cName;
+        //   }
+        // }
+      }
+      doc.autoTable({
+        columnStyles5: { europe: { halign: "center" } }, // European countries centered
+        body: dataItem,
+        columns: [
+          { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
+          { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
+          { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
+          { header: "ชื่อครุภัณฑ์", dataKey: "aDate" },
+          { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+        ]
+      });
+      doc.setFont("courier");
+      doc.setFontType("normal");
+
+      doc.save("geadd.pdf");
+    }
+  };
   onDropdownSelected = e => {
     //console.log("THE VAL", e.target.value);
 
@@ -105,8 +207,20 @@ class ReportAssetBut extends Component {
           <ModalHeader toggle={this.toggle}>Assetment</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
-              <Button color="primary" onClick={this.pdfGenerate}>
-                Add
+              <Label for="reportAss">สภาพครุภัณฑ์</Label>
+              <Input
+                type="select"
+                name="reportAss"
+                id="reportAss"
+                onChange={this.onDropdownSelected}
+              >
+                <option value="0">รายงานครุภัณฑ์ทั้งหมด</option>
+                <option value="1">รายงานครุภัณฑ์ประจำปี</option>
+                <option value="2">แทงจำหน่าย</option>
+              </Input>
+
+              <Button className="sbtn-reportAss" color="danger">
+                Print
               </Button>
             </Form>
           </ModalBody>

@@ -123,7 +123,7 @@ class AddAssetModal extends Component {
     return (
       <div className="asd">
         <Button className="btn-add-asset" color="success" onClick={this.toggle}>
-          Add
+          เพิ่ม
         </Button>
 
         <Modal
@@ -131,11 +131,11 @@ class AddAssetModal extends Component {
           toggle={this.toggle}
           className={this.className}
         >
-          <ModalHeader toggle={this.toggle}>Assetment</ModalHeader>
+          <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลครุภัณฑ์</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
-                <Label for="selectOwner">Owner Name</Label>
+                <Label for="selectOwner">ชื่อผู้รับผิดชอบ</Label>
                 <Input
                   type="select"
                   name="pID"
@@ -146,7 +146,7 @@ class AddAssetModal extends Component {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="exampleName">Serial no.</Label>
+                <Label for="exampleName">หมายเลขครุภัณฑ์</Label>
                 <Input
                   type="text"
                   name="aSerial"
@@ -156,7 +156,7 @@ class AddAssetModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="exampleName">Name</Label>
+                <Label for="exampleName">ชื่อครุภัณฑ์</Label>
                 <Input
                   type="name"
                   name="aName"
@@ -166,7 +166,7 @@ class AddAssetModal extends Component {
                 />
               </FormGroup>
               <FormGroup>
-                <Label for="cID">Types No.</Label>
+                <Label for="cID">ประเภทครุภัณฑ์</Label>
                 <Input
                   type="select"
                   name="cID"
@@ -178,7 +178,7 @@ class AddAssetModal extends Component {
               </FormGroup>
 
               <FormGroup>
-                <Label for="rID">Room</Label>
+                <Label for="rID">ห้องที่ใช้</Label>
                 <Input
                   type="select"
                   name="rID"
@@ -189,7 +189,7 @@ class AddAssetModal extends Component {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="exampleDate">Date</Label>
+                <Label for="exampleDate">วัน/เดือน/ปี ที่ซื้อ</Label>
                 <Input
                   type="date"
                   name="aDate"
@@ -211,7 +211,7 @@ class AddAssetModal extends Component {
               </FormGroup> */}
 
               <FormGroup>
-                <Label for="exampleText">Price</Label>
+                <Label for="exampleText">ราคาครุภัณฑ์/หน่วย</Label>
                 <InputGroup>
                   <Input
                     type="price"
@@ -226,7 +226,7 @@ class AddAssetModal extends Component {
                 </InputGroup>
               </FormGroup>
               <FormGroup>
-                <Label for="selectGet">Get by</Label>
+                <Label for="selectGet">วีธีที่ได้รับครุภัณฑ์</Label>
                 <Input
                   type="select"
                   name="aGet"
@@ -238,7 +238,7 @@ class AddAssetModal extends Component {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="aStatus">Item condition</Label>
+                <Label for="aStatus">สภาพครุภัณฑ์</Label>
                 <Input
                   type="select"
                   name="aStatus"
@@ -253,7 +253,7 @@ class AddAssetModal extends Component {
                 </Input>
               </FormGroup>
               <FormGroup>
-                <Label for="exampleText">Reason</Label>
+                <Label for="exampleText">สาเหตุที่แทงจำหน่าย</Label>
                 <Input
                   type="textarea"
                   name="aReason"
@@ -261,7 +261,7 @@ class AddAssetModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup>
-              <Button color="primary">Add</Button>
+              <Button color="primary">เพิ่ม</Button>
             </Form>
           </ModalBody>
           <ModalFooter></ModalFooter>

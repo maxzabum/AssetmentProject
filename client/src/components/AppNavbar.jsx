@@ -11,6 +11,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import LogoutBut from "./auth/LogoutBut";
 import LoginBut from "./auth/LoginModal";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import UpdateInfoModal from "./UpdateInfoModal";
 import "../AssetStyle.css";
 class AppNavbar extends Component {
   state = {
@@ -29,30 +34,35 @@ class AppNavbar extends Component {
 
     const authLinks = (
       <Fragment>
-        <NavItem>
-          <label className="navbar-text mr-3">
-            <h1>{user ? `Welcome ${user.username}` : "No User"}</h1>
-          </label>
-        </NavItem>
         <LogoutBut />
+        <UpdateInfoModal />
       </Fragment>
     );
     const guestLinks = (
       <Fragment>
-        <NavItem>
-          <LoginBut />
-        </NavItem>
+        <LoginBut />
       </Fragment>
     );
     return (
+      // <div>
+      //   <Navbar mb="1" color="light" light expand="lg">
+      //     <NavbarBrand href="/">Home</NavbarBrand>
+      //     <NavbarToggler onClick={this.toggle} />
+      //     <Collapse isOpen={this.state.isOpen} className="left-bar" navbar>
+      //       <Nav navbar>{isAuthenticated ? authLinks : guestLinks}</Nav>
+      //     </Collapse>
+      //   </Navbar>
+      // </div>
       <div>
-        <Navbar mb="1" color="light" light expand="lg">
-          <NavbarBrand href="/">Home</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} className="left-bar" navbar>
-            <Nav navbar>{isAuthenticated ? authLinks : guestLinks}</Nav>
-          </Collapse>
-        </Navbar>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6">News</Typography>
+            {/* <div className="btntest">
+              <Button color="inherit">Login</Button>
+            </div> */}
+            {isAuthenticated ? authLinks : guestLinks}
+          </Toolbar>
+        </AppBar>
       </div>
     );
   }

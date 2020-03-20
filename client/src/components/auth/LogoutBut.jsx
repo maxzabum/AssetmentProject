@@ -11,7 +11,9 @@ class LogoutBut extends Component {
   render() {
     return (
       <NavLink onClick={this.props.logout}>
-        <Button color="danger">Logout</Button>
+        <div className="btntest">
+          <Button color="danger">Logout</Button>
+        </div>
       </NavLink>
     );
   }

@@ -16,19 +16,7 @@ export const getUsers = () => dispacth => {
       dispacth(returnErrors(err.response.data, err.response.status))
     );
 };
-// export const deleteItem = _id => (dispacth, getState) => {
-//   axios
-//     .delete(`/api/assets/${_id}`, tokenConfig(getState))
-//     .then(res =>
-//       dispacth({
-//         type: DELETE_ITEM,
-//         payload: _id
-//       })
-//     )
-//     .catch(err =>
-//       dispacth(returnErrors(err.response.data, err.response.status))
-//     );
-// };
+
 export const updateUser = item => (dispacth, getState) => {
   axios
     .patch(`/api/users/${item._id}`, item, tokenConfig(getState))

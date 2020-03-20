@@ -18,22 +18,18 @@ router.get("/", (req, res) => {
 // @desc GET All items
 // @access Public
 router.post("/", (req, res) => {
-  bcrypt.hash(req.body.password, 10, (err, hash) => {
+  bcrypt.hash(req.body.mPassword, 10, (err, hash) => {
     if (err) {
       return res.status(500).json({
-        error: err
+        error: err.message
       });
     } else {
       const newUser = new Users({
-        mUsername: req.body.username,
+        mUsername: req.body.mUsername,
         mPassword: hash,
         mName: req.body.mName,
-        mTel: req.body.mTel,
-        mMail: req.body.mMail,
-        mGender: req.body.mGender,
-        mStatus: req.body.mStatus,
-        mPic: req.body.mPic,
-        mPermission: req.body.mPermission
+        mTell: req.body.mTell,
+        mPer: req.body.mPer
       });
       newUser.save().then(item => res.json(item));
     }
@@ -48,8 +44,8 @@ router.delete("/:id", (req, res, err) => {
     .catch(err => res.this.status(404).json({ success: false }));
 });
 
-router.get("/:username", (req, res, next) => {
-  Users.findById(req.params.username)
+router.get("/:_id", (req, res, next) => {
+  Users.findById(req.params._id)
     .then(item =>
       item
         .find()
@@ -60,18 +56,15 @@ router.get("/:username", (req, res, next) => {
 });
 
 router.patch("/:id", auth, (req, res, next) => {
-  const id = req.params.id;
+  const id = req.body.id;
+
   const newUser = new Users({
     _id: id,
-    mUsername: req.body.username,
-    mPassword: hash,
+    mUsername: req.body.mUsername,
+    mPassword: req.body.mPassword,
     mName: req.body.mName,
-    mTel: req.body.mTel,
-    mMail: req.body.mMail,
-    mGender: req.body.mGender,
-    mStatus: req.body.mStatus,
-    mPic: req.body.mPic,
-    mPermission: req.body.mPermission,
+    mTell: req.body.mTell,
+    mPer: req.body.mPer,
     date: Date.now()
   });
   // for (const [rID, rName, rtypeID, rStatus] of Object.entries(newUser)) {
