@@ -9,27 +9,37 @@ import {
   Label,
   Input
 } from "reactstrap";
-
+import { AvForm, AvField } from "availity-reactstrap-validation";
 import { connect } from "react-redux";
 import { addRoom } from "../actions/roomActions";
+const initialState = {
+  modal: false,
+  //rID:"",
+  rName: "",
+  rStatus: "",
+  rtypeID: "",
+  postsAssets: []
+};
 class AddRoomModal extends Component {
-  state = {
-    modal: false,
-    //rID:"",
-    rName: "",
-    rStatus: "",
-    rtypeID: "",
-    postsAssets: []
-  };
+  state = initialState;
 
   toggle = () => {
     this.setState({
       modal: !this.state.modal
     });
   };
-
+  handleValidSubmit = (e, values) => {
+    this.setState({
+      rName: values.rName,
+      rStatus: values.rStatus,
+      rtypeID: values.rtypeID
+    });
+    console.log("THE VAL", this.state);
+    this.onSubmit(e);
+  };
   onSubmit = e => {
     e.preventDefault();
+
     const newItem = {
       rName: this.state.rName,
       rtypeID: this.state.rtypeID,
@@ -41,6 +51,7 @@ class AddRoomModal extends Component {
   };
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+    console.log("THE VAL", e.target.value);
   };
   onDropdownSelected = f => {
     console.log("THE VAL", f.target.value);
@@ -59,7 +70,44 @@ class AddRoomModal extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Assetment</ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.onSubmit}>
+            <AvForm onValidSubmit={this.handleValidSubmit}>
+              <AvField
+                name="rName"
+                label="rName (default error message)"
+                type="text"
+                errorMessage="Invalid rName"
+                validate={{
+                  required: { value: true }
+                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              />
+              <AvField
+                name="rtypeID"
+                label="rtypeID (default error message)"
+                type="text"
+                errorMessage="Invalid rtypeID"
+                validate={{
+                  required: { value: true }
+                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              />
+              <AvField
+                type="select"
+                name="rStatus"
+                label="rStatus"
+                value="0"
+                helpMessage="Idk, this is an example. Deal with it!"
+              >
+                <option value="0">1</option>
+                <option value="1">2</option>
+              </AvField>
+              <Button color="primary">Submit</Button>
+            </AvForm>
+            {/* <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for="rName">ชื่อห้อง</Label>
                 <Input
@@ -93,7 +141,7 @@ class AddRoomModal extends Component {
                 </Input>
               </FormGroup>
               <Button color="primary">เพิ่ม</Button>
-            </Form>
+            </Form> */}
           </ModalBody>
         </Modal>
       </div>

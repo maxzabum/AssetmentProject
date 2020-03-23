@@ -8,18 +8,26 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Row,
+  Col,
+  Alert,
+  FormFeedback
 } from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { addType } from "../actions/itemTypeActions";
+const initialState = {
+  modal: false,
+  cID: "",
+  cName: "",
+  cStatus: "",
+  cID1: "",
+  cID2: "",
+  idError: { idErrorz: "", idErrorz2: "", nameError: "" }
+};
 class AddTypeModal extends Component {
-  state = {
-    modal: false,
-    cID: "",
-    cName: "",
-    cStatus: ""
-  };
+  state = initialState;
   static propTypes = {
     room: PropTypes.object.isRequired,
     itemType: PropTypes.object.isRequired,
@@ -29,35 +37,72 @@ class AddTypeModal extends Component {
     users: PropTypes.object.isRequired,
     getOwners: PropTypes.func.isRequired
   };
+  validate = () => {
+    this.setState({ idErrorz: "", idErrorz2: "", nameError: "" });
+    let idErrorz = "";
+    let idErrorz2 = "";
+    let nameError = "";
+    if (this.state.cID1.length == 4) {
+      this.state.cID += this.state.cID1 + "-";
+    } else {
+      idErrorz = "Error input";
+
+      this.setState({ idErrorz });
+      console.log("validEls" + idErrorz);
+      console.log(this.state);
+    }
+    if (this.state.cID2.length == 3) {
+      this.state.cID += this.state.cID2;
+    } else {
+      idErrorz2 = "Error input";
+
+      this.setState({ idErrorz2 });
+      console.log("validEls" + idErrorz2);
+      console.log(this.state);
+    }
+    if (this.state.cName.length == 0) {
+      nameError = "Error name";
+
+      this.setState({ nameError });
+      console.log("validName" + nameError);
+      console.log(this.state);
+    }
+
+    if (idErrorz != "" || idErrorz2 != "" || nameError != "") {
+      console.log("validEls" + idErrorz2 + idErrorz);
+      return false;
+    }
+
+    return true;
+    // if (idError) {
+    //   this.setState({ idError });
+
+    //   return false;
+    // }
+  };
   toggle = () => {
     this.setState({
       modal: !this.state.modal
     });
   };
 
-  // componentDidMount() {
-  //   const urlAssets = "/api/assets";
-  //   fetch(urlAssets, {
-  //     method: "GET"
-  //   })
-  //     .then(response => response.json())
-  //     .then(postsAssets => {
-  //       if (this._isMounted) {
-  //         this.setState({ postsAssets, postsAssets });
-  //       }
-  //     });
-  // }
-
   onSubmit = e => {
     e.preventDefault();
-    const newItem = {
-      cID: this.state.cID,
-      cName: this.state.cName,
-      cStatus: this.state.cStatus
-    };
 
-    this.props.addType(newItem);
-    this.toggle();
+    const isValid = this.validate();
+    console.log("onSub" + isValid);
+    if (isValid) {
+      console.log(this.state);
+      const newItem = {
+        cID: this.state.cID,
+        cName: this.state.cName,
+        cStatus: this.state.cStatus
+      };
+
+      this.props.addType(newItem);
+      this.setState(initialState);
+      this.toggle();
+    }
   };
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -76,32 +121,96 @@ class AddTypeModal extends Component {
           เพิ่ม
         </Button>
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>
-            เพิ่มข้อมูลประเภทครุภัณฑ์
-          </ModalHeader>
-          <ModalBody>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for="cID">รหัสประเภทครุภัณฑ์</Label>
-                <Input
-                  type="name"
-                  name="cID"
-                  id="cID"
-                  placeholder="Ex:120-411-420"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="cName">ชื่อประเภทครุภัณฑ์</Label>
-                <Input
-                  type="name"
-                  name="cName"
-                  id="cName"
-                  placeholder="Type name"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
+        <Modal isOpen={this.state.modal}>
+          <ModalHeader>เพิ่มข้อมูลประเภทครุภัณฑ์</ModalHeader>
+          <Form>
+            <ModalBody>
+              <Label for="exampleName">รหัสประเภทครุภัณฑ์</Label>
+
+              <Row form>
+                <Col md={3}>
+                  {this.state.idErrorz ? (
+                    <FormGroup>
+                      <Input
+                        type="number"
+                        name="cID1"
+                        id="cID1"
+                        placeholder="1234"
+                        onChange={this.onChange}
+                        invalid
+                      />
+                      <FormFeedback style={{ fontSize: 10 }}>
+                        โปรดกรอกให้ครบ 4 ตัว
+                      </FormFeedback>
+                    </FormGroup>
+                  ) : (
+                    <FormGroup>
+                      <Input
+                        type="number"
+                        name="cID1"
+                        id="cID1"
+                        placeholder="1234"
+                        onChange={this.onChange}
+                      />
+                    </FormGroup>
+                  )}
+                </Col>
+                <Label for="exampleName">-</Label>
+                <Col md={3}>
+                  {this.state.idErrorz2 ? (
+                    <FormGroup>
+                      <Input
+                        type="number"
+                        name="cID2"
+                        id="cID2"
+                        placeholder="1234"
+                        onChange={this.onChange}
+                        invalid
+                      />
+                      <FormFeedback style={{ fontSize: 10 }}>
+                        โปรดกรอกให้ครบ 3 ตัว
+                      </FormFeedback>
+                    </FormGroup>
+                  ) : (
+                    <FormGroup>
+                      <Input
+                        type="number"
+                        name="cID2"
+                        id="cID2"
+                        placeholder="1234"
+                        onChange={this.onChange}
+                      />
+                    </FormGroup>
+                  )}
+                </Col>
+              </Row>
+              {this.state.nameError ? (
+                <FormGroup>
+                  <Label for="cName">ชื่อประเภทครุภัณฑ์</Label>
+                  <Input
+                    type="name"
+                    name="cName"
+                    id="cName"
+                    placeholder="Type name"
+                    onChange={this.onChange}
+                    invalid
+                  />
+                  <FormFeedback style={{ fontSize: 10 }}>
+                    โปรดกรอกชื่อประเภท
+                  </FormFeedback>
+                </FormGroup>
+              ) : (
+                <FormGroup>
+                  <Label for="cName">ชื่อประเภทครุภัณฑ์</Label>
+                  <Input
+                    type="name"
+                    name="cName"
+                    id="cName"
+                    placeholder="Type name"
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+              )}
               <FormGroup>
                 <Label for="cStatus">สถานะการใช้งาน</Label>
                 <Input
@@ -114,12 +223,17 @@ class AddTypeModal extends Component {
                   <option value={false}>ไม่สามารถใช้งานได้</option>
                 </Input>
               </FormGroup>
-              <Button color="primary">เพิ่ม</Button>
-              <Button color="danger">ยกเลิก</Button>
-            </Form>
-          </ModalBody>
+            </ModalBody>
 
-          <ModalFooter></ModalFooter>
+            <ModalFooter>
+              <Button color="primary" onClick={e => this.onSubmit(e)}>
+                เพิ่ม
+              </Button>
+              <Button color="danger" onClick={this.toggle}>
+                ยกเลิก
+              </Button>
+            </ModalFooter>
+          </Form>
         </Modal>
       </div>
     );

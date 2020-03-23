@@ -257,6 +257,19 @@ class AssetPage extends Component {
             );
           }
         },
+        editor: {
+          type: Type.SELECT,
+          options: [
+            {
+              value: "true",
+              label: "ซื้อ"
+            },
+            {
+              value: "false",
+              label: "บริจาค"
+            }
+          ]
+        },
         sort: true
       },
       {
@@ -295,6 +308,31 @@ class AssetPage extends Component {
               <Badge color="secondary">แทงจำหน่าย</Badge>
             </h6>
           );
+        },
+        editor: {
+          type: Type.SELECT,
+          options: [
+            {
+              value: "1",
+              label: "ปกติ"
+            },
+            {
+              value: "2",
+              label: "ชำรุด"
+            },
+            {
+              value: "3",
+              label: "เสื่อมสภาพ"
+            },
+            {
+              value: "4",
+              label: "ส่งซ่อม"
+            },
+            {
+              value: "5",
+              label: "แทงจำหน่าย"
+            }
+          ]
         },
         sort: true
       }
@@ -358,16 +396,16 @@ class AssetPage extends Component {
         editor: {
           type: Type.DATE
         },
-        formatter: cell => {
-          let dateObj = cell;
-          if (typeof cell !== "object") {
-            dateObj = new Date(cell);
-          }
-          return `${("0" + dateObj.getUTCDate()).slice(-2)}/${(
-            "0" +
-            (dateObj.getUTCMonth() + 1)
-          ).slice(-2)}/${dateObj.getUTCFullYear()}`;
-        },
+        // formatter: cell => {
+        //   let dateObj = cell;
+        //   if (typeof cell !== "object") {
+        //     dateObj = new Date(cell);
+        //   }
+        //   return `${("0" + dateObj.getUTCDate()).slice(-2)}/${(
+        //     "0" +
+        //     (dateObj.getUTCMonth() + 1)
+        //   ).slice(-2)}/${dateObj.getUTCFullYear()}`;
+        // },
         sort: true
       },
       {
@@ -807,8 +845,19 @@ class AssetPage extends Component {
 }
 function imageFormatter(cell, row) {
   var QRCode = require("qrcode.react");
+  console.log(cell);
   //return <img style={{ width: 50 }} src={cell} />;
-  return <QRCode value={"cell"} size={50} />;
+  return (
+    <QRCode
+      value={cell}
+      size={65}
+      bgColor={"#ffffff"}
+      fgColor={"#000000"}
+      level={"L"}
+      includeMargin={false}
+      renderAs={"svg"}
+    />
+  );
 }
 
 // function customMatchFunc({ searchText, value, column, row }) {

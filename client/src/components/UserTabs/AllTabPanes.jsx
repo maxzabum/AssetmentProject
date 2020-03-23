@@ -1,6 +1,6 @@
 import React, { Component, useState } from "react";
 import "../../../src/AssetStyle.css";
-import cellEditFactory from "react-bootstrap-table2-editor";
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { Row, Col, Badge } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 
@@ -23,7 +23,14 @@ import PropTypes from "prop-types";
 class AllTabPanes extends Component {
   state = {
     modal: false,
-
+    _id: "",
+    mUsername: "",
+    mPassword: "",
+    mMail: "",
+    mPer: "",
+    mTell: "",
+    mGender: "",
+    mStatus: "",
     aSerial: "",
     aName: "",
     aStatus: "",
@@ -32,7 +39,8 @@ class AllTabPanes extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     getOwners: PropTypes.func.isRequired,
-    getUsers: PropTypes.func.isRequired
+    getUsers: PropTypes.func.isRequired,
+    updateUser: PropTypes.func.isRequired
   };
   toggle = () => {
     this.setState({
@@ -48,7 +56,6 @@ class AllTabPanes extends Component {
           this.props.updateOwner(row);
         } else if (this.state.curState === "2") {
           this.props.updateUser(row);
-          console.log(row);
         }
       } else {
         done(false);
@@ -122,6 +129,19 @@ class AllTabPanes extends Component {
               <Badge color="secondary">ไม่สามารถใช้งานได้</Badge>
             </h6>
           );
+        },
+        editor: {
+          type: Type.SELECT,
+          options: [
+            {
+              value: "true",
+              label: "ใช้งานได้"
+            },
+            {
+              value: "false",
+              label: "ไม่สามารถใช้งานได้"
+            }
+          ]
         },
         sort: true
       }

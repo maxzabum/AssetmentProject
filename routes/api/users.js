@@ -12,7 +12,7 @@ const Users = require("../../models/User");
 router.get("/", (req, res) => {
   Users.find()
     .sort({ date: -1 })
-    .then(users => res.json(users));
+    .then(user => res.json(user));
 });
 // @route GET api/users
 // @desc GET All items
@@ -27,6 +27,7 @@ router.post("/", (req, res) => {
       const newUser = new Users({
         mUsername: req.body.mUsername,
         mPassword: hash,
+        mStatus: req.body.mStatus,
         mName: req.body.mName,
         mTell: req.body.mTell,
         mPer: req.body.mPer
@@ -38,25 +39,22 @@ router.post("/", (req, res) => {
 // @route GET api/users
 // @desc GET All items
 // @access Public
-router.delete("/:id", (req, res, err) => {
-  Users.findById(req.params.id)
-    .then(item => item.remove().then(() => res.json({ success: true })))
-    .catch(err => res.this.status(404).json({ success: false }));
+router.delete("/:id", async (req, res) => {
+  console.log(req.params.id);
+  Users.findById(req.params.id).then(item =>
+    item
+      .remove()
+      .then(() => res.json({ success: true }))
+      .catch(err => res.status(404).json({ success: false }))
+  );
 });
-
-router.get("/:_id", (req, res, next) => {
-  Users.findById(req.params._id)
-    .then(item =>
-      item
-        .find()
-        .sort({ date: -1 })
-        .then(users => res.json(users))
-    )
-    .catch(err => res.status(404).json({ success: false }));
+router.get("/:id", async (req, res) => {
+  console.log(req.params.id);
+  Users.findById(req.params.id).then(user => res.json(user));
 });
 
 router.patch("/:id", auth, (req, res, next) => {
-  const id = req.body.id;
+  const id = req.body._id;
 
   const newUser = new Users({
     _id: id,
@@ -65,11 +63,12 @@ router.patch("/:id", auth, (req, res, next) => {
     mName: req.body.mName,
     mTell: req.body.mTell,
     mPer: req.body.mPer,
+    mStatus: req.body.mStatus,
+    mGender: req.body.mGender,
+    mMail: req.body.mMail,
     date: Date.now()
   });
-  // for (const [rID, rName, rtypeID, rStatus] of Object.entries(newUser)) {
-  //   console.log("sadasdasd", rID, rName, rtypeID, rStatus);
-  // }
+
   Users.update({ _id: id }, { $set: newUser })
     .exec()
     .then(result => {

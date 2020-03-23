@@ -11,34 +11,44 @@ import {
   Input,
   InputGroup,
   InputGroupText,
-  InputGroupAddon
+  InputGroupAddon,
+  Row,
+  Col
 } from "reactstrap";
 
 import { connect } from "react-redux";
 import { addItem } from "../actions/itemActions";
 import { getOwners } from "../actions/ownerActions";
 import PropTypes from "prop-types";
-
+const initialState = {
+  modal: false,
+  aSerial: "",
+  aSerial1: "",
+  aSerial2: "",
+  aSerial3: "",
+  aName: "",
+  aStatus: "",
+  aDate: "",
+  aPrice: "",
+  aReason: "",
+  aGet: "",
+  pID: "",
+  cID: "",
+  rID: "",
+  aNameErr: "",
+  aSerialErr: "",
+  aReasonErr: "",
+  aDateErr: "",
+  aPriceErr: "",
+  //isValid: true,
+  postsType: [],
+  postRoom: [],
+  postOwner: [],
+  itemType: []
+};
 class AddAssetModal extends Component {
   controller = new AbortController();
-  state = {
-    modal: false,
-    aSerial: "",
-    aName: "",
-
-    aStatus: "",
-    aDate: "",
-    aPrice: "",
-    aReason: "",
-    aGet: "",
-    pID: "",
-    cID: "",
-    rID: "",
-    postsType: [],
-    postRoom: [],
-    postOwner: [],
-    itemType: []
-  };
+  state = initialState;
   static propTypes = {
     room: PropTypes.object.isRequired,
     itemType: PropTypes.object.isRequired,
@@ -47,6 +57,35 @@ class AddAssetModal extends Component {
     auth: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     getOwners: PropTypes.func.isRequired
+  };
+  validate = () => {
+    this.setState({ aNameErr: "", aDateErr: "", aPriceErr: "" });
+    let aNameErr = "";
+    let aDateErr = "";
+    let aPriceErr = "";
+
+    if (this.state.aName.length == 0) {
+      aNameErr = "Error name";
+
+      this.setState({ aNameErr });
+    }
+    if (this.state.aDate.length == 0) {
+      aDateErr = "Error Date";
+
+      this.setState({ aDateErr });
+      console.log("DatName" + aDateErr);
+      console.log(this.state);
+    }
+    if (this.state.aPrice.length == 0) {
+      aPriceErr = "Error name";
+
+      this.setState({ aPriceErr });
+    }
+
+    if (aNameErr != "" || aDateErr != "" || aPriceErr != "") {
+      return false;
+    }
+    return true;
   };
   toggle = () => {
     this.setState({
@@ -71,31 +110,62 @@ class AddAssetModal extends Component {
   };
   onSubmit = e => {
     e.preventDefault();
-    const newItem = {
-      aSerial: this.state.aSerial,
-      aName: this.state.aName,
-      aStatus: this.state.aStatus,
-      aDate: this.state.aDate,
-      aPrice: this.state.aPrice,
-      aReason: this.state.aReason,
-      aGet: this.state.aGet,
-      pID: this.state.pID,
-      cID: this.state.cID,
-      rID: this.state.rID
-    };
-    this.props.addItem(newItem);
+    // const isValid =
 
-    this.toggle();
+    const isValid = this.validate();
+    console.log(this.state);
+    if (isValid) {
+      const newItem = {
+        aSerial: this.state.aSerial,
+        aName: this.state.aName,
+        aStatus: this.state.aStatus,
+        aDate: this.state.aDate,
+        aPrice: this.state.aPrice,
+        aReason: this.state.aReason,
+        aGet: this.state.aGet,
+        pID: this.state.pID,
+        cID: this.state.cID,
+        rID: this.state.rID
+      };
+      this.props.addItem(newItem);
+      this.setState(initialState);
+      this.toggle();
+    }
   };
 
   onDropdownSelected = e => {
-    //console.log("THE VAL", e.target.value);
+    console.log("THE VAL", e.target.value);
 
     this.setState({ [e.target.name]: e.target.value });
 
     //here you will see the current selected value of the select input
   };
+  onDropdownSelectedType = e => {
+    console.log("THE VAL", e.target.value);
 
+    const dataItem = this.props.item.items;
+    const dataType = this.props.itemType.items;
+    const findLastItem = dataItem.reduce((acc, item) => {
+      if (item.cID == e.target.value) {
+        acc += 1;
+      }
+      return acc;
+    }, 0);
+    const findType = dataType.find(data => {
+      return data._id == e.target.value;
+    });
+    console.log(findLastItem + "findd" + findType.cID);
+    this.setState(
+      {
+        aSerial: findType.cID + "-" + findLastItem,
+        [e.target.name]: e.target.value
+      },
+      () => {
+        console.log(this.state.aSerial, "aSerial");
+      }
+    );
+    //here you will see the current selected value of the select input
+  };
   render() {
     const dataType = this.props.itemType.items;
     const dataRoom = this.props.room.items;
@@ -126,14 +196,10 @@ class AddAssetModal extends Component {
           เพิ่ม
         </Button>
 
-        <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-          className={this.className}
-        >
-          <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลครุภัณฑ์</ModalHeader>
-          <ModalBody>
-            <Form onSubmit={this.onSubmit}>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <Form>
+            <ModalHeader>เพิ่มข้อมูลครุภัณฑ์</ModalHeader>
+            <ModalBody>
               <FormGroup>
                 <Label for="selectOwner">ชื่อผู้รับผิดชอบ</Label>
                 <Input
@@ -145,33 +211,38 @@ class AddAssetModal extends Component {
                   {listOwners}
                 </Input>
               </FormGroup>
-              <FormGroup>
-                <Label for="exampleName">หมายเลขครุภัณฑ์</Label>
-                <Input
-                  type="text"
-                  name="aSerial"
-                  id="aSerial"
-                  placeholder="Ex:120-411-420"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleName">ชื่อครุภัณฑ์</Label>
-                <Input
-                  type="name"
-                  name="aName"
-                  id="aName"
-                  placeholder="assetment name"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
+              {this.state.aNameErr ? (
+                <FormGroup>
+                  <Label for="exampleName">ชื่อครุภัณฑ์</Label>
+                  <Input
+                    type="name"
+                    name="aName"
+                    id="aName"
+                    placeholder="assetment name"
+                    onChange={this.onChange}
+                    invalid
+                  />
+                </FormGroup>
+              ) : (
+                <FormGroup>
+                  <Label for="exampleName">ชื่อครุภัณฑ์</Label>
+                  <Input
+                    type="name"
+                    name="aName"
+                    id="aName"
+                    placeholder="assetment name"
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+              )}
+
               <FormGroup>
                 <Label for="cID">ประเภทครุภัณฑ์</Label>
                 <Input
                   type="select"
                   name="cID"
                   id="cID"
-                  onChange={this.onDropdownSelected}
+                  onChange={this.onDropdownSelectedType}
                 >
                   {listTypes}
                 </Input>
@@ -188,43 +259,65 @@ class AddAssetModal extends Component {
                   {listRooms}
                 </Input>
               </FormGroup>
-              <FormGroup>
-                <Label for="exampleDate">วัน/เดือน/ปี ที่ซื้อ</Label>
-                <Input
-                  type="date"
-                  name="aDate"
-                  id="aDate"
-                  placeholder="date placeholder"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-
-              {/* <FormGroup>
-                <Label for="exampleTime">Time</Label>
-                <Input
-                  type="time"
-                  name="time"
-                  id="exampleTime"
-                  placeholder="time placeholder"
-                  onChange={this.onChange}
-                />
-              </FormGroup> */}
-
-              <FormGroup>
-                <Label for="exampleText">ราคาครุภัณฑ์/หน่วย</Label>
-                <InputGroup>
+              {this.state.aDateErr ? (
+                <FormGroup>
+                  <Label for="exampleDate">วัน/เดือน/ปี ที่ซื้อ</Label>
                   <Input
-                    type="price"
-                    name="aPrice"
-                    id="aPrice"
-                    placeholder="0000000000"
+                    type="date"
+                    name="aDate"
+                    id="aDate"
+                    placeholder="date placeholder"
+                    onChange={this.onChange}
+                    invalid
+                  />
+                </FormGroup>
+              ) : (
+                <FormGroup>
+                  <Label for="exampleDate">วัน/เดือน/ปี ที่ซื้อ</Label>
+                  <Input
+                    type="date"
+                    name="aDate"
+                    id="aDate"
+                    placeholder="date placeholder"
                     onChange={this.onChange}
                   />
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>Baht/Pc</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </FormGroup>
+                </FormGroup>
+              )}
+              {this.state.aPriceErr ? (
+                <FormGroup>
+                  <Label for="exampleText">ราคาครุภัณฑ์/หน่วย</Label>
+                  <InputGroup>
+                    <Input
+                      type="price"
+                      name="aPrice"
+                      id="aPrice"
+                      placeholder="0000000000"
+                      onChange={this.onChange}
+                      invalid
+                    />
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>Baht/Pc</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </FormGroup>
+              ) : (
+                <FormGroup>
+                  <Label for="exampleText">ราคาครุภัณฑ์/หน่วย</Label>
+                  <InputGroup>
+                    <Input
+                      type="number"
+                      name="aPrice"
+                      id="aPrice"
+                      placeholder="0000000000"
+                      onChange={this.onChange}
+                    />
+                    <InputGroupAddon addonType="prepend">
+                      <InputGroupText>Baht/Pc</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </FormGroup>
+              )}
+
               <FormGroup>
                 <Label for="selectGet">วีธีที่ได้รับครุภัณฑ์</Label>
                 <Input
@@ -252,19 +345,28 @@ class AddAssetModal extends Component {
                   <option value="5">แทงจำหน่าย</option>
                 </Input>
               </FormGroup>
-              <FormGroup>
-                <Label for="exampleText">สาเหตุที่แทงจำหน่าย</Label>
-                <Input
-                  type="textarea"
-                  name="aReason"
-                  id="aReason"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <Button color="primary">เพิ่ม</Button>
-            </Form>
-          </ModalBody>
-          <ModalFooter></ModalFooter>
+              {this.state.aStatus == "5" ? (
+                <FormGroup>
+                  <Label for="exampleText">สาเหตุที่แทงจำหน่าย</Label>
+                  <Input
+                    type="textarea"
+                    name="aReason"
+                    id="aReason"
+                    onChange={this.onChange}
+                  />
+                </FormGroup>
+              ) : null}
+            </ModalBody>
+
+            <ModalFooter>
+              <Button color="primary" onClick={e => this.onSubmit(e)}>
+                เพิ่ม
+              </Button>
+              <Button color="danger" onClick={this.toggle}>
+                ยกเลิก
+              </Button>
+            </ModalFooter>
+          </Form>
         </Modal>
       </div>
     );

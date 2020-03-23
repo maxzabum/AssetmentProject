@@ -64,6 +64,12 @@ router.delete("/:id", auth, (req, res, next) => {
     .then(item => item.remove().then(() => res.json({ success: true })))
     .catch(err => res.status(404).json({ success: false }));
 });
+// router.get("/:id", (req, res, next) => {
+//   console.log(req.params.id);
+//   Assets.findById(req.params.id)
+//     .then(item => item.remove().then(() => res.json({ success: true })))
+//     .catch(err => res.status(404).json({ success: false }));
+// });
 router.patch("/:id", (req, res, next) => {
   const id = req.params.id;
   const newAsset = new Assets({

@@ -76,8 +76,14 @@ class ReportAssetBut extends Component {
   };
 
   jsPdfGenaerator = val => {
-    var doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "landscape" });
     const dataItem = this.props.item.items;
+    this.dataItem.sort((a, b) => {
+      return b.aDate.getTime() - a.aDate.getTime();
+    });
+    var doc = new jsPDF({ putOnlyUsedFonts: true, orientation: "landscape" });
+
+    //doc.addFont("Petchlamoon-Regular.ttf", "custom", "normal");
+
     const filteredItems2 = dataItem.filter(item => item.aStatus == 2);
     const filteredItems3 = dataItem.filter(item => item.aStatus == 3);
     const filteredItems5 = dataItem.filter(item => item.aStatus == 5);
@@ -104,7 +110,7 @@ class ReportAssetBut extends Component {
         }
       }
       doc.autoTable({
-        columnStyles: { eerope: { halign: "center" } }, // European countries centered
+        columnStyles: { aSerial: { halign: "center" } }, // European countries centered
         body: filteredItems2,
         columns: [
           { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
@@ -133,8 +139,7 @@ class ReportAssetBut extends Component {
           { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
         ]
       });
-      doc.setFont("courier");
-      doc.setFontType("normal");
+
       console.log(dataItem);
       doc.save("geadd.pdf");
     } else if (val == 1) {
@@ -178,8 +183,6 @@ class ReportAssetBut extends Component {
           { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
         ]
       });
-      doc.setFont("courier");
-      doc.setFontType("normal");
 
       doc.save("geadd.pdf");
     }
