@@ -208,8 +208,8 @@ class ReportAssetBut extends Component {
           className={this.className}
         >
           <ModalHeader toggle={this.toggle}>Assetment</ModalHeader>
-          <ModalBody>
-            <Form onSubmit={this.onSubmit}>
+          <Form onSubmit={this.onSubmit}>
+            <ModalBody>
               <Label for="reportAss">สภาพครุภัณฑ์</Label>
               <Input
                 type="select"
@@ -218,16 +218,18 @@ class ReportAssetBut extends Component {
                 onChange={this.onDropdownSelected}
               >
                 <option value="0">รายงานครุภัณฑ์ทั้งหมด</option>
-                <option value="1">รายงานครุภัณฑ์ประจำปี</option>
-                <option value="2">แทงจำหน่าย</option>
+                <option value="1">รายงานครุภัณฑ์ที่ถูกตรวจนับ</option>
+                <option value="2">
+                  รายงานครุภัณฑ์ที่ขึ้นทะเบียนแล้วแต่หาไม่พบ
+                </option>
               </Input>
-
+            </ModalBody>
+            <ModalFooter>
               <Button className="sbtn-reportAss" color="danger">
                 Print
               </Button>
-            </Form>
-          </ModalBody>
-          <ModalFooter></ModalFooter>
+            </ModalFooter>
+          </Form>
         </Modal>
       </div>
     );

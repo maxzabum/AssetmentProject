@@ -73,7 +73,7 @@ class AddRoomModal extends Component {
             <AvForm onValidSubmit={this.handleValidSubmit}>
               <AvField
                 name="rName"
-                label="rName (default error message)"
+                label="ชื่อห้อง"
                 type="text"
                 errorMessage="Invalid rName"
                 validate={{
@@ -85,7 +85,7 @@ class AddRoomModal extends Component {
               />
               <AvField
                 name="rtypeID"
-                label="rtypeID (default error message)"
+                label="ประเภทห้อง"
                 type="text"
                 errorMessage="Invalid rtypeID"
                 validate={{

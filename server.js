@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const chAss = require("./routes/api/chAsset");
 const users = require("./routes/api/users");
 const types = require("./routes/api/types");
 const rooms = require("./routes/api/rooms");
@@ -33,6 +34,7 @@ mongoose
   .catch(err => console.log(err));
 //Use Routes
 app.use("/api/users", users);
+app.use("/api/chAsset", chAss);
 app.use("/api/owners", owners);
 app.use("/api/types", types);
 app.use("/api/rooms", rooms);

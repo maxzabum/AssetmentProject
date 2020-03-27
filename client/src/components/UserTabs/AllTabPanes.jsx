@@ -166,7 +166,12 @@ class AllTabPanes extends Component {
         headerAlign: "center",
         dataField: "mPassword",
         text: "รหัสผ่าน",
-        headerStyle: { width: "70px" }
+        headerStyle: { width: "70px" },
+        formatter: (cellContent, row, cell) => {
+          for (let i = 0; i < 8; i++) {
+            return <h6>*</h6>;
+          }
+        }
       },
 
       {
@@ -174,7 +179,20 @@ class AllTabPanes extends Component {
         dataField: "mPer",
         text: "สิทธิ์การใช้งาน",
         headerStyle: { width: "70px" },
-
+        formatter: (cellContent, row) => {
+          if (row.mPer) {
+            return (
+              <h6>
+                <Badge color="success">ใช้งานได้</Badge>
+              </h6>
+            );
+          }
+          return (
+            <h6>
+              <Badge color="secondary">ไม่สามารถใช้งานได้</Badge>
+            </h6>
+          );
+        },
         sort: true
       },
       {

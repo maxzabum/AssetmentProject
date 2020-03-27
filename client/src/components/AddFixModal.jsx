@@ -135,7 +135,7 @@ class AddFixModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label for="fPic">รูปภาพครุภัณฑ์ที่ส่งซ่อม</Label>
                 <Input
                   type="file"
@@ -147,7 +147,7 @@ class AddFixModal extends Component {
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
                 <Label for="exampleText">สถานที่ซ่อมครุภัณฑ์</Label>
                 <Input
@@ -157,7 +157,7 @@ class AddFixModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label for="fPicCard">ฺรูปถ่ายข้อมูลร้าน</Label>
                 <Input
                   type="file"
@@ -169,7 +169,7 @@ class AddFixModal extends Component {
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
                 <Label for="exampleDate">วัน/เดือน/ปี ที่รับประกัน</Label>
                 <Input
@@ -206,7 +206,7 @@ class AddFixModal extends Component {
                   </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label for="fBillPic">รูปภาพใบเสร็จ</Label>
                 <Input
                   type="file"
@@ -218,7 +218,7 @@ class AddFixModal extends Component {
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
-              </FormGroup>
+              </FormGroup> */}
               <Button color="primary">เพิ่ม</Button>
             </Form>
           </ModalBody>

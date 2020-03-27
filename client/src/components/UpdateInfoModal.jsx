@@ -87,7 +87,7 @@ class UpdateInfoModal extends Component {
     return (
       <div className="asd">
         <Button className="btntest" color="success" onClick={this.toggle}>
-          เพิ่ม
+          แก้ไขข้อมูลส่วนตัว
         </Button>
 
         <Modal
@@ -95,7 +95,7 @@ class UpdateInfoModal extends Component {
           toggle={this.toggle}
           className={this.className}
         >
-          <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลครุภัณฑ์</ModalHeader>
+          <ModalHeader toggle={this.toggle}>แก้ไขข้อมูลส่วนตัว</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               <FormGroup>
@@ -138,7 +138,7 @@ class UpdateInfoModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup>
-              <FormGroup>
+              {/* <FormGroup>
                 <Label for="mPic">รูปภาพ</Label>
                 <Input
                   type="file"
@@ -150,7 +150,7 @@ class UpdateInfoModal extends Component {
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
-              </FormGroup>
+              </FormGroup> */}
               <FormGroup>
                 <Label for="mMail">อีเมล</Label>
                 <Input

@@ -24,7 +24,7 @@ class HomePage extends Component {
     getRooms: PropTypes.func.isRequired,
     getFixs: PropTypes.func.isRequired
   };
-  componentDidMount() {
+  componentWillMount() {
     this.props.getItems();
     this.props.getItemTypes();
     this.props.getRooms();
@@ -44,8 +44,9 @@ class HomePage extends Component {
       fontFamily: "EB Garamond",
       boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)"
     };
-
-    const { isAuthenticated } = this.props.auth;
+    console.log(this.props.auth.user);
+    const dataType = this.props.auth.items;
+    const { isAuthenticated, user } = this.props.auth;
     const authMenu = (
       <Fragment>
         <Row>
@@ -57,20 +58,14 @@ class HomePage extends Component {
             </Link>
           </Col>
         </Row>
-        <Row>
+
+        {/* <Row>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
             <Link to="/userP">
               <Button style={style}>จัดการผู้ใช้งาน</Button>
             </Link>
           </Col>
-        </Row>
-        <Row>
-          <Col sm="12" md={{ size: 6, offset: 3 }}>
-            <Link to="/reportP">
-              <Button style={style}>จัดการผู้ใช้งาน</Button>
-            </Link>
-          </Col>
-        </Row>
+        </Row> */}
       </Fragment>
     );
     const guestMenu = <Fragment></Fragment>;

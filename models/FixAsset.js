@@ -16,7 +16,7 @@ const FixAssetSchema = new Schema({
     required: false
   },
   fLocation: {
-    type: Boolean,
+    type: String,
     required: false
   },
   fPicCard: {

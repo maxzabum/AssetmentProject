@@ -35,7 +35,10 @@ class AppNavbar extends Component {
     const authLinks = (
       <Fragment>
         <LogoutBut />
-        <UpdateInfoModal />
+
+        <div className="btntest2 ">
+          <UpdateInfoModal />
+        </div>
       </Fragment>
     );
     const guestLinks = (

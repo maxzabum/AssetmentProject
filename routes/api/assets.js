@@ -36,6 +36,10 @@ router.get("/", (req, res) => {
 // @route GET api/users
 // @desc GET All items
 // @access Public
+router.get("/:id", async (req, res) => {
+  console.log(req.params.id);
+  Assets.findById(req.params.id).then(user => res.json(user));
+});
 router.post("/", (req, res, next) => {
   console.log("sdasdJA", req.body.aName);
   const newAsset = new Assets({
