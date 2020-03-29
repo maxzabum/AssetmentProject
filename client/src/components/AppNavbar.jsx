@@ -50,7 +50,7 @@ class AppNavbar extends Component {
     return (
       // <div>
       //   <Navbar mb="1" color="light" light expand="lg">
-      //     <NavbarBrand href="/">Home</NavbarBrand>
+      //
       //     <NavbarToggler onClick={this.toggle} />
       //     <Collapse isOpen={this.state.isOpen} className="left-bar" navbar>
       //       <Nav navbar>{isAuthenticated ? authLinks : guestLinks}</Nav>
@@ -60,9 +60,7 @@ class AppNavbar extends Component {
       <div>
         <AppBar position="static">
           <Toolbar>
-            <Link href="/" color="" variant="h6">
-              dddsdwe
-            </Link>
+            <NavbarBrand href="/">Home</NavbarBrand>
             {/* <div className="btntest">
               <Button color="inherit">Login</Button>
             </div> */}

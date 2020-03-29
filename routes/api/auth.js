@@ -24,14 +24,14 @@ router.post("/", (req, res) => {
 
   console.log("d2dd55" + req.body.mUsername);
   if (!req.body.mUsername || !req.body.mPassword) {
-    return res.status(400).json();
+    return res.status(400).json({ msg: "False" });
   }
 
   Users.findOne({ mUsername }).then(user => {
-    if (!user) return res.status(400).json();
+    if (!user) return res.status(400).json({ msg: "False" });
 
     bcrypt.compare(mPassword, user.mPassword).then(isMatch => {
-      if (!isMatch) return res.status(404).json();
+      if (!isMatch) return res.status(404).json({ msg: "False" });
 
       jwt.sign(
         { id: user.id },
