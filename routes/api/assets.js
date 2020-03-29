@@ -42,22 +42,67 @@ router.get("/:id", async (req, res) => {
 });
 router.post("/", (req, res, next) => {
   console.log("sdasdJA", req.body.aName);
-  const newAsset = new Assets({
-    aName: req.body.aName,
-    aSerial: req.body.aSerial,
-    aPrice: req.body.aPrice,
-    aStatus: req.body.aStatus,
-    aDate: req.body.aDate,
-    aPrice: req.body.aPrice,
-    aReason: req.body.aReason,
-    aGet: req.body.aGet,
-    cID: req.body.cID,
-    pID: req.body.pID,
-    rID: req.body.rID
+  const rawStatus = req.body.aStatus;
+  const rawGet = req.body.aGet;
+  const stat = 0;
+  if (rawGet == "ซื้อ") {
+    rawGet = 0;
+    stat = 1;
+  } else if (rawGet == "บริจาค") {
+    rawGet = 1;
+    stat = 1;
+  }
+  if (rawStatus == "ปกติ") {
+    stat = 1;
+    rawGet = 0;
+  } else if (rawStatus == "ชำรุด") {
+    stat = 1;
+    rawGet = 1;
+  } else if (rawStatus == "เสื่อมสภาพ") {
+    stat = 1;
+    rawGet = 1;
+  } else if (rawStatus == "ส่งซ่อม") {
+    stat = 1;
+    rawGet = 1;
+  } else if (rawStatus == "แทงจำหน่าย") {
+    stat = 1;
+    rawGet = 1;
+  }
+  if (stat == 0) {
+    const newAsset = new Assets({
+      aName: req.body.aName,
+      aSerial: req.body.aSerial,
+      aPrice: req.body.aPrice,
+      aStatus: req.body.aStatus,
+      aDate: req.body.aDate,
+      aPrice: req.body.aPrice,
+      aReason: req.body.aReason,
+      aGet: req.body.aGet,
+      cID: req.body.cID,
+      pID: req.body.pID,
+      rID: req.body.rID
 
-    // aQR: req.file.path,
-  });
-  newAsset.save().then(item => res.json(item));
+      // aQR: req.file.path,
+    });
+    newAsset.save().then(item => res.json(item));
+  } else {
+    const newAsset = new Assets({
+      aName: req.body.aName,
+      aSerial: req.body.aSerial,
+      aPrice: req.body.aPrice,
+      aStatus: rawStatus,
+      aDate: req.body.aDate,
+      aPrice: req.body.aPrice,
+      aReason: req.body.aReason,
+      aGet: rawGet,
+      cID: req.body.cID,
+      pID: req.body.pID,
+      rID: req.body.rID
+
+      // aQR: req.file.path,
+    });
+    newAsset.save().then(item => res.json(item));
+  }
 });
 // @route GET api/users
 // @desc GET All items

@@ -2,9 +2,7 @@
 @import url("https://fonts.googleapis.com/css?family=Salsa&display=swap");
 .con1 {
   background-color: rgb(69, 169, 236);
-  height: 900px;
-  text-align: center;
-  justify-content: center;
+  height: 1000px;
 }
 html,
 body {
@@ -239,4 +237,11 @@ em::after {
 .main-home-but1 {
   margin-top: 40px;
   margin-left: 242px;
+}
+.com-home {
+  position: absolute;
+  width: 300px;
+
+  left: 950px;
+  top: 400px;
 }
