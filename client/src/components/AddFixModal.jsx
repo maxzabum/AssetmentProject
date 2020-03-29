@@ -69,7 +69,8 @@ class AddFixModal extends Component {
       fFixDate: this.state.fFixDate,
       fResult: this.state.fResult,
       fPrice: this.state.fPrice,
-      dateVar: this.state.dateVar
+      dateVar: this.state.dateVar,
+      fPic: this.state.fPic
     };
     // const newItemImg = {
     //   fPicCard: this.state.fPicCard,
@@ -77,6 +78,7 @@ class AddFixModal extends Component {
     //   fPic: this.state.fPic
     // };
     this.props.addFix(newItem);
+    console.log(this.state);
     this.toggle();
   };
   onDropdownSelected = f => {
@@ -86,6 +88,99 @@ class AddFixModal extends Component {
 
     //here you will see the current selected value of the select input
   };
+  imghandleChange(e) {
+    // get the files
+    let files = e.target.files;
+
+    // Process each file
+    var allFiles = [];
+    for (var i = 0; i < files.length; i++) {
+      let file = files[i];
+
+      // Make new FileReader
+      let reader = new FileReader();
+
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        let fileInfo = {
+          base64: reader.result
+        };
+        this.setState({
+          fPic: reader.result
+        });
+        // Push it to the state
+        allFiles.push(fileInfo);
+
+        // If all files have been proceed
+      }; // reader.onload
+    } // for
+  }
+  imghandleChange3(e) {
+    // get the files
+    let files = e.target.files;
+
+    // Process each file
+    var allFiles = [];
+    for (var i = 0; i < files.length; i++) {
+      let file = files[i];
+
+      // Make new FileReader
+      let reader = new FileReader();
+
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        let fileInfo = {
+          base64: reader.result
+        };
+        this.setState({
+          fBillPic: reader.result
+        });
+        // Push it to the state
+        allFiles.push(fileInfo);
+
+        // If all files have been proceed
+      }; // reader.onload
+    } // for
+  }
+  imghandleChange2(e) {
+    // get the files
+    let files = e.target.files;
+
+    // Process each file
+    var allFiles = [];
+    for (var i = 0; i < files.length; i++) {
+      let file = files[i];
+
+      // Make new FileReader
+      let reader = new FileReader();
+
+      // Convert the file to base64 text
+      reader.readAsDataURL(file);
+
+      // on reader load somthing...
+      reader.onload = () => {
+        // Make a fileInfo Object
+        let fileInfo = {
+          base64: reader.result
+        };
+        this.setState({
+          fPicCard: reader.result
+        });
+        // Push it to the state
+        allFiles.push(fileInfo);
+
+        // If all files have been proceed
+      }; // reader.onload
+    } // for
+  }
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
     console.log("THE VAL", e.target.value);
@@ -135,19 +230,19 @@ class AddFixModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup>
-              {/* <FormGroup>
+              <FormGroup>
                 <Label for="fPic">รูปภาพครุภัณฑ์ที่ส่งซ่อม</Label>
                 <Input
                   type="file"
                   name="fPic"
                   id="fPic"
-                  onChange={this.fileChangedHandler3}
+                  onChange={this.imghandleChange.bind(this)}
                 />
                 <FormText color="muted">
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
-              </FormGroup> */}
+              </FormGroup>
               <FormGroup>
                 <Label for="exampleText">สถานที่ซ่อมครุภัณฑ์</Label>
                 <Input
@@ -157,19 +252,19 @@ class AddFixModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup>
-              {/* <FormGroup>
+              <FormGroup>
                 <Label for="fPicCard">ฺรูปถ่ายข้อมูลร้าน</Label>
                 <Input
                   type="file"
                   name="fPicCard"
                   id="fPicCard"
-                  onChange={this.fileChangedHandler2}
+                  onChange={this.imghandleChange2.bind(this)}
                 />
                 <FormText color="muted">
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
-              </FormGroup> */}
+              </FormGroup>
               <FormGroup>
                 <Label for="exampleDate">วัน/เดือน/ปี ที่รับประกัน</Label>
                 <Input
@@ -206,19 +301,19 @@ class AddFixModal extends Component {
                   </InputGroupAddon>
                 </InputGroup>
               </FormGroup>
-              {/* <FormGroup>
+              <FormGroup>
                 <Label for="fBillPic">รูปภาพใบเสร็จ</Label>
                 <Input
                   type="file"
                   name="fBillPic"
                   id="fBillPic"
-                  onChange={this.fileChangedHandler}
+                  onChange={this.imghandleChange3.bind(this)}
                 />
                 <FormText color="muted">
                   This is some placeholder block-level help text for the above
                   input. It's a bit lighter and easily wraps to a new line.
                 </FormText>
-              </FormGroup> */}
+              </FormGroup>
               <Button color="primary">เพิ่ม</Button>
             </Form>
           </ModalBody>

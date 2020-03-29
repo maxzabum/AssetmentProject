@@ -1,5 +1,6 @@
 //GET
 export const GET_ITEMS = "GET_ITEMS";
+export const GET_CHECK = "GET_CHECK";
 export const GET_TYPES = "GET_TYPES";
 export const GET_ROOMS = "GET_ROOMS";
 export const GET_FIXS = "GET_FIXS";
@@ -8,6 +9,7 @@ export const GET_ERRORS = "GET_ERRORS";
 export const GET_USERS = "GET_USERS";
 //ADD
 export const ADD_ITEM = "ADD_ITEM";
+export const ADD_CHECK = "ADD_CHECK";
 export const ADD_FIX = "ADD_FIX";
 export const ADD_ROOM = "ADD_ROOM";
 export const ADD_TYPE = "ADD_TYPE";
@@ -21,6 +23,7 @@ export const DELETE_ROOM = "DELETE_ROOM";
 
 //LOADING
 export const ITEMS_LOADING = "ITEMS_LOADING";
+export const CHECKS_LOADING = "CHECKS_LOADING";
 export const TYPES_LOADING = "TYPES_LOADING";
 export const ROOMS_LOADING = "ROOMS_LOADING";
 export const FIXS_LOADING = "FIXS_LOADING";

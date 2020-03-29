@@ -10,7 +10,18 @@ import paginationFactory, {
   PaginationListStandalone
 } from "react-bootstrap-table2-paginator";
 import filterFactory, { dateFilter } from "react-bootstrap-table2-filter";
-
+import jsPDF from "jspdf";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image
+} from "@react-pdf/renderer";
+import { PDFViewer } from "@react-pdf/renderer";
+import ReactPDF from "@react-pdf/renderer";
+import "jspdf-autotable";
 import AddAssetModal from "./AddAssetModal.jsx";
 import AddFixModal from "./AddFixModal.jsx";
 import AddTypeModal from "./AddTypeModal.jsx";
@@ -23,6 +34,7 @@ import { getItems, deleteItem, updateItem } from "../actions/itemActions";
 import { getItemTypes, updateType } from "../actions/itemTypeActions";
 import { getRooms, deleteRoom, updateRoom } from "../actions/roomActions";
 import { getFixs, updateFix } from "../actions/fixActions";
+import { getCheckAsset } from "../actions/checkAssetActions";
 import PropTypes from "prop-types";
 import ReportAssetBut from "./reportButs/ReportAssetBut";
 
@@ -32,13 +44,16 @@ class AssetPage extends Component {
   };
   static propTypes = {
     getItems: PropTypes.func.isRequired,
+    getCheckAsset: PropTypes.func.isRequired,
     getItemTypes: PropTypes.func.isRequired,
     getRooms: PropTypes.func.isRequired,
     getFixs: PropTypes.func.isRequired,
     room: PropTypes.object.isRequired,
     itemType: PropTypes.object.isRequired,
     item: PropTypes.object.isRequired,
+    checkAss: PropTypes.object.isRequired,
     fixAsset: PropTypes.object.isRequired,
+    chAsset: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired
   };
   onDeleteClick = row => {
@@ -77,6 +92,7 @@ class AssetPage extends Component {
     this.props.getItemTypes();
     this.props.getRooms();
     this.props.getFixs();
+    this.props.getCheckAsset();
   }
   setOptions() {}
   render() {
@@ -226,7 +242,29 @@ class AssetPage extends Component {
         text: "คิวอาร์โค้ด",
         formatter: imageFormatter,
         headerStyle: { width: "5%" },
-        sort: true
+        sort: true,
+        editable: false,
+        events: {
+          onClick: (e, column, columnIndex, row, rowIndex) => {
+            var base64Img = require("base64-img");
+            //return <img style={{ width: 50 }} src={cell} />;
+            const val =
+              "https://api.qrserver.com/v1/create-qr-code/?size=200x200" +
+              "&data=" +
+              row.aSerial;
+            console.log(val);
+            base64Img.requestBase64(val, function(err, res, body) {
+              console.log(body);
+              var doc = new jsPDF({
+                putOnlyUsedFonts: true,
+                orientation: "landscape"
+              });
+
+              doc.addImage(body, "png", 100, 50, 100, 100);
+              doc.save("dddd.pdf");
+            });
+          }
+        }
       },
       {
         headerAlign: "center",
@@ -845,8 +883,7 @@ class AssetPage extends Component {
 }
 function imageFormatter(cell, row) {
   var QRCode = require("qrcode.react");
-  console.log(cell);
-  //return <img style={{ width: 50 }} src={cell} />;
+
   return (
     <QRCode
       value={cell}
@@ -858,6 +895,14 @@ function imageFormatter(cell, row) {
       renderAs={"svg"}
     />
   );
+}
+function encodeImageFileAsURL(element) {
+  var file = element.files[0];
+  var reader = new FileReader();
+  reader.onloadend = function() {
+    console.log("RESULT", reader.result);
+  };
+  reader.readAsDataURL(file);
 }
 
 // function customMatchFunc({ searchText, value, column, row }) {
@@ -883,7 +928,8 @@ const mapStateToProps = state => ({
   itemType: state.itemType,
   room: state.room,
   fixAsset: state.fixAsset,
-  auth: state.auth
+  auth: state.auth,
+  checkAss: state.checkAss
 });
 export default connect(mapStateToProps, {
   getItems,
@@ -895,5 +941,6 @@ export default connect(mapStateToProps, {
   updateRoom,
   updateFix,
   updateItem,
-  updateType
+  updateType,
+  getCheckAsset
 })(AssetPage);

@@ -27,6 +27,10 @@ const UsersSchema = new Schema({
     type: String,
     required: false
   },
+  mPic: {
+    type: String,
+    required: false
+  },
   mMail: {
     type: String,
     required: false

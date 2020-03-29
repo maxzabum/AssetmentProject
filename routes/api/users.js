@@ -66,6 +66,7 @@ router.patch("/:id", auth, (req, res, next) => {
     mStatus: req.body.mStatus,
     mGender: req.body.mGender,
     mMail: req.body.mMail,
+    mPic: req.body.mPic,
     date: Date.now()
   });
 

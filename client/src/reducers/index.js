@@ -4,6 +4,7 @@ import errorReducer from "./errorReducer";
 import assetReducer from "./assetReducer";
 import typeReducer from "./itemTypesReducer";
 import roomReducer from "./roomReducer";
+import checkAssReducer from "./checkAssetReducer";
 import fixAssetReducer from "./fixAssetReducer";
 import ownersReducer from "./ownerReducer";
 import userReducer from "./userReducer";
@@ -15,5 +16,6 @@ export default combineReducers({
   room: roomReducer,
   fixAsset: fixAssetReducer,
   owners: ownersReducer,
-  users: userReducer
+  users: userReducer,
+  checkAsset: checkAssReducer
 });

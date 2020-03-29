@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { getItems } from "../actions/itemActions";
+import { getCheckAsset } from "../actions/checkAssetActions";
 import { getItemTypes } from "../actions/itemTypeActions";
 import { getRooms } from "../actions/roomActions";
 import { getFixs } from "../actions/fixActions";
@@ -22,7 +23,8 @@ class HomePage extends Component {
     getItems: PropTypes.func.isRequired,
     getItemTypes: PropTypes.func.isRequired,
     getRooms: PropTypes.func.isRequired,
-    getFixs: PropTypes.func.isRequired
+    getFixs: PropTypes.func.isRequired,
+    getCheckAsset: PropTypes.func.isRequired
   };
   componentWillMount() {
     this.props.getItems();
@@ -31,6 +33,7 @@ class HomePage extends Component {
     this.props.getFixs();
     this.props.getOwners();
     this.props.getUsers();
+    this.props.getCheckAsset();
   }
   render() {
     const style = {
@@ -46,7 +49,7 @@ class HomePage extends Component {
     };
     console.log(this.props.auth.user);
     const dataType = this.props.auth.items;
-    const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
     const authMenu = (
       <Fragment>
         <Row>
@@ -73,9 +76,16 @@ class HomePage extends Component {
       <div className="home">
         <Container className="con1 themed-container" fluid={true}>
           <Col sm={{ size: 10, offset: 1 }}>
-            <Row className="main-home">
-              <img className="img-home" src={LogoIT} alt="logo" />
-            </Row>
+            {isAuthenticated ? (
+              <Row className="main-home">
+                <img
+                  className="img-home"
+                  src={this.props.auth.user.mPic}
+                  alt="logo"
+                />
+              </Row>
+            ) : null}
+
             <Row className="main-home">
               <div className="sandbox sandbox-correct-pronounciation">
                 <h1 className="heading heading-correct-pronounciation">
@@ -99,5 +109,6 @@ export default connect(mapStateToProps, {
   getRooms,
   getFixs,
   getOwners,
-  getUsers
+  getUsers,
+  getCheckAsset
 })(HomePage);

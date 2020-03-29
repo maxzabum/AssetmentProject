@@ -36,6 +36,10 @@ router.get("/", (req, res) => {
     .sort({ date: -1 })
     .then(Fixassets => res.json(Fixassets));
 });
+router.get("/:id", async (req, res) => {
+  console.log(req.params.id);
+  FixAssets.findById(req.params.id).then(user => res.json(user));
+});
 // @route GET api/users
 // @desc GET All items
 // @access Public
@@ -64,7 +68,8 @@ router.post(
       fResult: req.body.fResult,
       fPrice: req.body.fPrice,
       dateVar: req.body.dateVar,
-      fLocation: req.body.fLocation
+      fLocation: req.body.fLocation,
+      fPic: req.body.fPic
     });
     newFixAsset.save().then(item => res.json(item));
   }
