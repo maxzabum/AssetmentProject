@@ -255,10 +255,10 @@ class ReportAssetBut extends Component {
           body: filteredItems2,
           styles: { font: "Petchlamoon-Regular" },
           columns: [
-            { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
-            { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
-            { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
-            { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+            { header: "Serial", dataKey: "aSerial" },
+            { header: "Type", dataKey: "cID" },
+            { header: "Name", dataKey: "aName" },
+            { header: "Condition", dataKey: "aStatus" }
           ],
           didDrawPage: function(data) {
             // Header
@@ -334,10 +334,10 @@ class ReportAssetBut extends Component {
           body: filteredItems3,
           styles: { font: "Petchlamoon-Regular" },
           columns: [
-            { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
-            { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
-            { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
-            { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+            { header: "aSerial", dataKey: "aSerial" },
+            { header: "Type", dataKey: "cID" },
+            { header: "Name", dataKey: "aName" },
+            { header: "Condition", dataKey: "aStatus" }
           ],
           didDrawPage: function(data) {
             // Header
@@ -413,10 +413,10 @@ class ReportAssetBut extends Component {
           body: filteredItems5,
           styles: { font: "Petchlamoon-Regular" },
           columns: [
-            { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
-            { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
-            { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
-            { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+            { header: "Serial", dataKey: "aSerial" },
+            { header: "Type", dataKey: "cID" },
+            { header: "Name", dataKey: "aName" },
+            { header: "Condition", dataKey: "aStatus" }
           ],
           didDrawPage: function(data) {
             // Header
