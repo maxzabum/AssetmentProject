@@ -127,7 +127,11 @@ class ReportAssetBut extends Component {
     const filteredCheckRound = filteredCheck.filter(
       item => item.chRound == min_round
     );
-
+    console.log(min_dtObj.getFullYear());
+    console.log(filteredCheck);
+    console.log(min_round);
+    console.log(filteredCheckRound);
+    console.log(listDisAss);
     for (var i = 0; i < filteredItems2.length; i++) {
       for (var j = 0; j < this.props.itemType.items.length; j++) {
         if (filteredItems2[i].cID == this.props.itemType.items[j]._id) {
@@ -135,6 +139,20 @@ class ReportAssetBut extends Component {
           var dd = new Date(filteredItems2[i].aDate);
           filteredItems2[i].aDate = dd;
           console.log(filteredItems2[i].aDate.getFullYear());
+        }
+      }
+    }
+    for (var i = 0; i < filteredItems3.length; i++) {
+      for (var j = 0; j < this.props.itemType.items.length; j++) {
+        if (filteredItems3[i].cID == this.props.itemType.items[j]._id) {
+          filteredItems3[i].cID = this.props.itemType.items[j].cName;
+        }
+      }
+    }
+    for (var i = 0; i < filteredItems5.length; i++) {
+      for (var j = 0; j < this.props.itemType.items.length; j++) {
+        if (filteredItems5[i].cID == this.props.itemType.items[j]._id) {
+          filteredItems5[i].cID = this.props.itemType.items[j].cName;
         }
       }
     }
@@ -151,26 +169,8 @@ class ReportAssetBut extends Component {
       }
       countCh = 0;
     }
-    console.log(min_dtObj.getFullYear());
-    console.log(filteredCheck);
-    console.log(min_round);
-    console.log(filteredCheckRound);
-    console.log(listDisAss);
+
     if (reportVal == 0) {
-      for (var i = 0; i < filteredItems3.length; i++) {
-        for (var j = 0; j < this.props.itemType.items.length; j++) {
-          if (filteredItems3[i].cID == this.props.itemType.items[j]._id) {
-            filteredItems3[i].cID = this.props.itemType.items[j].cName;
-          }
-        }
-      }
-      for (var i = 0; i < filteredItems5.length; i++) {
-        for (var j = 0; j < this.props.itemType.items.length; j++) {
-          if (filteredItems5[i].cID == this.props.itemType.items[j]._id) {
-            filteredItems5[i].cID = this.props.itemType.items[j].cName;
-          }
-        }
-      }
       //   var totalPagesExp = "{total_pages_count_string}";
       //   doc.autoTable({
       //     // columnStyles: { styles: { font: "Petchlamoon-Regular" } }, // European countries centered
@@ -489,6 +489,7 @@ class ReportAssetBut extends Component {
       }
       doc.save("รายงานครุภัณฑ์แทงจำหน่าย" + Date.now() + ".pdf");
     } else if (reportVal == 1) {
+      var totalPagesExp = "{total_pages_count_string}";
       // if (typeof cell !== "object") {
       //   dateObj = new Date(cell);
       // }
@@ -533,9 +534,10 @@ class ReportAssetBut extends Component {
 
       doc.save("รายงานครุภัณฑ์แทงจำหน่าย" + Date.now() + ".pdf");
     } else {
+      var totalPagesExp = "{total_pages_count_string}";
       doc.autoTable({
         columnStyles: { aSerial: { halign: "center" } }, // European countries centered
-        body: filteredItems5,
+        body: listDisAss,
         styles: { font: "Petchlamoon-Regular" },
         columns: [
           { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
@@ -607,12 +609,13 @@ class ReportAssetBut extends Component {
         },
         margin: { top: 70 }
       });
+      if (typeof doc.putTotalPages === "function") {
+        doc.putTotalPages(totalPagesExp);
+      }
+      doc.save(
+        "รายงานครุภัณฑ์ที่ขึ้นทะเบียนแล้วแต่ไม่พบ" + Date.now() + ".pdf"
+      );
     }
-
-    if (typeof doc.putTotalPages === "function") {
-      doc.putTotalPages(totalPagesExp);
-    }
-    doc.save("รายงานครุภัณฑ์ที่ขึ้นทะเบียนแล้วแต่ไม่พบ" + Date.now() + ".pdf");
 
     // Total page number plugin only available in jspdf v1.0+
 

@@ -78,20 +78,16 @@ class HomePage extends Component {
           <Col sm={{ size: 10, offset: 1 }}>
             {isAuthenticated ? (
               <Row className="main-home">
-                <img
-                  className="img-home"
-                  src={this.props.auth.user.mPic}
-                  alt="logo"
-                />
+                <img className="img-home" src={LogoIT} alt="logo" />
               </Row>
             ) : null}
 
             <Row className="main-home">
               <div className="sandbox sandbox-correct-pronounciation">
                 <h1 className="heading heading-correct-pronounciation">
-                  Asset
-                  <em>Management</em>
-                  System
+                  {/* ระบบ
+                  <em>ตรวจนับครุภัณฑ์</em>
+                  โดย QRCODE */}
                 </h1>
               </div>
             </Row>

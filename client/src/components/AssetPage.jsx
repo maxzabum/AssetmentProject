@@ -401,7 +401,8 @@ class AssetPage extends Component {
             </h6>
           );
         },
-        sort: true
+        sort: true,
+        editable: false
       },
       {
         headerAlign: "center",
@@ -418,7 +419,8 @@ class AssetPage extends Component {
         // dataField: "fBillPic",
         text: "สถานที่ส่งซ่อมครุภัณฑ์",
         headerStyle: { width: "70px" },
-        sort: true
+        sort: true,
+        editor: false
       },
       {
         headerAlign: "center",
@@ -435,16 +437,16 @@ class AssetPage extends Component {
         editor: {
           type: Type.DATE
         },
-        // formatter: cell => {
-        //   let dateObj = cell;
-        //   if (typeof cell !== "object") {
-        //     dateObj = new Date(cell);
-        //   }
-        //   return `${("0" + dateObj.getUTCDate()).slice(-2)}/${(
-        //     "0" +
-        //     (dateObj.getUTCMonth() + 1)
-        //   ).slice(-2)}/${dateObj.getUTCFullYear()}`;
-        // },
+        formatter: cell => {
+          let dateObj = cell;
+          if (typeof cell !== "object") {
+            dateObj = new Date(cell);
+          }
+          return `${("0" + dateObj.getUTCDate()).slice(-2)}/${(
+            "0" +
+            (dateObj.getUTCMonth() + 1)
+          ).slice(-2)}/${dateObj.getUTCFullYear()}`;
+        },
         sort: true
       },
       {
