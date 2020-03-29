@@ -16,6 +16,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import UpdateInfoModal from "./UpdateInfoModal";
+import Link from "@material-ui/core/Link";
 import "../AssetStyle.css";
 class AppNavbar extends Component {
   state = {
@@ -59,7 +60,9 @@ class AppNavbar extends Component {
       <div>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6">News</Typography>
+            <Link href="/" color="" variant="h6">
+              dddsdwe
+            </Link>
             {/* <div className="btntest">
               <Button color="inherit">Login</Button>
             </div> */}
