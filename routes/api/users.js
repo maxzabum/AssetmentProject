@@ -54,7 +54,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.patch("/:id", (req, res, next) => {
-  const id = req.params._id;
+  const id = req.params.id;
 
   const newUser = new Users({
     _id: id,
