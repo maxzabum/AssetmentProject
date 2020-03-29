@@ -13,7 +13,7 @@ import {
   InputGroupText,
   InputGroupAddon
 } from "reactstrap";
-
+import { AvForm, AvField } from "availity-reactstrap-validation";
 import { connect } from "react-redux";
 import { addFix } from "../actions/fixActions";
 import PropTypes from "prop-types";
@@ -67,10 +67,12 @@ class AddFixModal extends Component {
       fReason: this.state.fReason,
       fStatus: this.state.fStatus,
       fFixDate: this.state.fFixDate,
-      fResult: this.state.fResult,
       fPrice: this.state.fPrice,
       dateVar: this.state.dateVar,
-      fPic: this.state.fPic
+      fPic: this.state.fPic,
+      fBillPic: this.state.fBillPic,
+      fPicCard: this.state.fPicCard,
+      fLocation: this.state.fLocation
     };
     // const newItemImg = {
     //   fPicCard: this.state.fPicCard,
@@ -87,6 +89,22 @@ class AddFixModal extends Component {
     this.setState({ [f.target.name]: f.target.value });
 
     //here you will see the current selected value of the select input
+  };
+  handleValidSubmit = (e, values) => {
+    this.setState({
+      fReason: values.fReason,
+      fPrice: values.fPrice,
+      aID: values.aID,
+      fPic: values.fPic,
+      fBillPic: values.fBillPic,
+      fPicCard: values.fPicCard,
+      fFixDate: values.fFixDate,
+      dateVar: values.dateVar,
+      fLocation: values.fLocation,
+      fStatus: "0"
+    });
+    console.log("THE VAL", this.state);
+    this.onSubmit(e);
   };
   imghandleChange(e) {
     // get the files
@@ -199,18 +217,26 @@ class AddFixModal extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลการส่งซ่อม</ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for="aID">หมายเลขครุภัณฑ์</Label>
-                <Input
-                  type="select"
-                  name="aID"
-                  id="aID"
-                  onChange={this.onDropdownSelected}
-                >
-                  {listAssets}
-                </Input>
-              </FormGroup>
+            <AvForm onValidSubmit={this.handleValidSubmit}>
+              {/* <Form onSubmit={this.onSubmit}> */}
+
+              <Label for="aID">หมายเลขครุภัณฑ์</Label>
+              <AvField
+                type="select"
+                name="aID"
+                id="aID"
+                onChange={this.onDropdownSelected}
+                errorMessage="Invalid rName"
+                validate={{
+                  required: { value: true }
+                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              >
+                {listAssets}
+              </AvField>
+
               {/* <FormGroup>
                 <Label for="exampleName">Name</Label>
                 <Input
@@ -221,101 +247,128 @@ class AddFixModal extends Component {
                   onChange={this.onChange}
                 />
               </FormGroup> */}
-              <FormGroup>
-                <Label for="exampleText">สาเหตุที่ส่งซ่อม</Label>
-                <Input
-                  type="textarea"
-                  name="fReason"
-                  id="fReason"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="fPic">รูปภาพครุภัณฑ์ที่ส่งซ่อม</Label>
-                <Input
-                  type="file"
-                  name="fPic"
-                  id="fPic"
-                  onChange={this.imghandleChange.bind(this)}
-                />
-                <FormText color="muted">
-                  This is some placeholder block-level help text for the above
-                  input. It's a bit lighter and easily wraps to a new line.
-                </FormText>
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleText">สถานที่ซ่อมครุภัณฑ์</Label>
-                <Input
-                  type="textarea"
-                  name="fLocation"
-                  id="fLocation"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="fPicCard">ฺรูปถ่ายข้อมูลร้าน</Label>
-                <Input
-                  type="file"
-                  name="fPicCard"
-                  id="fPicCard"
-                  onChange={this.imghandleChange2.bind(this)}
-                />
-                <FormText color="muted">
-                  This is some placeholder block-level help text for the above
-                  input. It's a bit lighter and easily wraps to a new line.
-                </FormText>
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleDate">วัน/เดือน/ปี ที่รับประกัน</Label>
-                <Input
-                  type="date"
-                  name="dateVar"
-                  id="dateVar"
-                  placeholder="date placeholder"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="exampleDate">วัน/เดือน/ปี ที่ส่งซ่อม</Label>
-                <Input
-                  type="date"
-                  name="fFixDate"
-                  id="fFixDate"
-                  placeholder="date placeholder"
-                  onChange={this.onChange}
-                />
-              </FormGroup>
 
-              <FormGroup>
-                <Label for="exampleText">ราคาซ่อมครุภัณฑ์</Label>
-                <InputGroup>
-                  <Input
-                    type="price"
-                    name="fPrice"
-                    id="fPrice"
-                    placeholder="0000000000"
-                    onChange={this.onChange}
-                  />
-                  <InputGroupAddon addonType="prepend">
-                    <InputGroupText>Baht</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </FormGroup>
-              <FormGroup>
-                <Label for="fBillPic">รูปภาพใบเสร็จ</Label>
-                <Input
-                  type="file"
-                  name="fBillPic"
-                  id="fBillPic"
-                  onChange={this.imghandleChange3.bind(this)}
+              <Label for="exampleText">สาเหตุที่ส่งซ่อม</Label>
+              <AvField
+                type="textarea"
+                name="fReason"
+                id="fReason"
+                onChange={this.onChange}
+                errorMessage="Invalid rName"
+                validate={{
+                  required: { value: true }
+                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              />
+
+              <Label for="fPic">รูปภาพครุภัณฑ์ที่ส่งซ่อม</Label>
+              <AvField
+                type="file"
+                name="fPic"
+                id="fPic"
+                onChange={this.imghandleChange.bind(this)}
+              />
+              <FormText color="muted">
+                This is some placeholder block-level help text for the above
+                input. It's a bit lighter and easily wraps to a new line.
+              </FormText>
+
+              <Label for="exampleText">สถานที่ซ่อมครุภัณฑ์</Label>
+              <AvField
+                type="textarea"
+                name="fLocation"
+                id="fLocation"
+                onChange={this.onChange}
+                errorMessage="Invalid rName"
+                validate={{
+                  required: { value: true }
+                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              />
+
+              <Label for="fPicCard">ฺรูปถ่ายข้อมูลร้าน</Label>
+              <AvField
+                type="file"
+                name="fPicCard"
+                id="fPicCard"
+                onChange={this.imghandleChange2.bind(this)}
+              />
+              <FormText color="muted">
+                This is some placeholder block-level help text for the above
+                input. It's a bit lighter and easily wraps to a new line.
+              </FormText>
+
+              <Label for="exampleDate">วัน/เดือน/ปี ที่รับประกัน</Label>
+              <AvField
+                type="date"
+                name="dateVar"
+                id="dateVar"
+                placeholder="date placeholder"
+                onChange={this.onChange}
+                errorMessage="Invalid rName"
+                validate={{
+                  required: { value: true }
+                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              />
+
+              <Label for="exampleDate">วัน/เดือน/ปี ที่ส่งซ่อม</Label>
+              <AvField
+                type="date"
+                name="fFixDate"
+                id="fFixDate"
+                placeholder="date placeholder"
+                onChange={this.onChange}
+                errorMessage="Invalid rName"
+                validate={{
+                  required: { value: true }
+                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              />
+
+              <Label for="exampleText">ราคาซ่อมครุภัณฑ์</Label>
+              <InputGroup>
+                <AvField
+                  type="price"
+                  name="fPrice"
+                  id="fPrice"
+                  placeholder="0000000000"
+                  onChange={this.onChange}
+                  errorMessage="Invalid rName"
+                  validate={{
+                    required: { value: true }
+                    // pattern: { value: "^[A-Za-z0-9]+$" },
+                    // minLength: { value: 6 },
+                    // maxLength: { value: 16 }
+                  }}
                 />
-                <FormText color="muted">
-                  This is some placeholder block-level help text for the above
-                  input. It's a bit lighter and easily wraps to a new line.
-                </FormText>
-              </FormGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText>Baht</InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+
+              <Label for="fBillPic">รูปภาพใบเสร็จ</Label>
+              <AvField
+                type="file"
+                name="fBillPic"
+                id="fBillPic"
+                onChange={this.imghandleChange3.bind(this)}
+              />
+              <FormText color="muted">
+                This is some placeholder block-level help text for the above
+                input. It's a bit lighter and easily wraps to a new line.
+              </FormText>
+
               <Button color="primary">เพิ่ม</Button>
-            </Form>
+            </AvForm>
           </ModalBody>
         </Modal>
       </div>

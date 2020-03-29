@@ -53,7 +53,7 @@ router.get("/:id", async (req, res) => {
   Users.findById(req.params.id).then(user => res.json(user));
 });
 
-router.patch("/:id", auth, (req, res, next) => {
+router.patch("/:id", (req, res, next) => {
   const id = req.body._id;
 
   const newUser = new Users({

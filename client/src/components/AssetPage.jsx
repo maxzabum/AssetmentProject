@@ -46,6 +46,7 @@ class AssetPage extends Component {
     getItems: PropTypes.func.isRequired,
     getCheckAsset: PropTypes.func.isRequired,
     getItemTypes: PropTypes.func.isRequired,
+    updateFix: PropTypes.func.isRequired,
     getRooms: PropTypes.func.isRequired,
     getFixs: PropTypes.func.isRequired,
     room: PropTypes.object.isRequired,

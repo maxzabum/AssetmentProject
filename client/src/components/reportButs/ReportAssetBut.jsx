@@ -98,13 +98,13 @@ class ReportAssetBut extends Component {
     doc.setFont("Petchlamoon-Regular");
     doc.setFontType("normal");
     console.log(doc.getFontList());
-    doc.text(15, 15, "Hello ดหกดorld");
+
     const dataItem = this.props.item.items;
     const dataCheck = this.props.checkAsset.items;
     const listDisAss = [];
-    const filteredItems2 = dataItem.filter(item => item.aStatus == 2);
-    const filteredItems3 = dataItem.filter(item => item.aStatus == 3);
-    const filteredItems5 = dataItem.filter(item => item.aStatus == 5);
+    const filteredItems2 = dataItem.filter(item => item.aStatus == 1);
+    const filteredItems3 = dataItem.filter(item => item.aStatus == 2);
+    const filteredItems5 = dataItem.filter(item => item.aStatus == 4);
     var countCh = 0;
     var min_dt = dataCheck[0].chDate;
     var min_dtObj = new Date(dataCheck[0].chDate);
@@ -279,26 +279,26 @@ class ReportAssetBut extends Component {
             doc.addImage(
               baseIT,
               "JPEG",
-              data.settings.margin.left + 50,
+              data.settings.margin.left + 100,
               15,
               60,
               20
             );
             doc.text(
-              "Address : ............................................",
-              60,
+              "ที่อยู่ : ............................................",
+              120,
               45
             );
             doc.text(
-              "Name Report : ............................................",
-              60,
+              "ชื่อรายงาน : ............................................",
+              120,
               55
             );
             doc.text(
               `Date Report : ${year}${separator}${
                 month < 10 ? `0${month}` : `${month}`
               }${separator}${date}`,
-              150,
+              200,
               65
             );
             // var text = doc.splitTextToSize(
@@ -324,10 +324,13 @@ class ReportAssetBut extends Component {
           },
           margin: { top: 70 }
         });
-        doc.save("dsadaseqwe.pdf");
+        if (typeof doc.putTotalPages === "function") {
+          doc.putTotalPages(totalPagesExp);
+        }
+        doc.save("รายงานครุภัณฑ์ที่ชำรุด" + Date.now() + ".pdf");
       } else if (assVal == 1) {
         doc.autoTable({
-          columnStyles: { europe: { halign: "center" } }, // European countries centered
+          columnStyles: { aSerial: { halign: "center" } }, // European countries centered
           body: filteredItems3,
           styles: { font: "Petchlamoon-Regular" },
           columns: [
@@ -340,7 +343,7 @@ class ReportAssetBut extends Component {
             // Header
 
             doc.setFontSize(20);
-            doc.setTextColor(40);
+            // doc.setTextColor(40);
             // doc.setFontStyle("normal");
 
             // doc.text("Report", data.settings.margin.left + 5, 22);
@@ -355,26 +358,26 @@ class ReportAssetBut extends Component {
             doc.addImage(
               baseIT,
               "JPEG",
-              data.settings.margin.left + 50,
+              data.settings.margin.left + 100,
               15,
               60,
               20
             );
             doc.text(
-              "Address : ............................................",
-              60,
+              "ที่อยู่ : ............................................",
+              120,
               45
             );
             doc.text(
-              "Name Report : ............................................",
-              60,
+              "ชื่อรายงาน : ............................................",
+              120,
               55
             );
             doc.text(
               `Date Report : ${year}${separator}${
                 month < 10 ? `0${month}` : `${month}`
               }${separator}${date}`,
-              150,
+              200,
               65
             );
             // var text = doc.splitTextToSize(
@@ -400,9 +403,13 @@ class ReportAssetBut extends Component {
           },
           margin: { top: 70 }
         });
+        if (typeof doc.putTotalPages === "function") {
+          doc.putTotalPages(totalPagesExp);
+        }
+        doc.save("รายงานครุภัณฑ์เสื่อมสภาพ" + Date.now() + ".pdf");
       } else {
         doc.autoTable({
-          columnStyles5: { europe: { halign: "center" } }, // European countries centered
+          columnStyles: { aSerial: { halign: "center" } }, // European countries centered
           body: filteredItems5,
           styles: { font: "Petchlamoon-Regular" },
           columns: [
@@ -413,8 +420,9 @@ class ReportAssetBut extends Component {
           ],
           didDrawPage: function(data) {
             // Header
+
             doc.setFontSize(20);
-            doc.setTextColor(40);
+            // doc.setTextColor(40);
             // doc.setFontStyle("normal");
 
             // doc.text("Report", data.settings.margin.left + 5, 22);
@@ -429,26 +437,26 @@ class ReportAssetBut extends Component {
             doc.addImage(
               baseIT,
               "JPEG",
-              data.settings.margin.left + 50,
+              data.settings.margin.left + 100,
               15,
               60,
               20
             );
             doc.text(
-              "Address : ............................................",
-              60,
+              "ที่อยู่ : ............................................",
+              120,
               45
             );
             doc.text(
-              "Name Report : ............................................",
-              60,
+              "ชื่อรายงาน : ............................................",
+              120,
               55
             );
             doc.text(
               `Date Report : ${year}${separator}${
                 month < 10 ? `0${month}` : `${month}`
               }${separator}${date}`,
-              150,
+              200,
               65
             );
             // var text = doc.splitTextToSize(
@@ -479,7 +487,7 @@ class ReportAssetBut extends Component {
       if (typeof doc.putTotalPages === "function") {
         doc.putTotalPages(totalPagesExp);
       }
-      doc.save("geadd.pdf");
+      doc.save("รายงานครุภัณฑ์แทงจำหน่าย" + Date.now() + ".pdf");
     } else if (reportVal == 1) {
       // if (typeof cell !== "object") {
       //   dateObj = new Date(cell);
@@ -515,19 +523,19 @@ class ReportAssetBut extends Component {
         body: dataItem,
         styles: { font: "Petchlamoon-Regular" },
         columns: [
-          { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
-          { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
-          { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
-          { header: "ชื่อครุภัณฑ์", dataKey: "aDate" },
-          { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+          { header: "Serial number", dataKey: "aSerial" },
+          { header: "Type", dataKey: "cID" },
+          { header: "Name", dataKey: "aName" },
+          { header: "Buy date", dataKey: "aDate" },
+          { header: "Condition", dataKey: "aStatus" }
         ]
       });
 
-      doc.save("geadd.pdf");
+      doc.save("รายงานครุภัณฑ์แทงจำหน่าย" + Date.now() + ".pdf");
     } else {
       doc.autoTable({
         columnStyles: { aSerial: { halign: "center" } }, // European countries centered
-        body: listDisAss,
+        body: filteredItems5,
         styles: { font: "Petchlamoon-Regular" },
         columns: [
           { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
@@ -554,26 +562,26 @@ class ReportAssetBut extends Component {
           doc.addImage(
             baseIT,
             "JPEG",
-            data.settings.margin.left + 50,
+            data.settings.margin.left + 100,
             15,
             60,
             20
           );
           doc.text(
-            "Address : ............................................",
-            60,
+            "ที่อยู่ : ............................................",
+            120,
             45
           );
           doc.text(
-            "Name Report : ............................................",
-            60,
+            "ชื่อรายงาน : ............................................",
+            120,
             55
           );
           doc.text(
             `Date Report : ${year}${separator}${
               month < 10 ? `0${month}` : `${month}`
             }${separator}${date}`,
-            150,
+            200,
             65
           );
           // var text = doc.splitTextToSize(
@@ -599,12 +607,16 @@ class ReportAssetBut extends Component {
         },
         margin: { top: 70 }
       });
-      doc.save("dsadaseqwe.pdf");
-
-      // Total page number plugin only available in jspdf v1.0+
-
-      // doc.save("geadd.pdf");
     }
+
+    if (typeof doc.putTotalPages === "function") {
+      doc.putTotalPages(totalPagesExp);
+    }
+    doc.save("รายงานครุภัณฑ์ที่ขึ้นทะเบียนแล้วแต่ไม่พบ" + Date.now() + ".pdf");
+
+    // Total page number plugin only available in jspdf v1.0+
+
+    // doc.save("geadd.pdf");
   };
   onDropdownSelected = e => {
     //console.log("THE VAL", e.target.value);
@@ -651,11 +663,9 @@ class ReportAssetBut extends Component {
                     id="assVal"
                     onChange={this.onDropdownSelected}
                   >
-                    <option value="0">รายงานครุภัณฑ์ทั้งหมด</option>
-                    <option value="1">รายงานครุภัณฑ์ที่ถูกตรวจนับ</option>
-                    <option value="2">
-                      รายงานครุภัณฑ์ที่ขึ้นทะเบียนแล้วแต่หาไม่พบ
-                    </option>
+                    <option value="0">รายงานครุภัณฑ์ที่ชำรุด</option>
+                    <option value="1">รายงานครุภัณฑ์ที่เสื่อมคุณภาพ</option>
+                    <option value="2">รายงานครุภัณฑ์ที่แทงจำหน่าย</option>
                   </Input>
                 </div>
               ) : null}

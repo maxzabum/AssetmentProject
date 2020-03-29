@@ -100,7 +100,7 @@ router.delete("/:id", (req, res, next) => {
     .catch(err => res.status(404).json({ success: false }));
 });
 
-router.patch("/:id", auth, (req, res, next) => {
+router.patch("/:id", (req, res, next) => {
   const id = req.params.id;
   const newFixAsset = new FixAssets({
     _id: id,
