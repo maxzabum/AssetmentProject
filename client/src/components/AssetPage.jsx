@@ -239,7 +239,7 @@ class AssetPage extends Component {
       },
       {
         headerAlign: "center",
-        dataField: "aSerial",
+        dataField: "_id",
         text: "คิวอาร์โค้ด",
         formatter: imageFormatter,
         headerStyle: { width: "5%" },
@@ -252,7 +252,7 @@ class AssetPage extends Component {
             const val =
               "https://api.qrserver.com/v1/create-qr-code/?size=200x200" +
               "&data=" +
-              row.aSerial;
+              row._id;
             console.log(val);
             base64Img.requestBase64(val, function(err, res, body) {
               console.log(body);
@@ -433,6 +433,7 @@ class AssetPage extends Component {
         headerAlign: "center",
         dataField: "fFixDate",
         text: "วัน/เดือน/ปี ที่ส่งซ่อม",
+        filter: dateFilter({ className: "filter-form" }),
         headerStyle: { width: "40px" },
         editor: {
           type: Type.DATE
@@ -454,6 +455,33 @@ class AssetPage extends Component {
         dataField: "fStatus",
         text: "สภาพครุภัณฑ์หลังการส่งซ่อม",
         headerStyle: { width: "70px" },
+        formatter: (cellContent, row) => {
+          if (row.fStatus == 0) {
+            return (
+              <h6>
+                <Badge color="success">ส่งซ่อมสำเร็จ</Badge>
+              </h6>
+            );
+          }
+          return (
+            <h6>
+              <Badge color="danger">ส่งซ่อมไม่สำเร็จ</Badge>
+            </h6>
+          );
+        },
+        editor: {
+          type: Type.SELECT,
+          options: [
+            {
+              value: "0",
+              label: "ซ่อมสำเร็จ"
+            },
+            {
+              value: "1",
+              label: "ซ่อมไม่สำเร็จ"
+            }
+          ]
+        },
         sort: true
       }
     ];

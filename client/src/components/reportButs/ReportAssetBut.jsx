@@ -74,7 +74,7 @@ class ReportAssetBut extends Component {
     e.preventDefault();
     console.log(this.state.aStatus);
     this.jsPdfGenaerator(this.state.reportAss, this.state.assVal);
-
+    this.setState({ reportAss: 0, assVal: 0 });
     this.toggle();
   };
 
@@ -167,89 +167,33 @@ class ReportAssetBut extends Component {
         listDisAss.push(dataItem[i]);
         countCh = 0;
       }
+
       countCh = 0;
     }
-
+    for (var i = 0; i < listDisAss.length; i++) {
+      for (var j = 0; j < this.props.itemType.items.length; j++) {
+        if (listDisAss[i].cID == this.props.itemType.items[j]._id) {
+          listDisAss[i].cID = this.props.itemType.items[j].cName;
+        }
+      }
+    }
+    for (var i = 0; i < listDisAss.length; i++) {
+      if (listDisAss[i].aStatus == "0") {
+        listDisAss[i].aStatus = "ปกติ";
+      } else if (listDisAss[i].aStatus == "1") {
+        listDisAss[i].aStatus = "ชำรุด";
+      } else if (listDisAss[i].aStatus == "2") {
+        listDisAss[i].aStatus = "เสื่อมสภาพ";
+      } else if (listDisAss[i].aStatus == "3") {
+        listDisAss[i].aStatus = "ส่งซ่อม";
+      } else if (listDisAss[i].aStatus == "4") {
+        listDisAss[i].aStatus = "แทงจำหน่าย";
+      }
+    }
     if (reportVal == 0) {
-      //   var totalPagesExp = "{total_pages_count_string}";
-      //   doc.autoTable({
-      //     // columnStyles: { styles: { font: "Petchlamoon-Regular" } }, // European countries centered
-      //     body: filteredItems2,
-      //     styles: { font: "Petchlamoon-Regular" },
-      //     columns: [
-      //       { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
-      //       { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
-      //       { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
-      //       { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
-      //     ],
-      //     didDrawPage: function(data) {
-      //       // Header
-
-      //       // doc.setFontStyle("normal");
-
-      //       // doc.text("Report", data.settings.margin.left + 5, 22);
-      //       const image2base64 = require("image-to-base64");
-      //       // doc.setFont("Petchlamoon-Regular");
-      //       // doc.setFontType("normal");
-      //       doc.setFontSize(10);
-      //       let newDate = new Date();
-      //       let date = newDate.getDate();
-      //       let month = newDate.getMonth() + 1;
-      //       let year = newDate.getFullYear();
-      //       let separator = "/";
-      //       doc.addImage(
-      //         baseIT,
-      //         "JPEG",
-      //         data.settings.margin.left + 50,
-      //         15,
-      //         60,
-      //         20
-      //       );
-      //       doc.text(
-      //         "Address : ............................................",
-      //         60,
-      //         45
-      //       );
-      //       doc.text(
-      //         "Name Report : ............................................",
-      //         60,
-      //         55
-      //       );
-      //       doc.text(
-      //         `Date Report : ${year}${separator}${
-      //           month < 10 ? `0${month}` : `${month}`
-      //         }${separator}${date}`,
-      //         150,
-      //         65
-      //       );
-      //       // var text = doc.splitTextToSize(
-      //       //   "textHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeader",
-      //       //   150,
-      //       //   {}
-      //       // );
-      //       // doc.text(text, 14, 30);
-      //       // Footer
-      //       var str = "Page " + doc.internal.getNumberOfPages();
-      //       // Total page number plugin only available in jspdf v1.0+
-      //       if (typeof doc.putTotalPages === "function") {
-      //         str = str + " of " + totalPagesExp;
-      //       }
-      //       doc.setFontSize(10);
-
-      //       // jsPDF 1.4+ uses getWidth, <1.4 uses .width
-      //       var pageSize = doc.internal.pageSize;
-      //       var pageHeight = pageSize.height
-      //         ? pageSize.height
-      //         : pageSize.getHeight();
-      //       doc.text(str, data.settings.margin.left, pageHeight - 10);
-      //     },
-      //     margin: { top: 70 }
-      //   });
-      //   doc.save("dasd.pdf");
-      // }
       var totalPagesExp = "{total_pages_count_string}";
-      var s = 2;
       if (assVal == 0) {
+        filteredItems2.forEach(item => (item.aStatus = "ชำรุด"));
         doc.autoTable({
           columnStyles: { aSerial: { halign: "center" } }, // European countries centered
           body: filteredItems2,
@@ -329,6 +273,7 @@ class ReportAssetBut extends Component {
         }
         doc.save("รายงานครุภัณฑ์ที่ชำรุด" + Date.now() + ".pdf");
       } else if (assVal == 1) {
+        filteredItems3.forEach(item => (item.aStatus = "เสื่อมสภาพ"));
         doc.autoTable({
           columnStyles: { aSerial: { halign: "center" } }, // European countries centered
           body: filteredItems3,
@@ -490,6 +435,19 @@ class ReportAssetBut extends Component {
       doc.save("รายงานครุภัณฑ์แทงจำหน่าย" + Date.now() + ".pdf");
     } else if (reportVal == 1) {
       var totalPagesExp = "{total_pages_count_string}";
+      var min_dt = dataItem[0].aDate;
+      var min_dtObj = new Date(dataItem[0].aDate);
+      dataItem.sort(function compare(a, b) {
+        var dateA = new Date(a.aDate);
+        var dateB = new Date(b.aDate);
+        return dateA - dateB;
+      });
+      // dataItem.forEach(function(dt, index) {
+      //   if (new Date(dt.aDate) > min_dtObj) {
+      //     min_dt = dt.aDate;
+      //     min_dtObj = new Date(dt.aDate);
+      //   }
+      // });
       // if (typeof cell !== "object") {
       //   dateObj = new Date(cell);
       // }
@@ -529,10 +487,75 @@ class ReportAssetBut extends Component {
           { header: "Name", dataKey: "aName" },
           { header: "Buy date", dataKey: "aDate" },
           { header: "Condition", dataKey: "aStatus" }
-        ]
-      });
+        ],
+        didDrawPage: function(data) {
+          // Header
 
-      doc.save("รายงานครุภัณฑ์แทงจำหน่าย" + Date.now() + ".pdf");
+          doc.setFontSize(20);
+          // doc.setTextColor(40);
+          // doc.setFontStyle("normal");
+
+          // doc.text("Report", data.settings.margin.left + 5, 22);
+          const image2base64 = require("image-to-base64");
+
+          doc.setFontSize(10);
+          let newDate = new Date();
+          let date = newDate.getDate();
+          let month = newDate.getMonth() + 1;
+          let year = newDate.getFullYear();
+          let separator = "/";
+          doc.addImage(
+            baseIT,
+            "JPEG",
+            data.settings.margin.left + 100,
+            15,
+            60,
+            20
+          );
+          doc.text(
+            "ที่อยู่ : ............................................",
+            120,
+            45
+          );
+          doc.text(
+            "ชื่อรายงาน : ............................................",
+            120,
+            55
+          );
+          doc.text(
+            `Date Report : ${year}${separator}${
+              month < 10 ? `0${month}` : `${month}`
+            }${separator}${date}`,
+            200,
+            65
+          );
+          // var text = doc.splitTextToSize(
+          //   "textHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeadertextHeader",
+          //   150,
+          //   {}
+          // );
+          // doc.text(text, 14, 30);
+          // Footer
+          var str = "Page " + doc.internal.getNumberOfPages();
+          // Total page number plugin only available in jspdf v1.0+
+          if (typeof doc.putTotalPages === "function") {
+            str = str + " of " + totalPagesExp;
+          }
+          doc.setFontSize(10);
+
+          // jsPDF 1.4+ uses getWidth, <1.4 uses .width
+          var pageSize = doc.internal.pageSize;
+          var pageHeight = pageSize.height
+            ? pageSize.height
+            : pageSize.getHeight();
+          doc.text(str, data.settings.margin.left, pageHeight - 10);
+        },
+        margin: { top: 70 }
+      });
+      if (typeof doc.putTotalPages === "function") {
+        doc.putTotalPages(totalPagesExp);
+      }
+      doc.save("รายงานครุภัณฑ์ที่ประจำปี" + Date.now() + ".pdf");
     } else {
       var totalPagesExp = "{total_pages_count_string}";
       doc.autoTable({
@@ -540,10 +563,10 @@ class ReportAssetBut extends Component {
         body: listDisAss,
         styles: { font: "Petchlamoon-Regular" },
         columns: [
-          { header: "หมายเลขครุภัณฑ์", dataKey: "aSerial" },
-          { header: "ประเภทครุภัณฑ์", dataKey: "cID" },
-          { header: "ชื่อครุภัณฑ์", dataKey: "aName" },
-          { header: "สภาพครุภัณฑ์", dataKey: "aStatus" }
+          { header: "Serial", dataKey: "aSerial" },
+          { header: "Type", dataKey: "cID" },
+          { header: "Name", dataKey: "aName" },
+          { header: "Condition", dataKey: "aStatus" }
         ],
         didDrawPage: function(data) {
           // Header
@@ -633,7 +656,7 @@ class ReportAssetBut extends Component {
     return (
       <div>
         <Button className="btn-reportAss" color="danger" onClick={this.toggle}>
-          Print
+          ออกรายงาน
         </Button>
 
         <Modal
@@ -652,7 +675,7 @@ class ReportAssetBut extends Component {
                 onChange={this.onDropdownSelected}
               >
                 <option value="0">รายงานครุภัณฑ์ทั้งหมด</option>
-                <option value="1">รายงานครุภัณฑ์ที่ถูกตรวจนับ</option>
+                <option value="1">รายงานครุภัณฑ์ประจำปี</option>
                 <option value="2">
                   รายงานครุภัณฑ์ที่ขึ้นทะเบียนแล้วแต่หาไม่พบ
                 </option>

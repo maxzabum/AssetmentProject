@@ -43,7 +43,7 @@ class UpdateInfoModal extends Component {
     cID: "",
     rID: "",
     files: [],
-    mPic: "",
+
     base64: "",
     postsType: [],
     postRoom: [],
@@ -130,7 +130,8 @@ class UpdateInfoModal extends Component {
       mMail: this.state.mMail,
       mGender: this.state.mGender,
       mTell: this.state.mTell,
-      mPic: this.state.mPic
+      mPic: this.state.mPic,
+      mPassword: this.state.mPassword
     };
     console.log(newItem);
     this.props.updateUser(newItem);
@@ -200,7 +201,7 @@ class UpdateInfoModal extends Component {
                   type="password"
                   name="mPassword"
                   id="mPassword"
-                  placeholder={this.props.auth.user.mPassword}
+                  placeholder={"*******************"}
                   onChange={this.onChange}
                 />
               </FormGroup>

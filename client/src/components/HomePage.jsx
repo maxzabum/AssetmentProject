@@ -37,7 +37,7 @@ class HomePage extends Component {
   }
   render() {
     const style = {
-      background: "linear-gradient(to right, #e75eb0 , #fc6767 )",
+      background: "rgb(210,60,82)",
       borderRadius: 3,
       border: 0,
       color: "white",
@@ -50,48 +50,90 @@ class HomePage extends Component {
     console.log(this.props.auth.user);
     const dataType = this.props.auth.items;
     const { isAuthenticated } = this.props.auth;
-    const authMenu = (
-      <Fragment>
-        <Row>
-          <Col sm="12" md={{ size: 6, offset: 3 }}>
-            <Link to="/assetP">
-              <div className="">
-                <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
-              </div>
-            </Link>
-          </Col>
-        </Row>
-
-        {/* <Row>
-          <Col sm="12" md={{ size: 6, offset: 3 }}>
-            <Link to="/userP">
-              <Button style={style}>จัดการผู้ใช้งาน</Button>
-            </Link>
-          </Col>
-        </Row> */}
-      </Fragment>
-    );
+    // const authMenu = (
+    //   <Fragment>
+    //     <Row>
+    //       <Col sm="12" md={{ size: 6, offset: 3 }}>
+    //         <Link to="/assetP">
+    //           <div className="">
+    //             <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
+    //           </div>
+    //         </Link>
+    //       </Col>
+    //     </Row>
+    //     {this.props.auth.user.mStatus ? (
+    //       <Row>
+    //         <Col sm="12" md={{ size: 6, offset: 3 }}>
+    //           <Link to="/userP">
+    //             <Button style={style}>จัดการผู้ใช้งาน</Button>
+    //           </Link>
+    //         </Col>
+    //       </Row>
+    //     ) : null}
+    //   </Fragment>
+    // );
     const guestMenu = <Fragment></Fragment>;
+
     return (
       <div className="home">
         <Container className="con1 themed-container" fluid={true}>
           <Col sm={{ size: 10, offset: 1 }}>
-            {isAuthenticated ? (
-              <Row className="main-home">
-                <img
-                  className="img-home"
-                  src={this.props.auth.user.mPic}
-                  alt="logo"
-                />
-              </Row>
-            ) : null}
+            <Row className="main-home">
+              <img className="img-home" src={LogoIT} alt="logo" />
+            </Row>
 
             <Row className="main-home">
-              <div className="sandbox sandbox-correct-pronounciation">
-                <h1 className="heading heading-correct-pronounciation"></h1>
-              </div>
+              <div className="font-home">ระบบบันทึกและตรวจนับครุภัณฑ์</div>
             </Row>
-            {isAuthenticated ? authMenu : guestMenu}
+            {isAuthenticated ? (
+              <div>
+                {this.props.auth.user.mPer ? (
+                  <div className="font-home">
+                    {this.props.auth.user.mStatus == 1 ? (
+                      <Fragment>
+                        <Row>
+                          <Col sm="12" md={{ size: 6, offset: 3 }}>
+                            <Link to="/assetP">
+                              <div className="main-home-but1">
+                                <Button style={style}>
+                                  จัดการข้อมูลครุภัณฑ์
+                                </Button>
+                              </div>
+                            </Link>
+                          </Col>
+                        </Row>
+
+                        <Row>
+                          <Col sm="12" md={{ size: 6, offset: 3 }}>
+                            <Link to="/userP">
+                              <div className="main-home-but2">
+                                <Button style={style}>จัดการผู้ใช้งาน</Button>
+                              </div>
+                            </Link>
+                          </Col>
+                        </Row>
+                      </Fragment>
+                    ) : (
+                      <Fragment>
+                        <Row>
+                          <Col sm="12" md={{ size: 6, offset: 3 }}>
+                            <Link to="/assetP">
+                              <div className="main-home-but1">
+                                <Button style={style}>
+                                  จัดการข้อมูลครุภัณฑ์
+                                </Button>
+                              </div>
+                            </Link>
+                          </Col>
+                        </Row>
+                      </Fragment>
+                    )}
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              guestMenu
+            )}
           </Col>
         </Container>
       </div>

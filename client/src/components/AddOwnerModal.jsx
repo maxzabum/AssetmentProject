@@ -10,7 +10,7 @@ import {
   Label,
   Input
 } from "reactstrap";
-
+import { AvForm, AvField } from "availity-reactstrap-validation";
 import { connect } from "react-redux";
 import { addOwner } from "../actions/ownerActions";
 import { getOwners } from "../actions/ownerActions";
@@ -39,6 +39,15 @@ class AddOwnerModal extends Component {
     auth: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
     getOwners: PropTypes.func.isRequired
+  };
+  handleValidSubmit = (e, values) => {
+    this.setState({
+      rName: values.rName,
+      rStatus: values.rStatus,
+      rtypeID: values.rtypeID
+    });
+    console.log("THE VAL", this.state);
+    this.onSubmit(e);
   };
   toggle = () => {
     this.setState({

@@ -7,7 +7,7 @@ main {
 .body-con {
   background-color: #7cffcb;
   background-image: linear-gradient(315deg, #7cffcb 0%, #74f2ce 74%);
-  height: auto;
+  height: 1200px;
 }
 .btntest {
   position: absolute;

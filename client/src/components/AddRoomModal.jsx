@@ -68,17 +68,18 @@ class AddRoomModal extends Component {
         </Button>
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Assetment</ModalHeader>
+          <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลห้อง</ModalHeader>
           <ModalBody>
             <AvForm onValidSubmit={this.handleValidSubmit}>
               <AvField
                 name="rName"
                 label="ชื่อห้อง"
                 type="text"
-                errorMessage="Invalid rName"
+                errorMessage="กรุณากรอกอย่างน้อย 1 ตัว"
+                helpMessage="EX : ITXXX , IT555"
                 validate={{
-                  required: { value: true }
-                  // pattern: { value: "^[A-Za-z0-9]+$" },
+                  required: { value: true },
+                  pattern: { value: "^[A-Za-z0-9]+$" }
                   // minLength: { value: 6 },
                   // maxLength: { value: 16 }
                 }}
@@ -87,7 +88,7 @@ class AddRoomModal extends Component {
                 name="rtypeID"
                 label="ประเภทห้อง"
                 type="text"
-                errorMessage="Invalid rtypeID"
+                errorMessage="กรุณากรอกอย่างน้อย 1 ตัว"
                 validate={{
                   required: { value: true }
                   // pattern: { value: "^[A-Za-z0-9]+$" },
@@ -98,14 +99,13 @@ class AddRoomModal extends Component {
               <AvField
                 type="select"
                 name="rStatus"
-                label="rStatus"
+                label="สถานะการใช้งาน"
                 value="0"
-                helpMessage="Idk, this is an example. Deal with it!"
               >
-                <option value="0">1</option>
-                <option value="1">2</option>
+                <option value="0">ใช้งานได้</option>
+                <option value="1">ไม่สามารถใช้งานได้</option>
               </AvField>
-              <Button color="primary">Submit</Button>
+              <Button color="primary">ยืนยัน</Button>
             </AvForm>
             {/* <Form onSubmit={this.onSubmit}>
               <FormGroup>
