@@ -45,7 +45,8 @@ router.post("/", (req, res) => {
               id: user.id,
               mUsername: user.mUsername,
               mName: user.mName,
-              mStatus: user.mStatus
+              mStatus: user.mStatus,
+              mPer: user.mPer
             }
           });
         }

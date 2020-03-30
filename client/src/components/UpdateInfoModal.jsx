@@ -256,9 +256,9 @@ class UpdateInfoModal extends Component {
                   id="mGender"
                   onChange={this.onDropdownSelected}
                 >
-                  <option value="0">ชาย</option>
-                  <option value="1">หญิง</option>
-                  <option value="2">อื่นๆ</option>
+                  <option value="ชาย">ชาย</option>
+                  <option value="หญิง">หญิง</option>
+                  <option value="อื่นๆ">อื่นๆ</option>
                 </Input>
               </FormGroup>
               <FormGroup>
