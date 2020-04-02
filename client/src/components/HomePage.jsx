@@ -85,55 +85,44 @@ class HomePage extends Component {
             <Row className="main-home">
               <div className="font-home">ระบบบันทึกและตรวจนับครุภัณฑ์</div>
             </Row>
-            {isAuthenticated ? (
-              <div>
-                {this.props.auth.user.mPer ? (
-                  <div className="font-home">
-                    {this.props.auth.user.mStatus == 1 ? (
-                      <Fragment>
-                        <Row>
-                          <Col sm="12" md={{ size: 6, offset: 3 }}>
-                            <Link to="/assetP">
-                              <div className="main-home-but1">
-                                <Button style={style}>
-                                  จัดการข้อมูลครุภัณฑ์
-                                </Button>
-                              </div>
-                            </Link>
-                          </Col>
-                        </Row>
 
-                        <Row>
-                          <Col sm="12" md={{ size: 6, offset: 3 }}>
-                            <Link to="/userP">
-                              <div className="main-home-but2">
-                                <Button style={style}>จัดการผู้ใช้งาน</Button>
-                              </div>
-                            </Link>
-                          </Col>
-                        </Row>
-                      </Fragment>
-                    ) : (
-                      <Fragment>
-                        <Row>
-                          <Col sm="12" md={{ size: 6, offset: 3 }}>
-                            <Link to="/assetP">
-                              <div className="main-home-but1">
-                                <Button style={style}>
-                                  จัดการข้อมูลครุภัณฑ์
-                                </Button>
-                              </div>
-                            </Link>
-                          </Col>
-                        </Row>
-                      </Fragment>
-                    )}
-                  </div>
-                ) : null}
+            <div>
+              <div className="font-home">
+                <Fragment>
+                  <Row>
+                    <Col sm="12" md={{ size: 6, offset: 3 }}>
+                      <Link to="/assetP">
+                        <div className="main-home-but1">
+                          <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
+                        </div>
+                      </Link>
+                    </Col>
+                  </Row>
+
+                  <Row>
+                    <Col sm="12" md={{ size: 6, offset: 3 }}>
+                      <Link to="/userP">
+                        <div className="main-home-but2">
+                          <Button style={style}>จัดการผู้ใช้งาน</Button>
+                        </div>
+                      </Link>
+                    </Col>
+                  </Row>
+                </Fragment>
+
+                <Fragment>
+                  <Row>
+                    <Col sm="12" md={{ size: 6, offset: 3 }}>
+                      <Link to="/assetP">
+                        <div className="main-home-but1">
+                          <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
+                        </div>
+                      </Link>
+                    </Col>
+                  </Row>
+                </Fragment>
               </div>
-            ) : (
-              guestMenu
-            )}
+            </div>
           </Col>
         </Container>
       </div>

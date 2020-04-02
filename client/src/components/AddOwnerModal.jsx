@@ -42,9 +42,8 @@ class AddOwnerModal extends Component {
   };
   handleValidSubmit = (e, values) => {
     this.setState({
-      rName: values.rName,
-      rStatus: values.rStatus,
-      rtypeID: values.rtypeID
+      pName: values.pName,
+      pStatus: values.pStatus
     });
     console.log("THE VAL", this.state);
     this.onSubmit(e);
@@ -90,9 +89,36 @@ class AddOwnerModal extends Component {
           toggle={this.toggle}
           className={this.className}
         >
-          <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลครุภัณฑ์</ModalHeader>
+          <ModalHeader toggle={this.toggle}>
+            เพิ่มข้อมูลผู้รับผิดชอบ
+          </ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.onSubmit}>
+            <AvForm onValidSubmit={this.handleValidSubmit}>
+              <AvField
+                name="pName"
+                label="ชื่อ - สกุล"
+                type="text"
+                errorMessage="กรุณากรอกอย่างน้อย 1 ตัว"
+                validate={{
+                  required: { value: true }
+
+                  // minLength: { value: 6 },
+                  // maxLength: { value: 16 }
+                }}
+              />
+
+              <AvField
+                type="select"
+                name="pStatus"
+                label="สถานะการใช้งาน"
+                value="0"
+              >
+                <option value="0">ใช้งานได้</option>
+                <option value="1">ไม่สามารถใช้งานได้</option>
+              </AvField>
+              <Button color="primary">ยืนยัน</Button>
+            </AvForm>
+            {/* <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for="pName">ชื่อผู้รับผิดชอบครุภัณฑ์</Label>
                 <Input
@@ -117,7 +143,7 @@ class AddOwnerModal extends Component {
               </FormGroup>
 
               <Button color="primary">เพิ่ม</Button>
-            </Form>
+            </Form> */}
           </ModalBody>
           <ModalFooter></ModalFooter>
         </Modal>

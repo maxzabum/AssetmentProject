@@ -1,7 +1,25 @@
 import React, { Component, useState, Fragment } from "react";
 import "../AssetStyle.css";
 
-import { Row, Col, Badge } from "reactstrap";
+import {
+  Row,
+  Col,
+  Badge,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButtonDropdown,
+  Input,
+  Button,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Form,
+  FormGroup,
+  Label,
+  FormText,
+  CustomInput
+} from "reactstrap";
+import { AvForm, AvField } from "availity-reactstrap-validation";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
@@ -9,7 +27,10 @@ import paginationFactory, {
   PaginationProvider,
   PaginationListStandalone
 } from "react-bootstrap-table2-paginator";
-import filterFactory, { dateFilter } from "react-bootstrap-table2-filter";
+import filterFactory, {
+  dateFilter,
+  textFilter
+} from "react-bootstrap-table2-filter";
 import jsPDF from "jspdf";
 import {
   Page,
@@ -40,7 +61,8 @@ import ReportAssetBut from "./reportButs/ReportAssetBut";
 
 class AssetPage extends Component {
   state = {
-    curState: "1"
+    curState: "1",
+    selectSearch: ""
   };
   static propTypes = {
     getItems: PropTypes.func.isRequired,
@@ -87,7 +109,17 @@ class AssetPage extends Component {
     }, 200);
     return { async: true };
   };
-
+  onDropdownSelected = e => {
+    // var ss = e.target.value;
+    // this.setSelectState(ss);
+    // console.log("THE VAL", ss);
+    this.setState({ [e.target.name]: e.target.value });
+    //here you will see the current selected value of the select input
+  };
+  // async setSelectState(val) {
+  //   console.log("THE VAL", val);
+  //   await this.setState({ selectSearch: val });
+  // }
   componentDidMount() {
     this.props.getItems();
     this.props.getItemTypes();
@@ -95,7 +127,7 @@ class AssetPage extends Component {
     this.props.getFixs();
     this.props.getCheckAsset();
   }
-  setOptions() {}
+
   render() {
     //let priceFilter;
 
@@ -128,21 +160,48 @@ class AssetPage extends Component {
         text: "ชื่อครุภัณฑ์",
         sort: true,
         headerStyle: { width: "15%" },
-        headerAlign: "center"
+        headerAlign: "center",
+        searchable: () => {
+          if (this.state.selectSearch == "0") return "true";
+          return "false";
+        },
+        filter: textFilter({
+          delay: 500, // default is 500ms
+          style: {
+            fontSize: "15px",
+            width: "100%"
+          },
+          className: "test-classname",
+          placeholder: "กรอกชื่อครุภัณฑ์",
+          onClick: e => console.log(e)
+        })
       },
       {
         dataField: "aSerial",
         headerAlign: "center",
         text: "หมายเลขครุภัณฑ์",
-        headerStyle: { width: "5%" },
-
-        sort: true
+        headerStyle: { width: "10%" },
+        searchable: () => {
+          if (this.state.selectSearch == "1") return "true";
+          return "false";
+        },
+        sort: true,
+        filter: textFilter({
+          delay: 500, // default is 500ms
+          style: {
+            fontSize: "15px",
+            width: "100%"
+          },
+          className: "test-classname2",
+          placeholder: "กรอกหมายเลขครุภัณฑ์",
+          onClick: e => console.log(e)
+        })
       },
       {
         headerAlign: "center",
         dataField: "rID",
         text: "ชื่อห้อง",
-        // headerStyle: { width: "180px" },
+        headerStyle: { width: "10%" },
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.room.items.length; i++) {
             if (row.rID === this.props.room.items[i]._id) {
@@ -178,8 +237,8 @@ class AssetPage extends Component {
         headerAlign: "center",
         dataField: "aDate",
         sort: true,
-        filter: dateFilter({ className: "filter-form" }),
-        headerStyle: { width: "20%" },
+        // filter: dateFilter({ className: "filter-form" }),
+        headerStyle: { width: "12%" },
         text: "วัน/เดือน/ปี ที่ซื้อ",
         editor: {
           type: Type.DATE
@@ -193,20 +252,39 @@ class AssetPage extends Component {
             "0" +
             (dateObj.getUTCMonth() + 1)
           ).slice(-2)}/${dateObj.getUTCFullYear()}`;
-        }
+        },
+        searchable: () => {
+          if (this.state.selectSearch == "2") return "true";
+          return "false";
+        },
+        align: "center",
+        filter: textFilter({
+          delay: 500, // default is 500ms
+          style: {
+            fontSize: "15px",
+            width: "100%"
+          },
+          className: "test-classname",
+          placeholder: "กรอกวันที่",
+          onClick: e => console.log(e)
+        })
       },
       {
         headerAlign: "center",
         dataField: "aPrice",
         text: "ราคาครุภัณฑ์(หน่วย)",
-        // headerStyle: { width: "70px" },
-        sort: true
+        headerStyle: { width: "10%" },
+        formatter: num => {
+          return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        },
+        sort: true,
+        align: "right"
       },
       {
         headerAlign: "center",
         dataField: "cID",
         text: "ประเภทครุภัณฑ์",
-        headerStyle: { width: "8%" },
+        headerStyle: { width: "15%" },
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.itemType.items.length; i++) {
             if (row.cID === this.props.itemType.items[i]._id) {
@@ -242,7 +320,7 @@ class AssetPage extends Component {
         dataField: "_id",
         text: "คิวอาร์โค้ด",
         formatter: imageFormatter,
-        headerStyle: { width: "5%" },
+        headerStyle: { width: "10%" },
         sort: true,
         editable: false,
         events: {
@@ -265,14 +343,15 @@ class AssetPage extends Component {
               doc.save("dddd.pdf");
             });
           }
-        }
+        },
+        align: "center"
       },
       {
         headerAlign: "center",
         dataField: "aReason",
         text: "สาเหตุที่แทงจำหน่าย",
         isDummyField: true,
-        // headerStyle: { width: "70px" },
+        headerStyle: { width: "10%" },
 
         sort: true
       },
@@ -341,12 +420,19 @@ class AssetPage extends Component {
                 <Badge color="warning">ส่งซ่อม</Badge>
               </h6>
             );
+          } else if (row.aStatus === "5") {
+            return (
+              <h6>
+                <Badge color="secondary">แทงจำหน่าย</Badge>
+              </h6>
+            );
+          } else {
+            return (
+              <h6>
+                <Badge color="secondary">แทงจำหน่าย</Badge>
+              </h6>
+            );
           }
-          return (
-            <h6>
-              <Badge color="secondary">แทงจำหน่าย</Badge>
-            </h6>
-          );
         },
         editor: {
           type: Type.SELECT,
@@ -387,7 +473,7 @@ class AssetPage extends Component {
       {
         headerAlign: "center",
         dataField: "aID",
-        headerStyle: { width: "100px" },
+        headerStyle: { width: "20%" },
         text: "หมายเลขครุภัณฑ์",
         formatter: (cellContent, row) => {
           for (var i = 0; i < this.props.item.items.length; i++) {
@@ -402,13 +488,23 @@ class AssetPage extends Component {
           );
         },
         sort: true,
-        editable: false
+        editable: false,
+        filter: textFilter({
+          delay: 500, // default is 500ms
+          style: {
+            fontSize: "15px",
+            width: "100%"
+          },
+          className: "test-classname",
+          placeholder: "กรอกเลขครุภัณฑ์",
+          onClick: e => console.log(e)
+        })
       },
       {
         headerAlign: "center",
         dataField: "fReason",
         text: "สาเหตุที่ส่งซ่อม",
-        headerStyle: { width: "70px" },
+        headerStyle: { width: "20%" },
         sort: true
       },
       {
@@ -418,7 +514,7 @@ class AssetPage extends Component {
         // dataField: "fFixDate",
         // dataField: "fBillPic",
         text: "สถานที่ส่งซ่อมครุภัณฑ์",
-        headerStyle: { width: "70px" },
+        headerStyle: { width: "20%" },
         sort: true,
         editor: false
       },
@@ -427,14 +523,19 @@ class AssetPage extends Component {
         dataField: "fPrice",
         text: "ราคาซ่อมครุภัณฑ์",
         headerStyle: { width: "70px" },
-        sort: true
+        formatter: num => {
+          return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+        },
+        sort: true,
+        headerStyle: { width: "15%" },
+        align: "right"
       },
       {
         headerAlign: "center",
         dataField: "fFixDate",
         text: "วัน/เดือน/ปี ที่ส่งซ่อม",
-        filter: dateFilter({ className: "filter-form" }),
-        headerStyle: { width: "40px" },
+        // filter: dateFilter({ className: "filter-form" }),
+        headerStyle: { width: "15%" },
         editor: {
           type: Type.DATE
         },
@@ -448,13 +549,23 @@ class AssetPage extends Component {
             (dateObj.getUTCMonth() + 1)
           ).slice(-2)}/${dateObj.getUTCFullYear()}`;
         },
+        filter: textFilter({
+          delay: 500, // default is 500ms
+          style: {
+            fontSize: "15px",
+            width: "100%"
+          },
+          className: "test-classname",
+          placeholder: "กรอกวัน/เดือน/ปี",
+          onClick: e => console.log(e)
+        }),
         sort: true
       },
       {
         headerAlign: "center",
         dataField: "fStatus",
         text: "สภาพครุภัณฑ์หลังการส่งซ่อม",
-        headerStyle: { width: "70px" },
+        headerStyle: { width: "10%" },
         formatter: (cellContent, row) => {
           if (row.fStatus == 0) {
             return (
@@ -617,7 +728,7 @@ class AssetPage extends Component {
           keyField="_id"
           columns={columns}
           data={this.props.item.items}
-          search
+          search={{ searchFormatted: true }}
         >
           {toolkitprops => (
             <Row>
@@ -632,7 +743,46 @@ class AssetPage extends Component {
                       <div className="btn-add-asset">
                         <AddAssetModal />
                       </div>
-
+                      <FormGroup row>
+                        <Col sm={10}>
+                          <Input
+                            type="select"
+                            name="selectSearch"
+                            id="selectSearch"
+                            onChange={this.onDropdownSelected}
+                          >
+                            <option value="0">ชื่อครุภัณฑ์</option>
+                            <option value="1">หมายเลขครุภัณฑ์</option>
+                            <option value="2">วัน/เดือน/ปี</option>
+                          </Input>
+                        </Col>
+                      </FormGroup>
+                      {/* <FormGroup>
+                        <Label for="exampleCheckbox">Radios</Label>
+                        <div>
+                          <CustomInput
+                            type="radio"
+                            id="exampleCustomRadio"
+                            name="customRadio"
+                            label="Select this "
+                            onClick={e => {
+                              console.log(e.target.value);
+                            }}
+                          />
+                          <CustomInput
+                            type="radio"
+                            id="exampleCustomRadio2"
+                            name="customRadio"
+                            label="Or this one"
+                          />
+                          <CustomInput
+                            type="radio"
+                            id="exampleCustomRadio3"
+                            name="customRadio"
+                            label="But not this disabled one"
+                          />
+                        </div>
+                      </FormGroup> */}
                       <SearchBar
                         className="form-find-table"
                         {...toolkitprops.searchProps}

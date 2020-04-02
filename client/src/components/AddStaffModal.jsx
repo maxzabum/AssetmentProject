@@ -15,7 +15,13 @@ import { connect } from "react-redux";
 import { addUser } from "../actions/userActions";
 import { getOwners } from "../actions/ownerActions";
 import PropTypes from "prop-types";
-
+import {
+  AvForm,
+  AvField,
+  AvGroup,
+  AvInput,
+  AvFeedback
+} from "availity-reactstrap-validation";
 class AddStaffModal extends Component {
   controller = new AbortController();
   state = {
@@ -60,7 +66,6 @@ class AddStaffModal extends Component {
     const newItem = {
       mUsername: this.state.mUsername,
       mPassword: this.state.mPassword,
-      mName: this.state.mName,
       mPer: this.state.mPer,
       mTell: this.state.mTell
     };
@@ -68,7 +73,17 @@ class AddStaffModal extends Component {
 
     this.toggle();
   };
+  handleValidSubmit = (e, values) => {
+    this.setState({
+      mUsername: values.mUsername,
+      mPassword: values.mPassword,
 
+      mTell: values.mTell,
+      mPer: values.mPer
+    });
+    console.log("THE VAL", this.state);
+    this.onSubmit(e);
+  };
   onDropdownSelected = e => {
     //console.log("THE VAL", e.target.value);
 
@@ -91,7 +106,44 @@ class AddStaffModal extends Component {
         >
           <ModalHeader toggle={this.toggle}>เพิ่มข้อมูลครุภัณฑ์</ModalHeader>
           <ModalBody>
-            <Form onSubmit={this.onSubmit}>
+            <AvForm onValidSubmit={this.handleValidSubmit}>
+              <AvGroup>
+                <Label for="mUsername">ชื่อผู้ใช้</Label>
+                <AvInput type="text" name="mUsername" id="mUsername" required />
+
+                <AvFeedback>This is an error!</AvFeedback>
+              </AvGroup>
+              <AvGroup>
+                <Label for="mPassword">รหัสผ่าน</Label>
+                <AvInput
+                  name="mPassword"
+                  id="mPassword"
+                  type="password"
+                  placeholder="dasdasd"
+                  required
+                />
+                <AvFeedback>This is an error!</AvFeedback>
+              </AvGroup>
+
+              <AvGroup>
+                <Label for="mTell">เบอร์โทรศัพท์</Label>
+                <AvInput name="mTell" id="mTell" required />
+                <AvFeedback>This is an error!</AvFeedback>
+              </AvGroup>
+              <AvField
+                type="select"
+                name="mPer"
+                label="Option"
+                value="true"
+                helpMessage="Idk, this is an example. Deal with it!"
+              >
+                <option value="true">มีสิทธิ์ใช้งาน</option>
+                <option value="false">ไม่มีสิทธิ์ใช้งาน</option>
+              </AvField>
+
+              <Button>Submit</Button>
+            </AvForm>
+            {/* <Form onSubmit={this.onSubmit}>
               <FormGroup>
                 <Label for="mUsername">ชื่อผู้ใช้งาน</Label>
                 <Input
@@ -146,7 +198,7 @@ class AddStaffModal extends Component {
               </FormGroup>
 
               <Button color="primary">เพิ่ม</Button>
-            </Form>
+            </Form> */}
           </ModalBody>
           <ModalFooter></ModalFooter>
         </Modal>

@@ -29,7 +29,7 @@ const AssetSchema = new Schema({
     required: false
   },
   aGet: {
-    type: Boolean,
+    type: String,
     required: false
   },
 
