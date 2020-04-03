@@ -55,17 +55,18 @@ class HomePage extends Component {
         <Row>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
             <Link to="/assetP">
-              <div className="">
+              <div className="main-home-but1">
                 <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
               </div>
             </Link>
           </Col>
         </Row>
-
         <Row>
           <Col sm="12" md={{ size: 6, offset: 3 }}>
             <Link to="/userP">
-              <Button style={style}>จัดการผู้ใช้งาน</Button>
+              <div className="main-home-but2">
+                <Button style={style}>จัดการผู้ใช้งาน</Button>
+              </div>
             </Link>
           </Col>
         </Row>
