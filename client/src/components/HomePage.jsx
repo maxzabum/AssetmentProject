@@ -50,28 +50,27 @@ class HomePage extends Component {
     console.log(this.props.auth.user);
     const dataType = this.props.auth.items;
     const { isAuthenticated } = this.props.auth;
-    // const authMenu = (
-    //   <Fragment>
-    //     <Row>
-    //       <Col sm="12" md={{ size: 6, offset: 3 }}>
-    //         <Link to="/assetP">
-    //           <div className="">
-    //             <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
-    //           </div>
-    //         </Link>
-    //       </Col>
-    //     </Row>
-    //     {this.props.auth.user.mStatus ? (
-    //       <Row>
-    //         <Col sm="12" md={{ size: 6, offset: 3 }}>
-    //           <Link to="/userP">
-    //             <Button style={style}>จัดการผู้ใช้งาน</Button>
-    //           </Link>
-    //         </Col>
-    //       </Row>
-    //     ) : null}
-    //   </Fragment>
-    // );
+    const authMenu = (
+      <Fragment>
+        <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
+            <Link to="/assetP">
+              <div className="">
+                <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
+              </div>
+            </Link>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col sm="12" md={{ size: 6, offset: 3 }}>
+            <Link to="/userP">
+              <Button style={style}>จัดการผู้ใช้งาน</Button>
+            </Link>
+          </Col>
+        </Row>
+      </Fragment>
+    );
     const guestMenu = <Fragment></Fragment>;
 
     return (
@@ -88,39 +87,7 @@ class HomePage extends Component {
 
             <div>
               <div className="font-home">
-                <Fragment>
-                  <Row>
-                    <Col sm="12" md={{ size: 6, offset: 3 }}>
-                      <Link to="/assetP">
-                        <div className="main-home-but1">
-                          <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
-                        </div>
-                      </Link>
-                    </Col>
-                  </Row>
-
-                  <Row>
-                    <Col sm="12" md={{ size: 6, offset: 3 }}>
-                      <Link to="/userP">
-                        <div className="main-home-but2">
-                          <Button style={style}>จัดการผู้ใช้งาน</Button>
-                        </div>
-                      </Link>
-                    </Col>
-                  </Row>
-                </Fragment>
-
-                <Fragment>
-                  <Row>
-                    <Col sm="12" md={{ size: 6, offset: 3 }}>
-                      <Link to="/assetP">
-                        <div className="main-home-but1">
-                          <Button style={style}>จัดการข้อมูลครุภัณฑ์</Button>
-                        </div>
-                      </Link>
-                    </Col>
-                  </Row>
-                </Fragment>
+                {isAuthenticated ? authMenu : guestMenu}
               </div>
             </div>
           </Col>

@@ -743,7 +743,7 @@ class AssetPage extends Component {
                       <div className="btn-add-asset">
                         <AddAssetModal />
                       </div>
-                      <FormGroup row>
+                      {/* <FormGroup row>
                         <Col sm={10}>
                           <Input
                             type="select"
@@ -756,7 +756,7 @@ class AssetPage extends Component {
                             <option value="2">วัน/เดือน/ปี</option>
                           </Input>
                         </Col>
-                      </FormGroup>
+                      </FormGroup> */}
                       {/* <FormGroup>
                         <Label for="exampleCheckbox">Radios</Label>
                         <div>
