@@ -1,2 +1,4 @@
-# aws-react-web
-# aws-react-web
+AssetmentProject
+Frontend : Reactjs
+Backend : Expressjs
+Database : MongoDB
