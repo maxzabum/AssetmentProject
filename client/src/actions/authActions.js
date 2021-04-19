@@ -5,7 +5,7 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  LOGIN_FAIL
+  LOGIN_FAIL,
 } from "./types";
 import { returnErrors } from "./errorActions";
 
@@ -20,62 +20,62 @@ export const loadUser = () => (dispacth, getState) => {
 
   axios
     .get("/api/auth/user", tokenConfig(getState))
-    .then(res =>
+    .then((res) =>
       dispacth({
         type: USER_LOADED,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err => {
+    .catch((err) => {
       dispacth(returnErrors(err.response.data, err.response.status));
       dispacth({
-        type: AUTH_ERROR
+        type: AUTH_ERROR,
       });
     });
 };
 // LOGIN
-export const login = ({ mUsername, mPassword }) => dispatch => {
+export const login = ({ mUsername, mPassword }) => (dispatch) => {
   //header
   const config = {
     header: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   //request body
 
-  console.log("ddd" + mUsername);
   axios
     .post("/api/auth", { mUsername: mUsername, mPassword: mPassword }, config)
-    .then(res =>
+    .then((res) => {
+      console.log(res.data);
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data
-      })
-    )
-    .catch(err => {
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
       dispatch(
         returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
       );
       dispatch({
-        type: LOGIN_FAIL
+        type: LOGIN_FAIL,
       });
     });
 };
 //LOGOUT
 export const logout = () => {
   return {
-    type: LOGOUT_SUCCESS
+    type: LOGOUT_SUCCESS,
   };
 };
-export const tokenConfig = getState => {
+export const tokenConfig = (getState) => {
   // Get token from localstorage
   const token = getState().auth.token;
 
   // Headers
   const config = {
     headers: {
-      "Content-type": "application/json"
-    }
+      "Content-type": "application/json",
+    },
   };
 
   // If token, add to headers
