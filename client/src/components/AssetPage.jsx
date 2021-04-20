@@ -17,7 +17,7 @@ import {
   FormGroup,
   Label,
   FormText,
-  CustomInput
+  CustomInput,
 } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -25,11 +25,11 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone
+  PaginationListStandalone,
 } from "react-bootstrap-table2-paginator";
 import filterFactory, {
   dateFilter,
-  textFilter
+  textFilter,
 } from "react-bootstrap-table2-filter";
 import jsPDF from "jspdf";
 import {
@@ -38,7 +38,7 @@ import {
   View,
   Document,
   StyleSheet,
-  Image
+  Image,
 } from "@react-pdf/renderer";
 import { PDFViewer } from "@react-pdf/renderer";
 import ReactPDF from "@react-pdf/renderer";
@@ -62,7 +62,7 @@ import ReportAssetBut from "./reportButs/ReportAssetBut";
 class AssetPage extends Component {
   state = {
     curState: "1",
-    selectSearch: ""
+    selectSearch: "",
   };
   static propTypes = {
     getItems: PropTypes.func.isRequired,
@@ -77,14 +77,14 @@ class AssetPage extends Component {
     checkAss: PropTypes.object.isRequired,
     fixAsset: PropTypes.object.isRequired,
     chAsset: PropTypes.object.isRequired,
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
   };
-  onDeleteClick = row => {
+  onDeleteClick = (row) => {
     // this.props.deleteItem(row._id);
     // this.props.deleteRoom(row._id);
     console.log("fdsfsd" + row);
   };
-  toggleInStock = row => {
+  toggleInStock = (row) => {
     console.log(row.status);
   };
   afterSaveCell = (oldValue, newValue, row, column, done) => {
@@ -109,7 +109,7 @@ class AssetPage extends Component {
     }, 200);
     return { async: true };
   };
-  onDropdownSelected = e => {
+  onDropdownSelected = (e) => {
     // var ss = e.target.value;
     // this.setSelectState(ss);
     // console.log("THE VAL", ss);
@@ -151,7 +151,7 @@ class AssetPage extends Component {
       firstPageTitle: "Next page",
       lastPageTitle: "Last page",
       showTotal: true,
-      totalSize: this.props.item.items.length
+      totalSize: this.props.item.items.length,
     };
 
     const columns = [
@@ -169,12 +169,12 @@ class AssetPage extends Component {
           delay: 500, // default is 500ms
           style: {
             fontSize: "15px",
-            width: "100%"
+            width: "100%",
           },
           className: "test-classname",
           placeholder: "กรอกชื่อครุภัณฑ์",
-          onClick: e => console.log(e)
-        })
+          onClick: (e) => console.log(e),
+        }),
       },
       {
         dataField: "aSerial",
@@ -190,12 +190,12 @@ class AssetPage extends Component {
           delay: 500, // default is 500ms
           style: {
             fontSize: "15px",
-            width: "100%"
+            width: "100%",
           },
           className: "test-classname2",
           placeholder: "กรอกหมายเลขครุภัณฑ์",
-          onClick: e => console.log(e)
-        })
+          onClick: (e) => console.log(e),
+        }),
       },
       {
         headerAlign: "center",
@@ -225,13 +225,13 @@ class AssetPage extends Component {
             for (let i = 0; i < dataRoom.length; i++) {
               dataRoom2.push({
                 value: dataRoom[i]._id,
-                label: dataRoom[i].rName
+                label: dataRoom[i].rName,
               });
             }
 
             return dataRoom2;
-          }
-        }
+          },
+        },
       },
       {
         headerAlign: "center",
@@ -241,9 +241,9 @@ class AssetPage extends Component {
         headerStyle: { width: "12%" },
         text: "วัน/เดือน/ปี ที่ซื้อ",
         editor: {
-          type: Type.DATE
+          type: Type.DATE,
         },
-        formatter: cell => {
+        formatter: (cell) => {
           let dateObj = cell;
           if (typeof cell !== "object") {
             dateObj = new Date(cell);
@@ -262,23 +262,23 @@ class AssetPage extends Component {
           delay: 500, // default is 500ms
           style: {
             fontSize: "15px",
-            width: "100%"
+            width: "100%",
           },
           className: "test-classname",
           placeholder: "กรอกวันที่",
-          onClick: e => console.log(e)
-        })
+          onClick: (e) => console.log(e),
+        }),
       },
       {
         headerAlign: "center",
         dataField: "aPrice",
         text: "ราคาครุภัณฑ์(หน่วย)",
         headerStyle: { width: "10%" },
-        formatter: num => {
+        formatter: (num) => {
           return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         },
         sort: true,
-        align: "right"
+        align: "right",
       },
       {
         headerAlign: "center",
@@ -307,13 +307,13 @@ class AssetPage extends Component {
             for (let i = 0; i < dataType.length; i++) {
               dataType2.push({
                 value: dataType[i]._id,
-                label: dataType[i].cName
+                label: dataType[i].cName,
               });
             }
 
             return dataType2;
-          }
-        }
+          },
+        },
       },
       {
         headerAlign: "center",
@@ -332,19 +332,19 @@ class AssetPage extends Component {
               "&data=" +
               row._id;
             console.log(val);
-            base64Img.requestBase64(val, function(err, res, body) {
+            base64Img.requestBase64(val, function (err, res, body) {
               console.log(body);
               var doc = new jsPDF({
                 putOnlyUsedFonts: true,
-                orientation: "landscape"
+                orientation: "landscape",
               });
 
               doc.addImage(body, "png", 100, 50, 100, 100);
               doc.save("dddd.pdf");
             });
-          }
+          },
         },
-        align: "center"
+        align: "center",
       },
       {
         headerAlign: "center",
@@ -353,7 +353,7 @@ class AssetPage extends Component {
         isDummyField: true,
         headerStyle: { width: "10%" },
 
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -380,15 +380,15 @@ class AssetPage extends Component {
           options: [
             {
               value: "true",
-              label: "ซื้อ"
+              label: "ซื้อ",
             },
             {
               value: "false",
-              label: "บริจาค"
-            }
-          ]
+              label: "บริจาค",
+            },
+          ],
         },
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -439,28 +439,28 @@ class AssetPage extends Component {
           options: [
             {
               value: "1",
-              label: "ปกติ"
+              label: "ปกติ",
             },
             {
               value: "2",
-              label: "ชำรุด"
+              label: "ชำรุด",
             },
             {
               value: "3",
-              label: "เสื่อมสภาพ"
+              label: "เสื่อมสภาพ",
             },
             {
               value: "4",
-              label: "ส่งซ่อม"
+              label: "ส่งซ่อม",
             },
             {
               value: "5",
-              label: "แทงจำหน่าย"
-            }
-          ]
+              label: "แทงจำหน่าย",
+            },
+          ],
         },
-        sort: true
-      }
+        sort: true,
+      },
     ];
     const columnsFix = [
       // {
@@ -493,19 +493,19 @@ class AssetPage extends Component {
           delay: 500, // default is 500ms
           style: {
             fontSize: "15px",
-            width: "100%"
+            width: "100%",
           },
           className: "test-classname",
           placeholder: "กรอกเลขครุภัณฑ์",
-          onClick: e => console.log(e)
-        })
+          onClick: (e) => console.log(e),
+        }),
       },
       {
         headerAlign: "center",
         dataField: "fReason",
         text: "สาเหตุที่ส่งซ่อม",
         headerStyle: { width: "20%" },
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -516,19 +516,19 @@ class AssetPage extends Component {
         text: "สถานที่ส่งซ่อมครุภัณฑ์",
         headerStyle: { width: "20%" },
         sort: true,
-        editor: false
+        editor: false,
       },
       {
         headerAlign: "center",
         dataField: "fPrice",
         text: "ราคาซ่อมครุภัณฑ์",
         headerStyle: { width: "70px" },
-        formatter: num => {
+        formatter: (num) => {
           return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
         },
         sort: true,
         headerStyle: { width: "15%" },
-        align: "right"
+        align: "right",
       },
       {
         headerAlign: "center",
@@ -537,9 +537,9 @@ class AssetPage extends Component {
         // filter: dateFilter({ className: "filter-form" }),
         headerStyle: { width: "15%" },
         editor: {
-          type: Type.DATE
+          type: Type.DATE,
         },
-        formatter: cell => {
+        formatter: (cell) => {
           let dateObj = cell;
           if (typeof cell !== "object") {
             dateObj = new Date(cell);
@@ -553,13 +553,13 @@ class AssetPage extends Component {
           delay: 500, // default is 500ms
           style: {
             fontSize: "15px",
-            width: "100%"
+            width: "100%",
           },
           className: "test-classname",
           placeholder: "กรอกวัน/เดือน/ปี",
-          onClick: e => console.log(e)
+          onClick: (e) => console.log(e),
         }),
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -585,16 +585,16 @@ class AssetPage extends Component {
           options: [
             {
               value: "0",
-              label: "ซ่อมสำเร็จ"
+              label: "ซ่อมสำเร็จ",
             },
             {
               value: "1",
-              label: "ซ่อมไม่สำเร็จ"
-            }
-          ]
+              label: "ซ่อมไม่สำเร็จ",
+            },
+          ],
         },
-        sort: true
-      }
+        sort: true,
+      },
     ];
     const columnsType = [
       {
@@ -603,14 +603,14 @@ class AssetPage extends Component {
         headerStyle: { width: "100px" },
         text: "รหัสประเภทครุภัณฑ์",
 
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
         dataField: "cName",
         text: "ชื่อประเภทครุภัณฑ์",
         headerStyle: { width: "70px" },
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -637,17 +637,17 @@ class AssetPage extends Component {
             return [
               {
                 value: true,
-                label: "ใช้งานได้"
+                label: "ใช้งานได้",
               },
               {
                 value: false,
-                label: "ไม่สามารถใช้งานได้"
-              }
+                label: "ไม่สามารถใช้งานได้",
+              },
             ];
-          }
+          },
         },
-        sort: true
-      }
+        sort: true,
+      },
     ];
     const columnsRoom = [
       {
@@ -655,7 +655,7 @@ class AssetPage extends Component {
         text: "ชื่อห้อง",
         sort: true,
         headerStyle: { width: "150px" },
-        headerAlign: "center"
+        headerAlign: "center",
       },
       {
         headerAlign: "center",
@@ -663,7 +663,7 @@ class AssetPage extends Component {
         headerStyle: { width: "100px" },
         text: "ประเภทห้อง",
 
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -692,16 +692,16 @@ class AssetPage extends Component {
             return [
               {
                 value: true,
-                label: "ใช้งานได้"
+                label: "ใช้งานได้",
               },
               {
                 value: false,
-                label: "ไม่สามารถใช้งานได้"
-              }
+                label: "ไม่สามารถใช้งานได้",
+              },
             ];
-          }
-        }
-      }
+          },
+        },
+      },
     ];
     // const selectRow = {
     //   mode: "radio",
@@ -730,7 +730,7 @@ class AssetPage extends Component {
           data={this.props.item.items}
           search={{ searchFormatted: true }}
         >
-          {toolkitprops => (
+          {(toolkitprops) => (
             <Row>
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
@@ -803,7 +803,7 @@ class AssetPage extends Component {
                       className="show-table"
                       cellEdit={cellEditFactory({
                         mode: "click",
-                        beforeSaveCell: this.afterSaveCell.bind(this)
+                        beforeSaveCell: this.afterSaveCell.bind(this),
                       })}
                     />
                     <PaginationListStandalone {...paginationProps} />
@@ -823,7 +823,7 @@ class AssetPage extends Component {
           data={this.props.fixAsset.items}
           search
         >
-          {toolkitprops => (
+          {(toolkitprops) => (
             <Row>
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
@@ -856,7 +856,7 @@ class AssetPage extends Component {
                       className="show-table"
                       cellEdit={cellEditFactory({
                         mode: "click",
-                        beforeSaveCell: this.afterSaveCell.bind(this)
+                        beforeSaveCell: this.afterSaveCell.bind(this),
                       })}
                     />
                     <PaginationListStandalone {...paginationProps} />
@@ -876,7 +876,7 @@ class AssetPage extends Component {
           data={this.props.itemType.items}
           search
         >
-          {toolkitprops => (
+          {(toolkitprops) => (
             <Row>
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
@@ -909,7 +909,7 @@ class AssetPage extends Component {
                       className="show-table"
                       cellEdit={cellEditFactory({
                         mode: "click",
-                        beforeSaveCell: this.afterSaveCell.bind(this)
+                        beforeSaveCell: this.afterSaveCell.bind(this),
                       })}
                     />
                     <PaginationListStandalone {...paginationProps} />
@@ -929,7 +929,7 @@ class AssetPage extends Component {
           data={this.props.room.items}
           search
         >
-          {toolkitprops => (
+          {(toolkitprops) => (
             <Row>
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
@@ -962,7 +962,7 @@ class AssetPage extends Component {
                       className="show-table"
                       cellEdit={cellEditFactory({
                         mode: "click",
-                        beforeSaveCell: this.afterSaveCell.bind(this)
+                        beforeSaveCell: this.afterSaveCell.bind(this),
                       })}
                     />
                     <PaginationListStandalone {...paginationProps} />
@@ -974,10 +974,10 @@ class AssetPage extends Component {
         </ToolkitProvider>
       </div>
     );
-    const Example = props => {
+    const Example = (props) => {
       const [activeTab, setActiveTab] = useState(this.state.curState);
 
-      const toggle = tab => {
+      const toggle = (tab) => {
         this.state.curState = tab;
         if (activeTab !== this.state.curState) {
           setActiveTab(this.state.curState);
@@ -1080,7 +1080,7 @@ function imageFormatter(cell, row) {
 function encodeImageFileAsURL(element) {
   var file = element.files[0];
   var reader = new FileReader();
-  reader.onloadend = function() {
+  reader.onloadend = function () {
     console.log("RESULT", reader.result);
   };
   reader.readAsDataURL(file);
@@ -1104,13 +1104,13 @@ function encodeImageFileAsURL(element) {
 //   }, 200);
 //   return { async: true };
 // }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   item: state.item,
   itemType: state.itemType,
   room: state.room,
   fixAsset: state.fixAsset,
   auth: state.auth,
-  checkAss: state.checkAss
+  checkAss: state.checkAss,
 });
 export default connect(mapStateToProps, {
   getItems,
@@ -1123,5 +1123,5 @@ export default connect(mapStateToProps, {
   updateFix,
   updateItem,
   updateType,
-  getCheckAsset
+  getCheckAsset,
 })(AssetPage);

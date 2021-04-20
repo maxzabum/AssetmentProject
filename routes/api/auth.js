@@ -15,8 +15,8 @@ const auth = require("../../middleware/auth");
 // @access Public
 router.delete("/:id", (req, res, err) => {
   Users.findById(req.params.id)
-    .then(item => item.remove().then(() => res.json({ success: true })))
-    .catch(err => res.this.status(404).json({ success: false }));
+    .then((item) => item.remove().then(() => res.json({ success: true })))
+    .catch((err) => res.this.status(404).json({ success: false }));
 });
 
 router.post("/", (req, res) => {
@@ -27,10 +27,10 @@ router.post("/", (req, res) => {
     return res.status(400).json({ msg: "False" });
   }
 
-  Users.findOne({ mUsername }).then(user => {
+  Users.findOne({ mUsername }).then((user) => {
     if (!user) return res.status(400).json({ msg: "False" });
 
-    bcrypt.compare(mPassword, user.mPassword).then(isMatch => {
+    bcrypt.compare(mPassword, user.mPassword).then((isMatch) => {
       if (!isMatch) return res.status(404).json({ msg: "False" });
 
       jwt.sign(
@@ -46,8 +46,11 @@ router.post("/", (req, res) => {
               mUsername: user.mUsername,
               mName: user.mName,
               mStatus: user.mStatus,
-              mPer: user.mPer
-            }
+              mPer: user.mPer,
+              mPic: user.mPic,
+              mMail: user.mMail,
+              mGender: user.mGender,
+            },
           });
         }
       );
@@ -57,26 +60,26 @@ router.post("/", (req, res) => {
 router.post("/login", (req, res, next) => {
   Users.find({ mUsername: req.body.mUsername })
     .exec()
-    .then(user => {
+    .then((user) => {
       console.log(user);
       if (user.length < 1) {
         return res.status(401).json({
-          message: "Username incorrect"
+          message: "Username incorrect",
         });
       }
       bcrypt.compare(req.body.mPassword, user[0].mPassword, (err, result) => {
         if (err) {
           return res.status(401).json({
-            message: "Auth fail"
+            message: "Auth fail",
           });
         }
         if (result) {
           return res.status(200).json({
-            message: "Auth successful"
+            message: "Auth successful",
           });
         }
         res.status(401).json({
-          message: "Auth failed"
+          message: "Auth failed",
         });
       });
     });
@@ -84,6 +87,6 @@ router.post("/login", (req, res, next) => {
 router.get("/user", auth, (req, res) => {
   Users.findById(req.user.id)
     .select("-password")
-    .then(user => res.json(user));
+    .then((user) => res.json(user));
 });
 module.exports = router;

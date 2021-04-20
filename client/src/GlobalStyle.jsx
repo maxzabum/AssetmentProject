@@ -6,10 +6,15 @@ export const themeColor = {
   blue_3: "#75bde0",
   blue_4: "#a2e2f8",
   gray: "#334153",
+  gray_2: "#231F20",
 };
 export const ScreenContainer = styled.div`
   width: 100%;
   max-height: 100vh;
+`;
+export const ManageScreenContainer = styled.div`
+  display: grid;
+  grid-template-columns: 250px auto;
 `;
 export const Text = styled.p`
   font-size: ${(props) => props.fontSize || "12px"};
@@ -20,11 +25,13 @@ export const Text = styled.p`
       if (props.color == "blue_3") return themeColor.blue_3;
       if (props.color == "blue_4") return themeColor.blue_4;
       if (props.color == "gray") return themeColor.gray;
+      if (props.color == "gray_2") return themeColor.gray_2;
     }
 
     if (props.isValid == false) return "#f55442";
-    return "#000";
+    return props.color || "#000";
   }};
+  letter-spacing: ${(props) => props.letterSpacing};
   font-weight: ${(props) => props.fontWeight || "200"};
   padding-left: ${(props) => props.paddingLeft || "0"};
   padding-right: ${(props) => props.paddingRight || "0"};

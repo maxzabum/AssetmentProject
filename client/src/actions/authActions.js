@@ -20,12 +20,13 @@ export const loadUser = () => (dispacth, getState) => {
 
   axios
     .get("/api/auth/user", tokenConfig(getState))
-    .then((res) =>
+    .then((res) => {
       dispacth({
         type: USER_LOADED,
         payload: res.data,
-      })
-    )
+      });
+      // console.log("load", res.data);
+    })
     .catch((err) => {
       dispacth(returnErrors(err.response.data, err.response.status));
       dispacth({
@@ -46,7 +47,6 @@ export const login = ({ mUsername, mPassword }) => (dispatch) => {
   axios
     .post("/api/auth", { mUsername: mUsername, mPassword: mPassword }, config)
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,

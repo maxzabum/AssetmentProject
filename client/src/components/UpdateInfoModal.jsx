@@ -11,14 +11,14 @@ import {
   Input,
   FormText,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import {
   AvForm,
   AvField,
   AvGroup,
   AvInput,
-  AvFeedback
+  AvFeedback,
 } from "availity-reactstrap-validation";
 import { getUsers, updateUser } from "../actions/userActions";
 import { connect } from "react-redux";
@@ -33,7 +33,7 @@ import {
   CardGroup,
   CardSubtitle,
   CardBody,
-  Container
+  Container,
 } from "reactstrap";
 class UpdateInfoModal extends Component {
   controller = new AbortController();
@@ -55,21 +55,21 @@ class UpdateInfoModal extends Component {
     postsType: [],
     postRoom: [],
     postOwner: [],
-    itemType: []
+    itemType: [],
   };
   static propTypes = {
     auth: PropTypes.object.isRequired,
     users: PropTypes.object.isRequired,
-    getOwners: PropTypes.func.isRequired
+    getOwners: PropTypes.func.isRequired,
   };
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
     // console.log("dddddddwqe", this.state.itemType.items);
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
   handleImageChange(e) {
@@ -80,7 +80,7 @@ class UpdateInfoModal extends Component {
     reader.onloadend = () => {
       this.setState({
         file: file,
-        base64: reader.result
+        base64: reader.result,
       });
       //this.handleSubmit();
     };
@@ -104,10 +104,10 @@ class UpdateInfoModal extends Component {
       reader.onload = () => {
         // Make a fileInfo Object
         let fileInfo = {
-          base64: reader.result
+          base64: reader.result,
         };
         this.setState({
-          mPic: reader.result
+          mPic: reader.result,
         });
         // Push it to the state
         allFiles.push(fileInfo);
@@ -116,19 +116,19 @@ class UpdateInfoModal extends Component {
       }; // reader.onload
     } // for
   }
-  fileChangedHandler = event => {
+  fileChangedHandler = (event) => {
     var base64Img = require("base64-img");
     this.state.fPicCard = event.target.files[0];
     var data = base64Img.base64Sync(event.target.files[0]);
     let idCardBase64 = "";
     var pic = event.target.files[0];
-    this.getBase64(pic, result => {
+    this.getBase64(pic, (result) => {
       idCardBase64 = result;
       console.log("THE VAL", idCardBase64);
     });
   };
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     const newItem = {
       _id: this.props.auth.user._id,
@@ -138,14 +138,14 @@ class UpdateInfoModal extends Component {
       mGender: this.state.mGender,
       mTell: this.state.mTell,
       mPic: this.state.mPic,
-      mPassword: this.state.mPassword
+      mPassword: this.state.mPassword,
     };
     console.log(newItem);
     this.props.updateUser(newItem);
     this.toggle();
   };
 
-  onDropdownSelected = e => {
+  onDropdownSelected = (e) => {
     //console.log("THE VAL", e.target.value);
     this.setState({ [e.target.name]: e.target.value });
     //here you will see the current selected value of the select input
@@ -158,7 +158,7 @@ class UpdateInfoModal extends Component {
       mMail: values.mMail,
       mGender: values.mGender,
       mTell: values.mTell,
-      mStatus: values.mStatus
+      mStatus: values.mStatus,
     });
     //console.log("THE VAL", this.state);
     this.onSubmit(e);
@@ -203,98 +203,6 @@ class UpdateInfoModal extends Component {
             </Row>
           </Container>
           <ModalBody>
-            {/* <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for="mUsername">ชื่อผู้ใช้</Label>
-                <Input
-                  type="text"
-                  name="mUsername"
-                  id="mUsername"
-                  value={this.props.auth.user.mUsername}
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="mPassword">รหัสผ่าน</Label>
-                <Input
-                  type="password"
-                  name="mPassword"
-                  id="mPassword"
-                  placeholder={"*******************"}
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="mName">ชื่อ - สกุล</Label>
-                <Input
-                  type="text"
-                  name="mName"
-                  id="mName"
-                  placeholder={this.props.auth.user.mName}
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="mTell">เบอร์โทรศัพท์</Label>
-                <Input
-                  type="text"
-                  name="mTell"
-                  id="mTell"
-                  placeholder={this.props.auth.user.mTell}
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="mPic">รูปภาพ</Label>
-                <Input
-                  type="file"
-                  name="mPic"
-                  id="mPic"
-                  onChange={this.imghandleChange.bind(this)}
-                />
-                <FormText color="muted">
-                  This is some placeholder block-level help text for the above
-                  input. It's a bit lighter and easily wraps to a new line.
-                </FormText>
-              </FormGroup>
-              <FormGroup>
-                <Label for="mMail">อีเมล</Label>
-                <Input
-                  type="text"
-                  name="mMail"
-                  id="mMail"
-                  placeholder={this.props.auth.user.mMail}
-                  onChange={this.onChange}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="mGender">เพศ</Label>
-                <Input
-                  type="select"
-                  name="mGender"
-                  id="mGender"
-                  onChange={this.onDropdownSelected}
-                >
-                  <option value="ชาย">ชาย</option>
-                  <option value="หญิง">หญิง</option>
-                  <option value="อื่นๆ">อื่นๆ</option>
-                </Input>
-              </FormGroup>
-              <FormGroup>
-                <Label for="mStatus">สถานะ</Label>
-                <Input
-                  type="select"
-                  name="mStatus"
-                  id="mStatus"
-                  onChange={this.onDropdownSelected}
-                >
-                  <option value="false">ไม่มีสิทธิ์ใช้งาน</option>
-                  <option value="true">มีสิทธิ์ใช้งาน</option>
-                </Input>
-              </FormGroup>
-
-              <Button color="primary">เพิ่ม</Button>
-            </Form> */}
             <AvForm onValidSubmit={this.handleValidSubmit}>
               <AvGroup>
                 <Label for="mUsername">ชื่อผู้ใช้</Label>
@@ -386,13 +294,13 @@ class UpdateInfoModal extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   item: state.item,
   itemType: state.itemType,
   room: state.room,
   fixAsset: state.fixAsset,
   auth: state.auth,
   users: state.users,
-  owners: state.owners
+  owners: state.owners,
 });
 export default connect(mapStateToProps, { updateUser })(UpdateInfoModal);

@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   LoginScreenContainer,
   LoginContainer,
@@ -12,12 +12,14 @@ import LoginImage from "./login-image.svg";
 import { useForm, Controller } from "react-hook-form";
 import { Text } from "../../GlobalStyle";
 import InputText from "../../components/inputText/InputText";
-import SeaBG from "./sea-bg.jpg";
 import { connect } from "react-redux";
 import { login } from "../../actions/authActions";
 import { clearErrors } from "../../actions/errorActions";
 import { useHistory, Link } from "react-router-dom";
 import { BiErrorCircle } from "react-icons/bi";
+import { loadUser } from "../../actions/authActions";
+import store from "../../store";
+
 const LoginScreen = (props) => {
   const { handleSubmit, reset, watch, control } = useForm();
   const [isValid, setIsValid] = useState(true);
@@ -139,4 +141,6 @@ const mapStateToProps = (state) => ({
   error: state.error,
   state,
 });
-export default connect(mapStateToProps, { login, clearErrors })(LoginScreen);
+export default connect(mapStateToProps, { login, clearErrors, loadUser })(
+  LoginScreen
+);
