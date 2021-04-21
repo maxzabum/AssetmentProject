@@ -7,7 +7,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { Search } from "react-bootstrap-table2-toolkit";
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone
+  PaginationListStandalone,
 } from "react-bootstrap-table2-paginator";
 import filterFactory from "react-bootstrap-table2-filter";
 import { getOwners, updateOwner } from "../../actions/ownerActions";
@@ -34,17 +34,17 @@ class AllTabPanes extends Component {
     aSerial: "",
     aName: "",
     aStatus: "",
-    curState: "1"
+    curState: "1",
   };
   static propTypes = {
     auth: PropTypes.object.isRequired,
     getOwners: PropTypes.func.isRequired,
     getUsers: PropTypes.func.isRequired,
-    updateUser: PropTypes.func.isRequired
+    updateUser: PropTypes.func.isRequired,
   };
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
     // console.log("dddddddwqe", this.state.itemType.items);
   };
@@ -63,12 +63,12 @@ class AllTabPanes extends Component {
     }, 200);
     return { async: true };
   };
-  onDeleteClick = row => {
+  onDeleteClick = (row) => {
     // this.props.deleteItem(row._id);
     // this.props.deleteRoom(row._id);
     // console.log("fdsfsd" + row._id);
   };
-  toggleInStock = row => {
+  toggleInStock = (row) => {
     console.log(row.status);
   };
 
@@ -100,7 +100,7 @@ class AllTabPanes extends Component {
       firstPageTitle: "Next page",
       lastPageTitle: "Last page",
       showTotal: true,
-      totalSize: this.props.owners.items.length
+      totalSize: this.props.owners.items.length,
     };
 
     const columnsOwner = [
@@ -109,7 +109,7 @@ class AllTabPanes extends Component {
         dataField: "pName",
         text: "ชื่อ - นามสกุล",
         headerStyle: { width: "70px" },
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -135,16 +135,16 @@ class AllTabPanes extends Component {
           options: [
             {
               value: "true",
-              label: "ใช้งานได้"
+              label: "ใช้งานได้",
             },
             {
               value: "false",
-              label: "ไม่สามารถใช้งานได้"
-            }
-          ]
+              label: "ไม่สามารถใช้งานได้",
+            },
+          ],
         },
-        sort: true
-      }
+        sort: true,
+      },
     ];
     const columnsUser = [
       // {
@@ -160,7 +160,7 @@ class AllTabPanes extends Component {
         dataField: "mUsername",
         text: "ชื่อผู้ใช้งาน",
         headerStyle: { width: "70px" },
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -171,7 +171,7 @@ class AllTabPanes extends Component {
           for (let i = 0; i < 8; i++) {
             return <h6>*</h6>;
           }
-        }
+        },
       },
 
       {
@@ -193,7 +193,7 @@ class AllTabPanes extends Component {
             </h6>
           );
         },
-        sort: true
+        sort: true,
       },
       {
         headerAlign: "center",
@@ -201,8 +201,8 @@ class AllTabPanes extends Component {
         text: "เบอร์โทรศัพท์",
         headerStyle: { width: "70px" },
 
-        sort: true
-      }
+        sort: true,
+      },
     ];
     const ownerTable = ({ paginationProps, paginationTableProps }) => (
       <div>
@@ -212,7 +212,7 @@ class AllTabPanes extends Component {
           data={this.props.owners.items}
           search
         >
-          {toolkitprops => (
+          {(toolkitprops) => (
             <Row>
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
@@ -244,7 +244,7 @@ class AllTabPanes extends Component {
                       className="show-table"
                       cellEdit={cellEditFactory({
                         mode: "click",
-                        beforeSaveCell: this.afterSaveCell.bind(this)
+                        beforeSaveCell: this.afterSaveCell.bind(this),
                       })}
                     />
                     <PaginationListStandalone {...paginationProps} />
@@ -264,7 +264,7 @@ class AllTabPanes extends Component {
           data={this.props.users.items}
           search
         >
-          {toolkitprops => (
+          {(toolkitprops) => (
             <Row>
               <Col sm={{ size: 10, offset: 1 }} className="left-panel">
                 <Row>
@@ -297,7 +297,7 @@ class AllTabPanes extends Component {
                       className="show-table"
                       cellEdit={cellEditFactory({
                         mode: "click",
-                        beforeSaveCell: this.afterSaveCell.bind(this)
+                        beforeSaveCell: this.afterSaveCell.bind(this),
                       })}
                     />
                     <PaginationListStandalone {...paginationProps} />
@@ -309,10 +309,10 @@ class AllTabPanes extends Component {
         </ToolkitProvider>
       </div>
     );
-    const Example = props => {
+    const Example = (props) => {
       const [activeTab, setActiveTab] = useState(this.state.curState);
 
-      const toggle = tab => {
+      const toggle = (tab) => {
         this.state.curState = tab;
         if (activeTab !== this.state.curState) {
           setActiveTab(this.state.curState);
@@ -322,7 +322,7 @@ class AllTabPanes extends Component {
 
       return (
         <div>
-          <Nav tabs>
+          {/* <Nav tabs>
             <NavItem>
               <NavLink
                 className={classnames({ active: activeTab === "1" })}
@@ -355,7 +355,7 @@ class AllTabPanes extends Component {
                 {userTable}
               </PaginationProvider>
             </TabPane>
-          </TabContent>
+          </TabContent> */}
         </div>
       );
     };
@@ -375,14 +375,14 @@ class AllTabPanes extends Component {
 //   return false;
 // }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   owners: state.owners,
-  users: state.users
+  users: state.users,
 });
 export default connect(mapStateToProps, {
   getOwners,
   getUsers,
   updateOwner,
-  updateUser
+  updateUser,
 })(AllTabPanes);

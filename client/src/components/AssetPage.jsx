@@ -1,24 +1,7 @@
 import React, { Component, useState, Fragment } from "react";
 import "../AssetStyle.css";
 
-import {
-  Row,
-  Col,
-  Badge,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButtonDropdown,
-  Input,
-  Button,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Form,
-  FormGroup,
-  Label,
-  FormText,
-  CustomInput,
-} from "reactstrap";
+import { Row, Col, Badge } from "reactstrap";
 import { AvForm, AvField } from "availity-reactstrap-validation";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";

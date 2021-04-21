@@ -16,7 +16,7 @@ export const LogoContainer = styled.div`
 export const NavListContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 30px;
+  padding-top: 10px;
 `;
 export const NormalListContainer = styled.div`
   display: flex;
@@ -31,7 +31,7 @@ export const AdminListContainer = styled.div`
 export const ListContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 15px 0;
+  padding: 20px 0;
   transition: all 0.25s;
   &:hover {
     cursor: pointer;

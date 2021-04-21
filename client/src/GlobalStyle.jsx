@@ -14,7 +14,7 @@ export const ScreenContainer = styled.div`
 `;
 export const ManageScreenContainer = styled.div`
   display: grid;
-  grid-template-columns: 250px auto;
+  grid-template-columns: 220px auto;
 `;
 export const Text = styled.p`
   font-size: ${(props) => props.fontSize || "12px"};

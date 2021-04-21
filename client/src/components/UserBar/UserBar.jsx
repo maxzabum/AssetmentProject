@@ -36,11 +36,9 @@ const UserBar = ({ toggleDropdown, setToggleDropdown, ...props }) => {
       <UserBarContainer>
         <LogoContainer onClick={() => console.log("dsadsad", user)}>
           <Text fontSize={"24px"} color={"#fff"} fontWeight={400}>
-            ระบบ
+            ระบบจัดการครุภัณฑ์
           </Text>
-          <Text fontSize={"24px"} color={"#fff"} fontWeight={400}>
-            จัดการครุภัณฑ์
-          </Text>
+          {/* <Text fontSize={"24px"} color={"#fff"} fontWeight={400}></Text> */}
         </LogoContainer>
         <UserInfoContainer>
           <ImageUser>
