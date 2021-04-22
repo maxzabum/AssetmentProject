@@ -20,10 +20,11 @@ const UserBar = ({ toggleDropdown, setToggleDropdown, ...props }) => {
   //   const [toggleDropdown, setToggleDropdown] = useState(false);
   const [isShow, setisShow] = useState(false);
   useEffect(() => {
+    console.log(props.auth.isAuthenticated);
     if (props.auth.isAuthenticated) {
       setUser(props.auth.user);
     }
-    if (!props.auth.isAuthenticated) {
+    if (props.auth.isAuthenticated == false) {
       history.push("/");
       setUser({});
     }

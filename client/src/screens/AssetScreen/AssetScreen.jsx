@@ -8,6 +8,7 @@ import { getItemTypes } from "../../actions/itemTypeActions";
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { BiDetail } from "react-icons/bi";
 import { AiFillEdit, AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { FiSearch } from "react-icons/fi";
 
 import {
   AssetScreenContainer,
@@ -24,78 +25,87 @@ import {
   TableBody,
   ButtonPage,
   ButtonManageData,
+  SearchFilter,
+  SearchFilterContainer,
 } from "./AssetScreenStyle";
-const AssetScreen = (props) => {
+import ManageDataComponent from "../../components/ManageDataComponent/ManageDataComponent";
+const AssetScreen = ({
+  data,
+  textHeader,
+  keyData,
+  tableHeader,
+  sizeColumn,
+  ...props
+}) => {
   const [numPage, setNumPage] = useState(1);
+  const [dataSearch, setDataSearch] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
   const tableRowWidth = "20%";
   const tableRowWidth2 = "15%";
-  const tableRowWidth3 = "12.5%";
+  const tableRowWidth3 = "15%";
   const tableRowWidth4 = "12.5%";
   const tableRowWidth5 = "15%";
   const tableRowWidth6 = "10%";
   const tableRowWidth7 = "12.5%";
-
+  const tableRowWidthJa = ["20%", "15%", "15%", "12.5%", "15%", "10%", "12.5%"];
   useEffect(() => {
-    props.getItems();
-    props.getItemTypes();
+    console.log(data);
+    setDataSearch(data);
+    // props.getItems();
+    // props.getItemTypes();
     // setAssetItem(props.item.items);
     // return () => {
     //   cleanup
     // }
-  }, []);
-  const manageDataComponents = () => {
-    const style = {
-      width: "35px",
-      height: "35px",
-      color: themeColor.blue_2,
-      padding: "5px",
-      borderRadius: "10px",
-    };
-    return (
-      <>
-        <ButtonManageData>
-          <BiDetail style={style} />
-        </ButtonManageData>
-        <ButtonManageData>
-          <AiFillEdit style={style} />
-        </ButtonManageData>
-        <ButtonManageData>
-          <AiOutlineDelete style={style} />
-        </ButtonManageData>
-      </>
-    );
+  }, [data]);
+  useEffect(() => {
+    searchData();
+    // return () => {
+    // }
+  }, [searchInput]);
+  const searchData = () => {
+    const result = data.filter((word) => {
+      for (let i = 0; i < keyData.length; i++) {
+        let item = word[keyData[i]];
+        if (item.toString().search(searchInput) !== -1) {
+          return true;
+        }
+      }
+    });
+    setDataSearch(result);
   };
   const mapItemToTable = (numPage) => {
     const maxData = 10;
-    const itemAssets = props.item.items;
-    const itemTypes = props.itemType.items;
-    const completeData = [];
-
-    // const today = new Date(itemAssets[10].aDate);
-    for (let i = 0; i < itemAssets.length; i++) {
-      for (let j = 0; j < itemTypes.length; j++) {
-        if (itemAssets[i].cID == itemTypes[j]._id) {
-          itemAssets[i].cID = itemTypes[j].cName;
-        }
-      }
-      const formatDate = new Date(itemAssets[i].date);
-      itemAssets[i].aDate = formatDate.toLocaleDateString("th-TH");
-    }
-    const map = itemAssets.map((item, index) => {
+    // const itemAssets = props.item.items;
+    const map = dataSearch.map((item, index) => {
+      // console.log(Object.values(item));
       if (index >= numPage * maxData - maxData && index < numPage * maxData) {
         return (
           <TableRow key={item._id}>
-            <TableData width={tableRowWidth}>{item.aName}</TableData>
+            {keyData.map((item2, index2) => {
+              for (let j = 0; j < Object.keys(item).length; j++) {
+                if (keyData[index2] == Object.keys(item)[j]) {
+                  // console.log(Object.values(item)[j], index2);
+                  return (
+                    <TableData key={index2} width={sizeColumn[index2]}>
+                      {Object.values(item)[j]}
+                    </TableData>
+                  );
+                }
+              }
+            })}
+            {/* <TableData width={tableRowWidth}>{item.aName}</TableData>
             <TableData width={tableRowWidth2}>{item.aSerial}</TableData>
             <TableData width={tableRowWidth3}>{item.aDate}</TableData>
             <TableData width={tableRowWidth4}>{item.aPrice}</TableData>
             <TableData width={tableRowWidth5}>{item.cID}</TableData>
             <TableData width={tableRowWidth6}>{item.aStatus}</TableData>
+            */}
             <TableData
               width={tableRowWidth7}
               style={{ justifyContent: "space-evenly", alignContent: "center" }}
             >
-              {manageDataComponents()}
+              <ManageDataComponent data={item} />
             </TableData>
           </TableRow>
         );
@@ -103,8 +113,9 @@ const AssetScreen = (props) => {
     });
     return map;
   };
+
   const pagination = () => {
-    const totalPage = Math.ceil(props.item.items.length / 10);
+    const totalPage = Math.ceil(data.length / 10);
 
     // const totalPage = 10;
     let mapPage = [];
@@ -197,13 +208,13 @@ const AssetScreen = (props) => {
       <ManageContainer>
         <LeftContainer>
           <Text
-            onClick={() => console.log("item", props.item)}
             color={"#091540"}
             fontSize={"24px"}
             fontWeight={400}
             paddingLeft={"30px"}
+            onClick={() => searchData()}
           >
-            ข้อมูลครุภัณฑ์
+            {textHeader}
           </Text>
           <Button
             buttonWidth={"80px"}
@@ -213,13 +224,26 @@ const AssetScreen = (props) => {
           />
           <Button buttonWidth={"80px"} text={"ส่งออก"} />
         </LeftContainer>
-        <FilterContainer></FilterContainer>
+        <FilterContainer>
+          <SearchFilterContainer>
+            <FiSearch style={{ color: themeColor.blue_1 }} />
+            <SearchFilter
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder={"ค้นหา"}
+            />
+          </SearchFilterContainer>
+        </FilterContainer>
       </ManageContainer>
       <TableContainer>
         <Table>
           <TableBody>
             <TableRow>
-              <TableHeader width={tableRowWidth}>ชื่อครุภัณฑ์</TableHeader>
+              {tableHeader.map((item, index) => {
+                return (
+                  <TableHeader width={sizeColumn[index]}>{item}</TableHeader>
+                );
+              })}
+              {/* <TableHeader width={tableRowWidth}>ชื่อครุภัณฑ์</TableHeader>
               <TableHeader width={tableRowWidth2}>หมายเลขครุภัณฑ์</TableHeader>
               <TableHeader width={tableRowWidth3}>
                 วัน/เดือน/ปี ที่ซื้อ
@@ -229,7 +253,7 @@ const AssetScreen = (props) => {
               </TableHeader>
               <TableHeader width={tableRowWidth5}>ประเภทครุภัณฑ์</TableHeader>
 
-              <TableHeader width={tableRowWidth6}>สภาพครุภัณฑ์</TableHeader>
+              <TableHeader width={tableRowWidth6}>สภาพครุภัณฑ์</TableHeader> */}
               <TableHeader
                 width={tableRowWidth7}
                 style={{ justifyContent: "center", alignContent: "center" }}

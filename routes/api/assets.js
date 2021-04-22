@@ -5,14 +5,14 @@ const auth = require("../../middleware/auth");
 //Storage img funtion
 const storage = multer.diskStorage({
   destination: "./uploads/",
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
-  }
+  },
 });
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 5,
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
@@ -20,7 +20,7 @@ const upload = multer({
     } else {
       cb(null, false);
     }
-  }
+  },
 });
 
 //Users Model
@@ -31,14 +31,14 @@ const Assets = require("../../models/Asset");
 router.get("/", (req, res) => {
   Assets.find()
     .sort({ date: -1 })
-    .then(assets => res.json(assets));
+    .then((assets) => res.json(assets));
 });
 // @route GET api/users
 // @desc GET All items
 // @access Public
 router.get("/:id", async (req, res) => {
   console.log(req.params.id);
-  Assets.findById(req.params.id).then(user => res.json(user));
+  Assets.findById(req.params.id).then((user) => res.json(user));
 });
 router.post("/", (req, res, next) => {
   console.log("sdasdJA", req.body.aName);
@@ -55,11 +55,11 @@ router.post("/", (req, res, next) => {
     aGet: req.body.aGet,
     cID: req.body.cID,
     pID: req.body.pID,
-    rID: req.body.rID
+    rID: req.body.rID,
 
     // aQR: req.file.path,
   });
-  newAsset.save().then(item => res.json(item));
+  newAsset.save().then((item) => res.json(item));
 });
 // @route GET api/users
 // @desc GET All items
@@ -67,8 +67,8 @@ router.post("/", (req, res, next) => {
 router.delete("/:id", auth, (req, res, next) => {
   console.log(req.file);
   Assets.findById(req.params.id)
-    .then(item => item.remove().then(() => res.json({ success: true })))
-    .catch(err => res.status(404).json({ success: false }));
+    .then((item) => item.remove().then(() => res.json({ success: true })))
+    .catch((err) => res.status(404).json({ success: false }));
 });
 // router.get("/:id", (req, res, next) => {
 //   console.log(req.params.id);
@@ -90,7 +90,7 @@ router.patch("/:id", (req, res, next) => {
     pID: req.body.pID,
     cID: req.body.cID,
     rID: req.body.rID,
-    date: Date.now
+    date: Date.now,
   });
   for (const [
     aSerial,
@@ -103,7 +103,7 @@ router.patch("/:id", (req, res, next) => {
     pID,
     cID,
     rID,
-    date
+    date,
   ] of Object.entries(newAsset)) {
     console.log(
       "sadasdasd",
@@ -122,14 +122,14 @@ router.patch("/:id", (req, res, next) => {
   }
   Assets.update({ _id: id }, { $set: newAsset })
     .exec()
-    .then(result => {
+    .then((result) => {
       console.log(result);
       res.status(200).json(result);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
       res.status(500).json({
-        error: err
+        error: err,
       });
     });
 });

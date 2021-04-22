@@ -7,6 +7,10 @@ export const AssetScreenContainer = styled.div`
   flex-direction: column;
 `;
 export const ManageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 `;
 export const LeftContainer = styled.div`
@@ -21,7 +25,46 @@ export const LeftContainer = styled.div`
     margin: 0 15px;
   }
 `;
-export const FilterContainer = styled.div``;
+export const FilterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const SearchFilterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #e6e6e6;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+`;
+export const SearchFilter = styled.input`
+  border: none;
+  padding: 0 5px;
+  font-size: 16px;
+  &:focus {
+    border: none;
+    outline: none;
+  }
+  &::placeholder {
+    color: #c9c9c9;
+    opacity: 1; /* Firefox */
+  }
+
+  &:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: red;
+  }
+
+  &::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: red;
+  }
+`;
 export const TableContainer = styled.div`
   overflow: auto;
   background-color: #fff;

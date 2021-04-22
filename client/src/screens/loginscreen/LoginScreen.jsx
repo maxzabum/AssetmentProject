@@ -19,7 +19,7 @@ import { useHistory, Link } from "react-router-dom";
 import { BiErrorCircle } from "react-icons/bi";
 import { loadUser } from "../../actions/authActions";
 import store from "../../store";
-
+import { withRouter } from "react-router-dom";
 const LoginScreen = (props) => {
   const { handleSubmit, reset, watch, control } = useForm();
   const [isValid, setIsValid] = useState(true);
@@ -35,8 +35,6 @@ const LoginScreen = (props) => {
     // Attempt to login
     props.login(user);
 
-    // history.push("/assetP");
-
     // console.log(props.isAuthenticated);
     // history.push("/assetP");
   };
@@ -48,8 +46,11 @@ const LoginScreen = (props) => {
   }, [props.error]);
   useEffect(() => {
     if (props.isAuthenticated) {
-      history.push("/assetP");
+      history.push("/assetPage/assetment");
     }
+    // if (props.isAuthenticated) {
+    //   history.push("/assetP");
+    // }
   }, [props.isAuthenticated]);
   return (
     <LoginScreenContainer>

@@ -15,37 +15,23 @@ import store from "./store";
 import { ScreenContainer, ManageScreenContainer } from "./GlobalStyle";
 import NavBar from "./components/NavigationBar/NavBar";
 import UserBar from "./components/UserBar/UserBar";
+import { getItems } from "./actions/itemActions";
+import { getItemTypes } from "./actions/itemTypeActions";
 import AssetScreen from "./screens/AssetScreen/AssetScreen";
+import IndexScreen from "./screens/AssetScreen/index";
 const App = () => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
-  // componentDidMount() {
-  //   store.dispatch(loadUser());
-  // }
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {};
-  // }
-
   const { location } = useLocation();
   return (
     <Provider store={store}>
-      <Route path="/" exact component={LoginScreen} />
       <ScreenContainer>
-        <UserBar
-          setToggleDropdown={setToggleDropdown}
-          toggleDropdown={toggleDropdown}
-        />
-        <ManageScreenContainer onClick={() => setToggleDropdown(false)}>
-          <NavBar />
-          <Switch location={location}>
-            <Route path="/assetP" component={AssetScreen} />
-            <Route path="/userP" component={UserPage} />
-            <Route path="/reportP" component={reportPage} />
-          </Switch>
-        </ManageScreenContainer>
+        <Switch>
+          <Route exact path="/" component={LoginScreen} />
+          <Route path="/assetPage" component={IndexScreen} />
+        </Switch>
       </ScreenContainer>
     </Provider>
   );
