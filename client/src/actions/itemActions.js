@@ -3,67 +3,70 @@ import {
   ADD_ITEM,
   DELETE_ITEM,
   ITEMS_LOADING,
-  ITEM_UPDATE
+  ITEM_UPDATE,
 } from "./types";
 import axios from "axios";
 import { tokenConfig } from "./authActions";
 import { returnErrors } from "./errorActions";
-export const getItems = () => dispacth => {
+export const getItems = () => (dispacth) => {
   dispacth(setItemsLoading());
-  axios
-    .get("/api/assets")
-    .then(res =>
-      dispacth({
-        type: GET_ITEMS,
-        payload: res.data
-      })
-    )
-    .catch(err =>
-      dispacth(returnErrors(err.response.data, err.response.status))
-    );
+
+  return Promise.resolve(
+    axios
+      .get("/api/assets")
+      .then((res) =>
+        dispacth({
+          type: GET_ITEMS,
+          payload: res.data,
+        })
+      )
+      .catch((err) =>
+        dispacth(returnErrors(err.response.data, err.response.status))
+      )
+  );
 };
-export const deleteItem = _id => (dispacth, getState) => {
+export const deleteItem = (_id) => (dispacth, getState) => {
   axios
     .delete(`/api/assets/${_id}`, tokenConfig(getState))
-    .then(res =>
+    .then((res) =>
       dispacth({
         type: DELETE_ITEM,
-        payload: _id
+        payload: _id,
       })
     )
-    .catch(err =>
+    .catch((err) =>
       dispacth(returnErrors(err.response.data, err.response.status))
     );
 };
-export const updateItem = item => (dispacth, getState) => {
+export const updateItem = (item) => (dispacth, getState) => {
   axios
     .patch(`/api/assets/${item._id}`, item, tokenConfig(getState))
-    .then(res =>
+    .then((res) =>
       dispacth({
         type: ITEM_UPDATE,
         payload: item,
-        id: item._id
+        id: item._id,
       })
     )
-    .catch(err =>
+    .catch((err) =>
       dispacth(returnErrors(err.response.data, err.response.status))
     );
 };
-export const addItem = item => (dispacth, getState) => {
+export const addItem = (item) => (dispacth, getState) => {
   axios
     .post("/api/assets", item, tokenConfig(getState))
-    .then(res =>
+    .then((res) =>
       dispacth({
         type: ADD_ITEM,
-        payload: res.data
+        payload: res.data,
       })
     )
-    .catch(err =>
+    .catch((err) =>
       dispacth(returnErrors(err.response.data, err.response.status))
     );
 };
 export const setItemsLoading = () => {
   return {
-    type: ITEMS_LOADING
+    type: ITEMS_LOADING,
   };
 };

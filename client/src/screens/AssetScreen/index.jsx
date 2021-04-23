@@ -6,6 +6,7 @@ import { getFixs } from "../../actions/fixActions";
 import { getRooms } from "../../actions/roomActions";
 import { getOwners } from "../../actions/ownerActions";
 import { getUsers } from "../../actions/userActions";
+import { setAssetDetail } from "../../actions/dataDetailActions";
 import AssetScreen from "./AssetScreen";
 import NavBar from "../../components/NavigationBar/NavBar";
 import UserBar from "../../components/UserBar/UserBar";
@@ -20,29 +21,90 @@ import { ManageContainer } from "./AssetScreenStyle";
 import { ManageScreenContainer } from "../../GlobalStyle";
 const IndexScreen = (props) => {
   const [toggleDropdown, setToggleDropdown] = useState(false);
+  const [completeItem, setCompleteItem] = useState([]);
+  const [completeFixAsset, setCompleteFixAsset] = useState([]);
   const { url } = useRouteMatch();
   useEffect(() => {
-    props.getItems();
-    props.getFixs();
+    props.getItems().then((data) => {
+      cleanDataAsset(data.payload);
+    });
+    props.getFixs().then((data) => {
+      cleanDataFixAsset(data.payload);
+    });
     props.getItemTypes();
     props.getRooms();
     props.getOwners();
     props.getUsers();
   }, []);
-
+  const cleanDataAsset = (data) => {
+    const result = data.filter((item) => {
+      if (item.aDate) {
+        let date = new Date(item.aDate);
+        item.aDate = date.toLocaleDateString("th-TH");
+        if (item.aStatus) {
+          if (item.aStatus == "0") {
+            item.aStatus = "ปกติ";
+          } else if (item.aStatus == "1") {
+            item.aStatus = "ชำรุด";
+          } else if (item.aStatus == "2") {
+            item.aStatus = "เสื่อมสภาพ";
+          } else if (item.aStatus == "3") {
+            item.aStatus = "ส่งซ่อม";
+          } else if (item.aStatus == "4") {
+            item.aStatus = "แทงจำหน่าย";
+          } else {
+            item.aStatus = "ไม่ระบุ";
+          }
+          if (item.aPrice) {
+            let price = item.aPrice;
+            item.aPrice = price.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+          }
+          return true;
+        }
+      }
+    });
+    setCompleteItem(result);
+  };
+  const cleanDataFixAsset = (data) => {
+    const result = data.filter((item) => {
+      if (item.fFixDate) {
+        let date = new Date(item.fFixDate);
+        item.fFixDate = date.toLocaleDateString("th-TH");
+        if (item.fStatus) {
+          if (item.fStatus == "0") {
+            item.fStatus = "ซ่อมสำเร็จ";
+          } else if (item.fStatus == "1") {
+            item.fStatus = "ซ่อมไม่สำเร็จ";
+          } else {
+            item.fStatus = "ไม่ระบุ";
+          }
+          if (item.fPrice) {
+            let price = item.fPrice;
+            item.fPrice = price.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+          }
+          return true;
+        }
+      }
+    });
+    setCompleteFixAsset(result);
+  };
   return (
     <div>
       <UserBar
         setToggleDropdown={setToggleDropdown}
         toggleDropdown={toggleDropdown}
       />
-      <ManageScreenContainer onClick={() => setToggleDropdown(false)}>
+      <ManageScreenContainer
+        onClick={() => {
+          setToggleDropdown(false);
+        }}
+      >
         <NavBar />
         {/* <button onClick={() => console.log(url)}>click</button> */}
         <Route path={`${url}/assetment`}>
           <AssetScreen
             textHeader={"ข้อมูลครุภัณฑ์"}
-            data={props.item.items}
+            data={completeItem}
             keyData={["aName", "aSerial", "aDate", "aPrice", "cID", "aStatus"]}
             tableHeader={[
               "ชื่อครุภัณฑ์",
@@ -52,6 +114,7 @@ const IndexScreen = (props) => {
               "ประเภทครุภัณฑ์",
               "สภาพครุภัณฑ์",
             ]}
+            setData={props.setAssetDetail}
             sizeColumn={["20%", "15%", "15%", "12.5%", "15%", "10%", "12.5%"]}
           />
         </Route>
@@ -143,4 +206,5 @@ export default connect(mapStateToProps, {
   getFixs,
   getUsers,
   getOwners,
+  setAssetDetail,
 })(IndexScreen);

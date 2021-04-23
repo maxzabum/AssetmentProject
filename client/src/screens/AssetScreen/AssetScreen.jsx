@@ -35,6 +35,7 @@ const AssetScreen = ({
   keyData,
   tableHeader,
   sizeColumn,
+  setData,
   ...props
 }) => {
   const [numPage, setNumPage] = useState(1);
@@ -105,7 +106,7 @@ const AssetScreen = ({
               width={tableRowWidth7}
               style={{ justifyContent: "space-evenly", alignContent: "center" }}
             >
-              <ManageDataComponent data={item} />
+              <ManageDataComponent data={item} setData={setData} />
             </TableData>
           </TableRow>
         );

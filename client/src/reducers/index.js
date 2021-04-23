@@ -8,6 +8,7 @@ import checkAssReducer from "./checkAssetReducer";
 import fixAssetReducer from "./fixAssetReducer";
 import ownersReducer from "./ownerReducer";
 import userReducer from "./userReducer";
+import dataDetailReducer from "./dataDetailReducer";
 export default combineReducers({
   auth: authReducer,
   error: errorReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
   fixAsset: fixAssetReducer,
   owners: ownersReducer,
   users: userReducer,
-  checkAsset: checkAssReducer
+  checkAsset: checkAssReducer,
+  dataDetail: dataDetailReducer,
 });
