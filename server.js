@@ -18,7 +18,7 @@ const config = require("config");
 app.use(bodyParser.json());
 
 const db = config.get("mongoURI");
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 //add other middleware
 app.use(cors());
 
@@ -28,10 +28,10 @@ mongoose
   .connect(db, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
   })
   .then(() => console.log("MongoDB Connected.."))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 //Use Routes
 app.use("/api/users", users);
 app.use("/api/chAsset", chAss);

@@ -29,7 +29,7 @@ class App extends Component {
         <ScreenContainer>
           <AppNavbar />
           <Switch location={location}>
-            <Route path="/" exact component={LoginScreen} />
+            <Route path="/" exact component={HomePage} />
             <Route path="/assetP" exact component={AssetPage} />
             <Route path="/userP" exact component={UserPage} />
             <Route path="/reportP" exact component={reportPage} />
